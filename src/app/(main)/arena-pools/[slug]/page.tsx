@@ -149,11 +149,12 @@ const BoxInfoLink = ({ data }) => {
             <Button
               variant="contained"
               color="inherit"
+              size="small"
               sx={{
                 backgroundColor: "#ffe9d2",
                 color: "#000",
                 borderRadius: "12px",
-                py: 0.5,
+                py: 0.8,
               }}
             >
               {url}
@@ -168,11 +169,12 @@ const BoxInfoLink = ({ data }) => {
               <Button
                 variant="contained"
                 color="inherit"
+                size="small"
                 sx={{
                   backgroundColor: "#ffe9d2",
                   color: "#000",
                   borderRadius: "12px",
-                  py: 0.5,
+                  py: 0.8,
                   textTransform: "capitalize",
                 }}
               >
@@ -260,10 +262,10 @@ const AreaPools = ({ params }: { params: { slug: string } }) => {
                         }}
                       ></Box>
                     )}
-                    <TypoC size="h5" font="bold" sx={{ ml: 1 }}>
+                    <TypoC size="h3" font="bold" sx={{ ml: 1.5 }}>
                       {arenaPool?.name}
                     </TypoC>
-                    <TypoC size="h5" font="bold" color="gray" sx={{ ml: 1 }}>
+                    <TypoC size="h3" font="bold" color="gray" sx={{ ml: 0.7 }}>
                       {arenaPool?.symbol}
                     </TypoC>
                   </Box>

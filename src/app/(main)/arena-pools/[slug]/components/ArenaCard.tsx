@@ -277,7 +277,7 @@ const ArenaCard = () => {
         prefix=""
       />
       <Box
-        sx={{ borderRadius: "22px", border: "solid 1px #ededed", px: 2, py: 1.5, mt: 1 }}
+        sx={{ borderRadius: "22px", border: "solid 1px #ededed", px: 2, py: 1.5, mt: 2 }}
       >
         <Box className="summary-list">
           SUMMARY

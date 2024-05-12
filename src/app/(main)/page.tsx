@@ -22,21 +22,21 @@ export default function Home() {
       >
         <Banner />
         <Box
-          sx={{ mt: { xs: 2, lg: 3 }, display: "flex", gap: { xs: 2, xl: 3 } }}
+          sx={{ mt: { xs: 2, lg: 3 }, display: "flex", gap: { xs: 2, xl: 4 } }}
         >
           <Box sx={{ flex: 1, overflow: "auto" }}>
             <TopInfo />
           </Box>
           <Box
             sx={{
-              width: "320px",
+              width: {xs: "320px", xl: '350px'},
               flexShrink: 0,
               boxShadow: "0 2px 18px 0 rgba(0, 0, 0, 0.22)",
               borderRadius: "22px",
               overflow: "hidden",
             }}
           >
-            {/* <FlowXWidget /> */}
+            <FlowXWidget />
           </Box>
         </Box>
         <Box sx={{ mt: { xs: 2, lg: 6, xl: 8 } }}>

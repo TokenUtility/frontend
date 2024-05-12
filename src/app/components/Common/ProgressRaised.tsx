@@ -47,7 +47,7 @@ const ProgressRaised = (props: ProgressProps) => {
         variant="determinate"
         value={progress}
         aria-label="progress raised"
-        sx={{ mt: 1.5, mb: 1, ...styleBySize.process }}
+        sx={{ mt: 1.5, mb: 0, ...styleBySize.process }}
       />
       <Box
         sx={{
