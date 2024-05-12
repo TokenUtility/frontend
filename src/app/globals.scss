@@ -1,0 +1,259 @@
+// @import "@fontsource/roboto/300.css";
+// @import "@fontsource/roboto/400.css";
+// @import "@fontsource/roboto/500.css";
+// @import "@fontsource/roboto/700.css";
+// Supports weights 300-700
+@import '@fontsource-variable/comfortaa';
+
+* {
+  font-family: 'Comfortaa Variable', Roboto, Arial;
+}
+
+:root {
+  --app-color-text: "rgba(0,0,0,0.87)";
+  --app-color-label: "#d8d8d8";
+  --app-color-error: "#e84849";
+  --app-color-secondary: "#7645d9";
+  /* ...other variables */
+}
+
+html,
+body {
+  height: 100%;
+  scroll-behavior: smooth;
+}
+
+.wrapper-content {
+  flex: 1 0 auto;
+}
+.no-wrap {
+  white-space: nowrap;
+}
+
+.c-toolbar {
+  &.MuiToolbar-root {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 16px;
+    padding-bottom: 10px;
+    @media screen and (min-width: 600px) {
+      padding-top: 28px;
+      padding-bottom: 0;
+    }
+  }
+}
+
+.how-works__list-item {
+  display: flex;
+  flex-direction: column;
+  color: #000;
+  padding: 0;
+  padding-left: 24px;
+  li {
+    list-style-type: none;
+    position: relative;
+    display: inline-block;
+    &::before {
+      content: "";
+      display: inline-block;
+      background: #000;
+      border-radius: 1ch;
+      width: 4px;
+      height: 4px;
+      position: absolute;
+      top: 12px;
+      left: -10px;
+    }
+  }
+}
+
+.footer-app {
+  a {
+    text-decoration: none;
+    height: 100%;
+    display: inline-block;
+  }
+  font-size: 14px;
+  & > ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    & > li {
+      font-weight: bold;
+    }
+    & > ul {
+      padding: 0;
+      margin-top: 8px;
+      @media screen and (min-width: 600px) {
+        margin-top: 30px;
+      }
+      list-style-type: none;
+      & > li {
+        color: #d8d8d8;
+        line-height: 2;
+        transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+        transition-duration: 200ms;
+        transition-delay: 200ms;
+        cursor: pointer;
+        font-weight: 500;
+        &:hover {
+          transform: matrix(1, 0, 0, 1, -10, 0);
+        }
+      }
+    }
+  }
+}
+.social-icons {
+  img {
+    &:hover {
+      filter: contrast(0.5);
+    }
+  }
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+}
+
+.text-overflow-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  width: 100%;
+  word-wrap: break-word;
+}
+.text-overflow-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  width: 100%;
+}
+//
+.social-input__prefix-title {
+  margin-left: 10px;
+  display: inline-block;
+  @media screen and (min-width: 900px) {
+    margin-left: 22px;
+  }
+}
+
+.social-input__yourSite-icon {
+  margin-left: 0;
+  @media screen and (min-width: 900px) {
+    margin-left: 5px;
+  }
+}
+//
+
+.logo-mobile {
+  filter: invert(1);
+}
+
+.header-position-start {
+  .network-card {
+    background-color: rgb(0 0 0 / 90%);
+  }
+  .account-element span {
+    color: #000;
+  }
+  .MuiToolbar-root {
+    .MuiButton-outlined {
+      background: unset;
+      border: 1px solid #000;
+      svg {
+        stroke: #000;
+        fill: #000;
+      }
+    }
+
+    .MuiIconButton-root[aria-label="Search"] svg {
+      fill: #000;
+    }
+  }
+  .logo-mobile {
+    filter: invert(0);
+  }
+  #demo-customized-button {
+    color: #000;
+  }
+}
+
+.trusted {
+  img {
+    margin: 0 10px;
+    @media screen and (min-width: 600px) {
+      margin: 0 20px;
+    }
+  }
+}
+
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.sup-link {
+  font-size: 75%;
+  font-family: system-ui, sans-serif;
+  line-height: 1;
+  margin-left: 2px;
+  margin-top: -5px;
+}
+.wkit-button {
+  width: 220px !important;
+  background-color: #7645d9 !important;
+  padding: 13px 16px !important;
+  border-radius: 10px !important;
+}
+
+.wkit-dialog__overlay {
+  z-index: 9999999 !important;
+}
+
+ul, li {
+  padding: 0;
+  margin: 0;
+}
+
+.list-pool-together {
+  list-style: none;
+  opacity: 0.8;
+  li {
+    padding: 7px 0 7px
+  }
+}
+
+.summary-list {
+  color: #1d1d1d;
+  font-size: 16px;
+  line-height: 1.4;
+  margin-top: 8px;
+  ul {
+    margin: 0;
+    padding-left: 20px;
+    @media screen and (min-width: 600px) {
+      padding-left: 40px;
+    }
+  }
+  & > ul {
+    padding-left: 1rem;
+    margin-top: 10px;
+  }
+  @media screen and (min-width: 1536px) {
+    font-size: 22px;
+    margin-top: 12px;
+  }
+  span {
+    font-weight: 700
+  }
+}

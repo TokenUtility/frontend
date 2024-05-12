@@ -1,0 +1,19 @@
+{
+  "tokens": {
+    "ether": {
+      "address": "ether",
+      "name": "Binance Coin",
+      "symbol": "BNB",
+      "decimals": 18,
+      "precision": 4
+    },
+    "0x337610d27c682e347c9cd60bd4b3b107c9d34ddd": {
+      "address": "0x7b4E9b59dc4280DE59EC64A90ba666A887967279",
+      "name": "USDT",
+      "symbol": "USDT",
+      "decimals": 18,
+      "precision": 2
+    }
+  },
+  "untrusted": []
+}

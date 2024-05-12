@@ -1,0 +1,76 @@
+#donation-search {
+  .aa-Form {
+    background-color: unset;
+    border: unset;
+    box-shadow: none;
+  }
+  .aa-Input {
+    color: #a9a9a9;
+    font-weight: 500;
+  }
+  .aa-Input::placeholder {
+    color: #a5a6a7;
+    opacity: 1; /* Firefox */
+  }
+  .aa-SubmitIcon,
+  .aa-LoadingIcon {
+    color: #fff;
+    stroke-width: 2;
+  }
+  .aa-LoadingIndicator,
+  .aa-SubmitButton {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  .aa-ClearButton {
+    color: #fff;
+  }
+}
+// #
+// .header-position-start {
+  
+// }
+#donation-search {
+  background-color: #fff;
+  border: 1px solid #ededed;
+  border-radius: 10px;
+  .aa-SubmitIcon,
+  .aa-LoadingIcon {
+    color: #7645d9;
+    stroke-width: 2;
+  }
+  .aa-ClearButton {
+    color: #7645d9;
+  }
+  .aa-Input {
+    color: #000;
+    font-size: 14px;
+  }
+}
+
+.aa-Panel {
+  position: fixed;
+
+  background-color: #262626;
+  color: #fff;
+  z-index: 9999;
+  top: 129px !important;
+  @media screen and (min-width: 900px) {
+    top: 80px !important;
+  }
+  .aa-Item {
+    padding-bottom: 8px;
+  }
+  .aa-ItemContentDescription {
+    color: #a9a9a9;
+  }
+  .aa-ItemContent mark {
+    color: #7645d9;
+  }
+  .aa-ItemContentDescription mark {
+    background: unset;
+  }
+  .aa-GradientBottom {
+    display: none;
+  }
+}

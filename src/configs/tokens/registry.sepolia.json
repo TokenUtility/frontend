@@ -1,0 +1,19 @@
+{
+  "tokens": {
+    "ether": {
+      "address": "ether",
+      "name": "Ethereum",
+      "symbol": "ETH",
+      "decimals": 18,
+      "precision": 4
+    },
+    "0xc0f503ea6af4c3bb68e0cc7f24f1840e159ba94d": {
+      "address": "0xc0f503ea6af4c3bb68e0cc7f24f1840e159ba94d",
+      "name": "USDT",
+      "symbol": "USDT",
+      "decimals": 18,
+      "precision": 2
+    }
+  },
+  "untrusted": []
+}
