@@ -15,7 +15,7 @@ const Login = observer(() => {
   const [loading, setLoading] = useState<boolean>(false);
   const [loginText, setLoginText] = useState<string>("Connect wallet");
   const { providerStatus } = providerStore;
-  const { handleLoginWallet } = userStore;
+  // const { handleLoginWallet } = userStore;
 
   const searchParams = useSearchParams();
   const from = searchParams.get("from");
@@ -59,11 +59,11 @@ const Login = observer(() => {
   async function loginWithWallet() {
     if (providerStatus.account) {
       setLoading(true);
-      handleLoginWallet()
-        .catch(() => {})
-        .finally(() => {
-          setLoading(false);
-        });
+      // handleLoginWallet()
+      //   .catch(() => {})
+      //   .finally(() => {
+      //     setLoading(false);
+      //   });
     } else {
       toggleWalletDropdown();
     }

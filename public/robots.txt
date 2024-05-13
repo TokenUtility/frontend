@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-# Host: https://givefund.io
+Host: https://tokenutinity.io
 
 # Sitemaps
-# Sitemap: https://givefund.io/sitemap.xml
+Sitemap: https://tokenutinity.io/sitemap.xml

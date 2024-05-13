@@ -327,306 +327,306 @@ export default class TokenStore {
     );
   }
 
-  approve = async ({
-    amountWei,
-    tokenAddress,
-    spender,
-  }: {
-    amountWei: string;
-    tokenAddress: string;
-    spender: string;
-  }) => {
-    try {
-      const { providerStore, tokenStore } = this.rootStore;
-      const { account } = providerStore.providerStatus;
-      const { notificationStore } = this.rootStore;
-      if (!account) {
-        return Promise.reject("[Error] Login first");
-      }
+  // approve = async ({
+  //   amountWei,
+  //   tokenAddress,
+  //   spender,
+  // }: {
+  //   amountWei: string;
+  //   tokenAddress: string;
+  //   spender: string;
+  // }) => {
+  //   try {
+  //     const { providerStore, tokenStore } = this.rootStore;
+  //     const { account } = providerStore.providerStatus;
+  //     const { notificationStore } = this.rootStore;
+  //     if (!account) {
+  //       return Promise.reject("[Error] Login first");
+  //     }
 
-      const token = tokenStore.findTokenByAddress(tokenAddress);
-      const result = await providerStore.sendTransaction(
-        ContractTypes.Token,
-        tokenAddress,
-        "approve",
-        [spender, amountWei],
-        {},
-        `Approve ${token.symbol || "token"} to ${shortenAddress(spender)}`
-      );
-      const { txResponse, error } = result;
-      if (error) {
-        const msg =
-          error.reason ||
-          error?.data?.message ||
-          error?.message ||
-          "Something went wrong";
-        notificationStore.showErrorNotification(msg);
-      } else if (txResponse && txResponse?.hash) {
-        await txResponse.wait();
-        await await this.fetchAllowancesData(account, [tokenAddress], spender);
-        notificationStore.showSuccessNotification("Approved Success");
-      }
-      return txResponse;
-    } catch (e) {
-      return Promise.reject(`Failed to read data - ${e}`);
-    }
-  };
+  //     const token = tokenStore.findTokenByAddress(tokenAddress);
+  //     const result = await providerStore.sendTransaction(
+  //       ContractTypes.Token,
+  //       tokenAddress,
+  //       "approve",
+  //       [spender, amountWei],
+  //       {},
+  //       `Approve ${token.symbol || "token"} to ${shortenAddress(spender)}`
+  //     );
+  //     const { txResponse, error } = result;
+  //     if (error) {
+  //       const msg =
+  //         error.reason ||
+  //         error?.data?.message ||
+  //         error?.message ||
+  //         "Something went wrong";
+  //       notificationStore.showErrorNotification(msg);
+  //     } else if (txResponse && txResponse?.hash) {
+  //       await txResponse.wait();
+  //       await await this.fetchAllowancesData(account, [tokenAddress], spender);
+  //       notificationStore.showSuccessNotification("Approved Success");
+  //     }
+  //     return txResponse;
+  //   } catch (e) {
+  //     return Promise.reject(`Failed to read data - ${e}`);
+  //   }
+  // };
 
-  approveMax = async (
-    tokenAddress: string,
-    spender: string,
-    callback?: (error?: any, result?: any) => void
-  ) => {
-    const { providerStore } = this.rootStore;
-    // maxUint = helpers.MAX_UINT.toString()
-    const maxUint =
-      "115792089237316195423570985008687907853269984665640564039457584007913129639935";
-    const token = this.findTokenByAddress(tokenAddress);
-    const result = await providerStore.sendTransaction(
-      ContractTypes.Token,
-      tokenAddress,
-      "approve",
-      [spender, maxUint],
-      {},
-      `Approve ${token.symbol || "token"}`
-    );
-    if (callback) {
-      const { error, txResponse } = result || {};
-      if (error && error.message) {
-        callback(error.reason || error?.data?.message || error.message);
-      } else if (txResponse && txResponse.hash) {
-        await txResponse.wait();
-        const { account } = providerStore.providerStatus;
-        await this.fetchAllowancesData(account, [tokenAddress], spender);
-        callback(null, result);
-      }
-    }
-    return result;
-  };
+  // approveMax = async (
+  //   tokenAddress: string,
+  //   spender: string,
+  //   callback?: (error?: any, result?: any) => void
+  // ) => {
+  //   const { providerStore } = this.rootStore;
+  //   // maxUint = helpers.MAX_UINT.toString()
+  //   const maxUint =
+  //     "115792089237316195423570985008687907853269984665640564039457584007913129639935";
+  //   const token = this.findTokenByAddress(tokenAddress);
+  //   const result = await providerStore.sendTransaction(
+  //     ContractTypes.Token,
+  //     tokenAddress,
+  //     "approve",
+  //     [spender, maxUint],
+  //     {},
+  //     `Approve ${token.symbol || "token"}`
+  //   );
+  //   if (callback) {
+  //     const { error, txResponse } = result || {};
+  //     if (error && error.message) {
+  //       callback(error.reason || error?.data?.message || error.message);
+  //     } else if (txResponse && txResponse.hash) {
+  //       await txResponse.wait();
+  //       const { account } = providerStore.providerStatus;
+  //       await this.fetchAllowancesData(account, [tokenAddress], spender);
+  //       callback(null, result);
+  //     }
+  //   }
+  //   return result;
+  // };
 
-  approveMaxCallback = async (tokenAddress: string, spender: string) => {
-    const { tokenStore } = this.rootStore;
+  // approveMaxCallback = async (tokenAddress: string, spender: string) => {
+  //   const { tokenStore } = this.rootStore;
 
-    return new Promise((resolve, reject) => {
-      tokenStore.approveMax(
-        tokenAddress,
-        spender,
-        (error?: any, result?: any) => {
-          if (error) {
-            return reject(error);
-            // return resolve(null);
-          }
-          resolve(result);
-        }
-      );
-    });
-  };
+  //   return new Promise((resolve, reject) => {
+  //     tokenStore.approveMax(
+  //       tokenAddress,
+  //       spender,
+  //       (error?: any, result?: any) => {
+  //         if (error) {
+  //           return reject(error);
+  //           // return resolve(null);
+  //         }
+  //         resolve(result);
+  //       }
+  //     );
+  //   });
+  // };
 
-  fetchBalancerTokenData = async (
-    account: string,
-    tokensToTrack?: string[],
-    spender?: string
-  ): Promise<FetchCode> => {
-    if (!account) {
-      return FetchCode.FAILURE;
-    }
-    const { providerStore } = this.rootStore;
-    const promises: Array<Promise<any>> = [];
-    const balanceCalls: any[] = [];
-    const allowanceCalls: any[] = [];
-    const decimalsCalls: any[] = [];
-    const tokenList: any[] = [];
-    const contractMetadata = providerStore.getContractMetaData();
-    const routerAddress = spender;
+  // fetchBalancerTokenData = async (
+  //   account: string,
+  //   tokensToTrack?: string[],
+  //   spender?: string
+  // ): Promise<FetchCode> => {
+  //   if (!account) {
+  //     return FetchCode.FAILURE;
+  //   }
+  //   const { providerStore } = this.rootStore;
+  //   const promises: Array<Promise<any>> = [];
+  //   const balanceCalls: any[] = [];
+  //   const allowanceCalls: any[] = [];
+  //   const decimalsCalls: any[] = [];
+  //   const tokenList: any[] = [];
+  //   const contractMetadata = providerStore.getContractMetaData();
+  //   const routerAddress = spender;
 
-    const multiAddress = contractMetadata.multiCallContract;
-    if (!multiAddress) {
-      // const tokenAddress = contractMetadata.USDTTokenContract;
-      // const tokenContract = providerStore.getContract(
-      //   ContractTypes.Token,
-      //   tokenAddress
-      // );
-      // let promises = [];
-      // promises.push(tokenContract.balanceOf(account));
-      // if (routerAddress) {
-      //   promises.push(tokenContract.allowance(account, routerAddress));
-      // }
-      // const [balanceOf, allowance] = await Promise.all(promises);
-      // const changedNetwork =
-      //   this.currentBalanceChain !== providerStore.providerStatus.activeChainId;
-      // if (routerAddress) {
-      //   this.setAllowances(
-      //     [tokenAddress],
-      //     account,
-      //     routerAddress,
-      //     [allowance],
-      //     5047384
-      //   );
-      // }
+  //   const multiAddress = contractMetadata.multiCallContract;
+  //   if (!multiAddress) {
+  //     // const tokenAddress = contractMetadata.USDTTokenContract;
+  //     // const tokenContract = providerStore.getContract(
+  //     //   ContractTypes.Token,
+  //     //   tokenAddress
+  //     // );
+  //     // let promises = [];
+  //     // promises.push(tokenContract.balanceOf(account));
+  //     // if (routerAddress) {
+  //     //   promises.push(tokenContract.allowance(account, routerAddress));
+  //     // }
+  //     // const [balanceOf, allowance] = await Promise.all(promises);
+  //     // const changedNetwork =
+  //     //   this.currentBalanceChain !== providerStore.providerStatus.activeChainId;
+  //     // if (routerAddress) {
+  //     //   this.setAllowances(
+  //     //     [tokenAddress],
+  //     //     account,
+  //     //     routerAddress,
+  //     //     [allowance],
+  //     //     5047384
+  //     //   );
+  //     // }
 
-      // this.setBalances(
-      //   [tokenAddress],
-      //   [balanceOf, balanceOf],
-      //   account,
-      //   5047384,
-      //   changedNetwork
-      // );
+  //     // this.setBalances(
+  //     //   [tokenAddress],
+  //     //   [balanceOf, balanceOf],
+  //     //   account,
+  //     //   5047384,
+  //     //   changedNetwork
+  //     // );
 
-      // this.setIsLoadedBalancerTokenData();
-      // runInAction(() => {
-      //   this.currentBalanceChain = providerStore.providerStatus.activeChainId;
-      // });
+  //     // this.setIsLoadedBalancerTokenData();
+  //     // runInAction(() => {
+  //     //   this.currentBalanceChain = providerStore.providerStatus.activeChainId;
+  //     // });
 
-      // console.debug("[fetchBalancerTokenData Success]");
-      return;
-    }
-    const multi = providerStore.getContract(
-      ContractTypes.MultiCall,
-      multiAddress
-    );
+  //     // console.debug("[fetchBalancerTokenData Success]");
+  //     return;
+  //   }
+  //   const multi = providerStore.getContract(
+  //     ContractTypes.MultiCall,
+  //     multiAddress
+  //   );
 
-    const iface = new Interface(tokenAbi);
-    const tokens = tokensToTrack;
-    tokens.forEach((address) => {
-      tokenList.push(toChecksum(address));
-      if (address !== EtherKey) {
-        balanceCalls.push([
-          address,
-          iface.encodeFunctionData("balanceOf", [account]),
-        ]);
-        if (routerAddress) {
-          allowanceCalls.push([
-            address,
-            iface.encodeFunctionData("allowance", [account, routerAddress]),
-          ]);
-        }
+  //   const iface = new Interface(tokenAbi);
+  //   const tokens = tokensToTrack;
+  //   tokens.forEach((address) => {
+  //     tokenList.push(toChecksum(address));
+  //     if (address !== EtherKey) {
+  //       balanceCalls.push([
+  //         address,
+  //         iface.encodeFunctionData("balanceOf", [account]),
+  //       ]);
+  //       if (routerAddress) {
+  //         allowanceCalls.push([
+  //           address,
+  //           iface.encodeFunctionData("allowance", [account, routerAddress]),
+  //         ]);
+  //       }
 
-        decimalsCalls.push([address, iface.encodeFunctionData("decimals", [])]);
-      }
-    });
+  //       decimalsCalls.push([address, iface.encodeFunctionData("decimals", [])]);
+  //     }
+  //   });
 
-    promises.push(multi.aggregate(balanceCalls));
-    promises.push(multi.aggregate(allowanceCalls));
-    promises.push(multi.getEthBalance(account));
-    promises.push(multi.aggregate(decimalsCalls));
+  //   promises.push(multi.aggregate(balanceCalls));
+  //   promises.push(multi.aggregate(allowanceCalls));
+  //   promises.push(multi.getEthBalance(account));
+  //   promises.push(multi.aggregate(decimalsCalls));
 
-    try {
-      const [
-        [balBlock, mulBalance],
-        [allBlock, mulAllowance],
-        mulEth,
-        [, mulDecimals],
-      ] = await Promise.all(promises);
+  //   try {
+  //     const [
+  //       [balBlock, mulBalance],
+  //       [allBlock, mulAllowance],
+  //       mulEth,
+  //       [, mulDecimals],
+  //     ] = await Promise.all(promises);
 
-      const balances = mulBalance.map((value: any) =>
-        bnum(iface.decodeFunctionResult("balanceOf", value))
-      );
-      const allowances = mulAllowance.map((value: any) =>
-        bnum(iface.decodeFunctionResult("allowance", value))
-      );
+  //     const balances = mulBalance.map((value: any) =>
+  //       bnum(iface.decodeFunctionResult("balanceOf", value))
+  //     );
+  //     const allowances = mulAllowance.map((value: any) =>
+  //       bnum(iface.decodeFunctionResult("allowance", value))
+  //     );
 
-      if (tokens[0] === EtherKey) {
-        const ethBalance = bnum(mulEth);
-        balances.unshift(ethBalance);
-        allowances.unshift(bnum(helpers.setPropertyToMaxUintIfEmpty()));
-      }
+  //     if (tokens[0] === EtherKey) {
+  //       const ethBalance = bnum(mulEth);
+  //       balances.unshift(ethBalance);
+  //       allowances.unshift(bnum(helpers.setPropertyToMaxUintIfEmpty()));
+  //     }
 
-      const decimalsList = mulDecimals.map((value: any) =>
-        bnum(iface.decodeFunctionResult("decimals", value)).toNumber()
-      );
+  //     const decimalsList = mulDecimals.map((value: any) =>
+  //       bnum(iface.decodeFunctionResult("decimals", value)).toNumber()
+  //     );
 
-      if (routerAddress) {
-        this.setAllowances(
-          tokenList,
-          account,
-          routerAddress,
-          allowances,
-          allBlock.toNumber()
-        );
-      }
-      const changedNetwork =
-        this.currentBalanceChain !== providerStore.providerStatus.activeChainId;
-      this.setDecimals(tokenList, decimalsList);
-      this.setBalances(
-        tokenList,
-        balances,
-        account,
-        balBlock.toNumber(),
-        changedNetwork
-      );
-      this.setIsLoadedBalancerTokenData();
-      runInAction(() => {
-        this.currentBalanceChain = providerStore.providerStatus.activeChainId;
-      });
+  //     if (routerAddress) {
+  //       this.setAllowances(
+  //         tokenList,
+  //         account,
+  //         routerAddress,
+  //         allowances,
+  //         allBlock.toNumber()
+  //       );
+  //     }
+  //     const changedNetwork =
+  //       this.currentBalanceChain !== providerStore.providerStatus.activeChainId;
+  //     this.setDecimals(tokenList, decimalsList);
+  //     this.setBalances(
+  //       tokenList,
+  //       balances,
+  //       account,
+  //       balBlock.toNumber(),
+  //       changedNetwork
+  //     );
+  //     this.setIsLoadedBalancerTokenData();
+  //     runInAction(() => {
+  //       this.currentBalanceChain = providerStore.providerStatus.activeChainId;
+  //     });
 
-      console.debug("[fetchBalancerTokenData Success]");
-    } catch (e) {
-      console.error("[Fetch] fetchBalancerTokenData", { error: e });
-      return FetchCode.FAILURE;
-    }
-    return FetchCode.SUCCESS;
-  };
+  //     console.debug("[fetchBalancerTokenData Success]");
+  //   } catch (e) {
+  //     console.error("[Fetch] fetchBalancerTokenData", { error: e });
+  //     return FetchCode.FAILURE;
+  //   }
+  //   return FetchCode.SUCCESS;
+  // };
 
-  fetchBalancerTokenERC721Data = async (
-    account: string,
-    tokensToTrack?: string[]
-  ): Promise<FetchCode> => {
-    if (!account) {
-      return FetchCode.FAILURE;
-    }
-    const { providerStore } = this.rootStore;
-    const promises: Array<Promise<any>> = [];
-    const balanceCalls: any[] = [];
-    const tokenList: any[] = [];
-    const contractMetadata = providerStore.getContractMetaData();
-    const multiAddress = contractMetadata.multiCallContract;
-    const multi = providerStore.getContract(
-      ContractTypes.MultiCall,
-      multiAddress
-    );
+  // fetchBalancerTokenERC721Data = async (
+  //   account: string,
+  //   tokensToTrack?: string[]
+  // ): Promise<FetchCode> => {
+  //   if (!account) {
+  //     return FetchCode.FAILURE;
+  //   }
+  //   const { providerStore } = this.rootStore;
+  //   const promises: Array<Promise<any>> = [];
+  //   const balanceCalls: any[] = [];
+  //   const tokenList: any[] = [];
+  //   const contractMetadata = providerStore.getContractMetaData();
+  //   const multiAddress = contractMetadata.multiCallContract;
+  //   const multi = providerStore.getContract(
+  //     ContractTypes.MultiCall,
+  //     multiAddress
+  //   );
 
-    const iface = new Interface(token721Abi);
+  //   const iface = new Interface(token721Abi);
 
-    const tokens = tokensToTrack;
-    tokens.forEach((address) => {
-      tokenList.push(toChecksum(address));
-      if (address !== EtherKey) {
-        balanceCalls.push([
-          address,
-          iface.encodeFunctionData("balanceOf", [account]),
-        ]);
-      }
-    });
+  //   const tokens = tokensToTrack;
+  //   tokens.forEach((address) => {
+  //     tokenList.push(toChecksum(address));
+  //     if (address !== EtherKey) {
+  //       balanceCalls.push([
+  //         address,
+  //         iface.encodeFunctionData("balanceOf", [account]),
+  //       ]);
+  //     }
+  //   });
 
-    promises.push(multi.aggregate(balanceCalls));
+  //   promises.push(multi.aggregate(balanceCalls));
 
-    try {
-      const [[balBlock, mulBalance]] = await Promise.all(promises);
+  //   try {
+  //     const [[balBlock, mulBalance]] = await Promise.all(promises);
 
-      const balances = mulBalance.map((value: any) =>
-        bnum(iface.decodeFunctionResult("balanceOf", value))
-      );
+  //     const balances = mulBalance.map((value: any) =>
+  //       bnum(iface.decodeFunctionResult("balanceOf", value))
+  //     );
 
-      const changedNetwork =
-        this.currentBalanceChain !== providerStore.providerStatus.activeChainId;
-      this.setBalances(
-        tokenList,
-        balances,
-        account,
-        balBlock.toNumber(),
-        changedNetwork
-      );
-      console.debug(
-        "[fetchBalancerTokenERC721Data Success]",
-        tokenList,
-        balances
-      );
-    } catch (e) {
-      console.error("[Fetch] fetchBalancerTokenERC721Data", { error: e });
-      return FetchCode.FAILURE;
-    }
-    return FetchCode.SUCCESS;
-  };
+  //     const changedNetwork =
+  //       this.currentBalanceChain !== providerStore.providerStatus.activeChainId;
+  //     this.setBalances(
+  //       tokenList,
+  //       balances,
+  //       account,
+  //       balBlock.toNumber(),
+  //       changedNetwork
+  //     );
+  //     console.debug(
+  //       "[fetchBalancerTokenERC721Data Success]",
+  //       tokenList,
+  //       balances
+  //     );
+  //   } catch (e) {
+  //     console.error("[Fetch] fetchBalancerTokenERC721Data", { error: e });
+  //     return FetchCode.FAILURE;
+  //   }
+  //   return FetchCode.SUCCESS;
+  // };
 
   getAllowance = (
     tokenAddressParam: string,
@@ -651,56 +651,56 @@ export default class TokenStore {
     return undefined;
   };
 
-  fetchAllowancesData = async (
-    account: string,
-    tokens: string[],
-    spender: string
-  ) => {
-    if (!account) {
-      return FetchCode.FAILURE;
-    }
-    const { providerStore } = this.rootStore;
-    const promises: Array<Promise<any>> = [];
-    const allowanceCalls: any[] = [];
-    const tokenList: any[] = [];
-    const contractMetadata = providerStore.getContractMetaData();
-    const multiAddress = contractMetadata.multiCallContract;
-    const multi = providerStore.getContract(
-      ContractTypes.MultiCall,
-      multiAddress
-    );
+  // fetchAllowancesData = async (
+  //   account: string,
+  //   tokens: string[],
+  //   spender: string
+  // ) => {
+  //   if (!account) {
+  //     return FetchCode.FAILURE;
+  //   }
+  //   const { providerStore } = this.rootStore;
+  //   const promises: Array<Promise<any>> = [];
+  //   const allowanceCalls: any[] = [];
+  //   const tokenList: any[] = [];
+  //   const contractMetadata = providerStore.getContractMetaData();
+  //   const multiAddress = contractMetadata.multiCallContract;
+  //   const multi = providerStore.getContract(
+  //     ContractTypes.MultiCall,
+  //     multiAddress
+  //   );
 
-    const iface = new Interface(tokenAbi);
+  //   const iface = new Interface(tokenAbi);
 
-    tokens.forEach((address) => {
-      tokenList.push(address);
-      if (address && address !== EtherKey) {
-        allowanceCalls.push([
-          address,
-          iface.encodeFunctionData("allowance", [account, spender]),
-        ]);
-      }
-    });
+  //   tokens.forEach((address) => {
+  //     tokenList.push(address);
+  //     if (address && address !== EtherKey) {
+  //       allowanceCalls.push([
+  //         address,
+  //         iface.encodeFunctionData("allowance", [account, spender]),
+  //       ]);
+  //     }
+  //   });
 
-    promises.push(multi.aggregate(allowanceCalls));
+  //   promises.push(multi.aggregate(allowanceCalls));
 
-    try {
-      const [[allBlock, mulAllowance]] = await Promise.all(promises);
+  //   try {
+  //     const [[allBlock, mulAllowance]] = await Promise.all(promises);
 
-      const allowances = mulAllowance.map((value: any) =>
-        bnum(iface.decodeFunctionResult("allowance", value))
-      );
-      this.setAllowances(
-        tokenList,
-        account,
-        spender,
-        allowances,
-        allBlock.toNumber()
-      );
-      return allowances;
-    } catch (e) {}
-    return [];
-  };
+  //     const allowances = mulAllowance.map((value: any) =>
+  //       bnum(iface.decodeFunctionResult("allowance", value))
+  //     );
+  //     this.setAllowances(
+  //       tokenList,
+  //       account,
+  //       spender,
+  //       allowances,
+  //       allBlock.toNumber()
+  //     );
+  //     return allowances;
+  //   } catch (e) {}
+  //   return [];
+  // };
 
   setTokenDecimals(address: string, decimals: number) {
     const tokenUrl = this.findTokenByAddress(address);

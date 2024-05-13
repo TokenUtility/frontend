@@ -7,7 +7,7 @@ import Image from "next/image";
 import SUILogo from "@/assets/images/tokens/101.svg";
 import ScreenMedia from "@/app/components/Common/ScreenMedia";
 
-export function ChainIcon({ size = 46, src, alt, disabledResponsive }) {
+export function ChainIcon({ size = 46, src, alt, disabledResponsive = false }) {
   return (
     <ScreenMedia>
       {({ xlAndUp }) => {

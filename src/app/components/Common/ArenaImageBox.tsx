@@ -1,3 +1,4 @@
+import React from "react";
 import { Box } from "@mui/material";
 import Image from "next/image";
 
@@ -8,7 +9,7 @@ const ArenaImageBox = ({
 }: {
   type: "x2" | "x10" | "x100";
   sizeImage: number;
-  children: ReactNode;
+  children: React.ReactNode;
 }) => {
   return (
     <Box sx={{ display: "flex", alignItems: "center" }}>

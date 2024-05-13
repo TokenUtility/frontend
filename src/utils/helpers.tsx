@@ -3,7 +3,6 @@ import { BigNumber as EtherBigNumber } from "@ethersproject/bignumber";
 import { ethers } from "ethers";
 import { BigNumber } from "../utils/bignumber";
 import { Result } from "@ethersproject/abi";
-import { PERCENT_DISTRIBUTION } from "@/constants";
 import { MIST_PER_SUI } from '@mysten/sui.js/utils';
 // Utils
 export const MAX_GAS = ethers.BigNumber.from("0xffffffff");
@@ -47,20 +46,20 @@ export function toWei(
 
 export function fromMIST(
   val:number
-): number {
+): number  {
   if (!val) {
-    return "0";
+    return 0;
   }
-  return Number.parseInt(val) / Number(MIST_PER_SUI);
+  return Number.parseInt(val as unknown as string) / Number(MIST_PER_SUI);
 }
 
 export function toMIST(
-  val:number
+  val:number | bigint
 ): number {
   if (!val) {
-    return "0";
+    return 0;
   }
-  return Number.parseInt(val) * Number(MIST_PER_SUI);
+  return Number.parseInt(val as unknown as string) * Number(MIST_PER_SUI);
 }
 
 

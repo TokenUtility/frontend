@@ -37,7 +37,7 @@ export function shortenAddress(address: string, chars = 4): string {
 }
 
 export function getEtherscanLink(
-  chainId: ChainId | undefined,
+  chainId: ChainId | undefined | number,
   data: string | number,
   type: "transaction" | "token" | "address" | "block" = "address"
 ): string {

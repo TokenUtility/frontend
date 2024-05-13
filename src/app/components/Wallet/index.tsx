@@ -153,7 +153,7 @@ const Wallet = observer(() => {
             className="account-element"
           >
             <StyledBalance>
-              {amountFormat(fromMIST(balance))} SUI
+              {amountFormat(fromMIST(balance as unknown as number))} SUI
             </StyledBalance>
             <WalletButton>
               {/* <Image
