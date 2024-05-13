@@ -46,7 +46,7 @@ const ArenaTable = () => {
   const wallet = useWallet();
   const { chain } = wallet;
   const { data, isError, isLoading, arenaPools } = useArenaPools({
-    chain: chain.id,
+    chain: chain?.id,
   });
   const isEmpty = data?.[0]?.docs?.length === 0;
 
@@ -157,7 +157,7 @@ const ArenaTable = () => {
                 </TableCell>
                 <TableCell sx={styleTableCell}>
                   <Link href={`/arena-pools/${row.id}`}>
-                    <Button variant="contained" color="inherit" size="small">
+                    <Button variant="contained" color="inherit" size="small" sx={{py: 0.5, borderRadius: '11px'}}>
                       <ArenaImageBox type="x2" sizeImage={30}>
                         &nbsp;Join Pool
                       </ArenaImageBox>
@@ -166,7 +166,7 @@ const ArenaTable = () => {
                 </TableCell>
                 <TableCell sx={styleTableCell}>
                   <Link href={`/arena-pools/${row.id}`}>
-                    <Button variant="contained" color="inherit" size="small">
+                    <Button variant="contained" color="inherit" size="small" sx={{py: 0.5, borderRadius: '11px'}}>
                       <ArenaImageBox type="x10" sizeImage={30}>
                         &nbsp;Join Pool
                       </ArenaImageBox>
@@ -175,7 +175,7 @@ const ArenaTable = () => {
                 </TableCell>
                 <TableCell sx={styleTableCell}>
                   <Link href={`/arena-pools/${row.id}`}>
-                    <Button variant="contained" color="inherit" size="small">
+                    <Button variant="contained" color="inherit" size="small" sx={{py: 0.5, borderRadius: '11px'}}>
                       <ArenaImageBox type="x100" sizeImage={30}>
                         &nbsp;Join Pool
                       </ArenaImageBox>

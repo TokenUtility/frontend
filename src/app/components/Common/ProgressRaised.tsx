@@ -1,10 +1,11 @@
 import LinearProgress from "@mui/material/LinearProgress";
 import { SxProps, Box } from "@mui/material";
 import { amountFormat, fromWei } from "@/utils/helpers";
+import react from "react";
 
 interface ProgressProps {
-  startText?: string;
-  endText?: string;
+  startText?: string | react.ReactNode;
+  endText?: string | react.ReactNode;
   startValue: string;
   endValue: string;
   sx?: SxProps;
@@ -47,7 +48,7 @@ const ProgressRaised = (props: ProgressProps) => {
         variant="determinate"
         value={progress}
         aria-label="progress raised"
-        sx={{ mt: 1.5, mb: 1, ...styleBySize.process }}
+        sx={{ mt: 1.5, mb: 0, ...styleBySize.process }}
       />
       <Box
         sx={{

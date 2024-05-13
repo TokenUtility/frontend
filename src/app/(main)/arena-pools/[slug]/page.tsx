@@ -5,80 +5,18 @@ import { Tabs, Tab, Box, Card, Divider, Button } from "@mui/material";
 import { a11yProps, CustomTabPanel } from "@/app/components/Common/Tabs";
 import TypoC from "@/app/components/Common/Typo";
 import CardContent from "@/app/components/Common/CardContent";
-import escapeHTML from "escape-html";
-import { Text } from "slate";
+
 import useArenaPool from "@/hooks/useArenaPool";
 import SUILogo from "@/assets/images/tokens/101.svg";
 import { ChainIcon } from "@/app/components/Home/Banner";
-import { Html } from "slate-html-serializer";
 import Link from "next/link";
 import ArenaCard from "@/app/(main)/arena-pools/[slug]/components/ArenaCard";
+import BoxEditor from "@/app/(main)/arena-pools/[slug]/components/BoxEditor";
 import FlowXWidget from "@/app/components/FlowxWidget";
 
 const TAB_LIST = ["active", "ended"];
 
-const serialize = (children) =>
-  children.map((node, i) => {
-    if (Text.isText(node)) {
-      let text = (
-        <span dangerouslySetInnerHTML={{ __html: escapeHTML(node.text) }} />
-      );
 
-      if (node.bold) {
-        text = <strong key={i}>{text}</strong>;
-      }
-
-      if (node.code) {
-        text = <code key={i}>{text}</code>;
-      }
-
-      if (node.italic) {
-        text = <em key={i}>{text}</em>;
-      }
-
-      if (node.text === "") {
-        text = <br />;
-      }
-
-      // Handle other leaf types here...
-
-      return <Fragment key={i}>{text}</Fragment>;
-    }
-    if (!node) {
-      return null;
-    }
-
-    switch (node.type) {
-      case "h1":
-        return <h1 key={i}>{serialize(node.children)}</h1>;
-      // Iterate through all headings here...
-      case "h6":
-        return <h6 key={i}>{serialize(node.children)}</h6>;
-      case "blockquote":
-        return <blockquote key={i}>{serialize(node.children)}</blockquote>;
-      case "ul":
-        return <ul key={i}>{serialize(node.children)}</ul>;
-      case "ol":
-        return <ol key={i}>{serialize(node.children)}</ol>;
-      case "li":
-        return <li key={i}>{serialize(node.children)}</li>;
-      case "link":
-        return (
-          <a href={escapeHTML(node.url)} key={i}>
-            {serialize(node.children)}
-          </a>
-        );
-
-      default:
-        return <p key={i}>{serialize(node.children)}</p>;
-    }
-  });
-const BoxEditor = ({ children }) => {
-  if (!children) {
-    return "";
-  }
-  return serialize(children);
-};
 
 const InfoMarketRow = ({ title, value, children }) => {
   if (!value) {
@@ -149,11 +87,12 @@ const BoxInfoLink = ({ data }) => {
             <Button
               variant="contained"
               color="inherit"
+              size="small"
               sx={{
                 backgroundColor: "#ffe9d2",
                 color: "#000",
                 borderRadius: "12px",
-                py: 0.5,
+                py: 0.8,
               }}
             >
               {url}
@@ -168,11 +107,12 @@ const BoxInfoLink = ({ data }) => {
               <Button
                 variant="contained"
                 color="inherit"
+                size="small"
                 sx={{
                   backgroundColor: "#ffe9d2",
                   color: "#000",
                   borderRadius: "12px",
-                  py: 0.5,
+                  py: 0.8,
                   textTransform: "capitalize",
                 }}
               >
@@ -260,10 +200,10 @@ const AreaPools = ({ params }: { params: { slug: string } }) => {
                         }}
                       ></Box>
                     )}
-                    <TypoC size="h5" font="bold" sx={{ ml: 1 }}>
+                    <TypoC size="h3" font="bold" sx={{ ml: 1.5 }}>
                       {arenaPool?.name}
                     </TypoC>
-                    <TypoC size="h5" font="bold" color="gray" sx={{ ml: 1 }}>
+                    <TypoC size="h3" font="bold" color="gray" sx={{ ml: 0.7 }}>
                       {arenaPool?.symbol}
                     </TypoC>
                   </Box>

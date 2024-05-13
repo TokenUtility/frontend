@@ -45,7 +45,7 @@ export default function RootLayout({
         content="3vOcTg4_XxgkxA2v06byg1FYgCbjGLTyNvRVZ5jOjRY"
       />
       <link rel="canonical" href="https://www.givefund.io/"  />
-      <link href="https://cdn.flowx.finance/swap-widget/0.0.8/main.css" rel="stylesheet" precedence="default" />
+      <link href="https://cdn.flowx.finance/swap-widget/0.0.8/main.css" rel="stylesheet"  />
       {/* <Script
         strategy="lazyOnload"
         src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}

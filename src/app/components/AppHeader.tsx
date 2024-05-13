@@ -229,13 +229,6 @@ const MenuMobile = observer(() => {
                 {navItems.map((item) => (
                   <ListItem
                     key={item.link}
-                    style={{
-                      display:
-                        item.excludeChain ===
-                        providerStore.providerStatus.activeChainId
-                          ? "none"
-                          : "",
-                    }}
                   >
                     <Link
                       href={item.link}
@@ -453,25 +446,25 @@ const DrawerAppBar = observer(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    try {
-      const authData = getCookie("auth_data")
-        ? JSON.parse(getCookie("auth_data"))
-        : "";
-      const { accessToken } = authData;
-      if (
-        accessToken &&
-        !userStore.accessToken &&
-        providerStore.providerStatus.injectedActive
-      ) {
-        userStore.reLoginByAccessToken(accessToken);
-      }
-    } catch (e) {
-      console.error("Error reLoginByAccessToken: ", e);
-      // do nothing
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [providerStore.providerStatus.injectedActive]);
+  // useEffect(() => {
+  //   try {
+  //     const authData = getCookie("auth_data")
+  //       ? JSON.parse(getCookie("auth_data"))
+  //       : "";
+  //     const { accessToken } = authData;
+  //     if (
+  //       accessToken &&
+  //       !userStore.accessToken &&
+  //       providerStore.providerStatus.injectedActive
+  //     ) {
+  //       userStore.reLoginByAccessToken(accessToken);
+  //     }
+  //   } catch (e) {
+  //     console.error("Error reLoginByAccessToken: ", e);
+  //     // do nothing
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [providerStore.providerStatus.injectedActive]);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -527,13 +520,6 @@ const DrawerAppBar = observer(() => {
                       key={item.link}
                       href={item.link}
                       target={item.target}
-                      style={{
-                        display:
-                          item.excludeChain ===
-                          providerStore.providerStatus.activeChainId
-                            ? "none"
-                            : "",
-                      }}
                     >
                       <ButtonLink
                         sx={{ mx: 1.5, fontWeight: 'bold' }}

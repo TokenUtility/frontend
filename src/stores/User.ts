@@ -4,7 +4,7 @@ import { authRequest } from "@/utils/authRequest";
 import { deleteCookie, setCookie, getCookie, parseJwt } from "@/utils/helpers";
 import RootStore from "./Root";
 import { makeAutoObservable, runInAction } from "mobx";
-import { ProfileDonationFormData } from "@/utils/types";
+
 
 export interface ProfileProps {
   address: string;
@@ -21,24 +21,6 @@ export interface ProfileProps {
   wallets: string;
 }
 
-export const initialState: ProfileDonationFormData = {
-  bannerImage: {
-    file: null,
-    src: null,
-  },
-  avatarImage: {
-    file: null,
-    src: null,
-  },
-  shortBio: "",
-  displayName: "",
-  userName: "",
-  email: "",
-  socialLinks: {
-    twitter: "",
-    yourSite: "",
-  },
-};
 
 export default class UserStore {
   accessToken: string;
@@ -71,28 +53,6 @@ export default class UserStore {
     this.totalContributors = 0;
   }
 
-  get profileParse(): ProfileDonationFormData {
-    try {
-      return {
-        bannerImage: {
-          file: null,
-          src: this.profile.banner,
-        },
-        avatarImage: {
-          file: null,
-          src: this.profile.avatar,
-        },
-        shortBio: this.profile.shortBio,
-        displayName: this.profile.displayName,
-        userName: this.profile.username,
-        email: this.profile.email,
-        socialLinks: parseJwt(this.profile.socialLinks),
-      };
-    } catch (error) {
-      console.error(error);
-      return initialState;
-    }
-  }
 
   getUserNonce = async (address) => {
     const { notificationStore } = this.rootStore;

@@ -11,7 +11,7 @@ import UserIcon from "@/app/components/Common/Icons/Profile";
 import TypoC from "@/app/components/Common/Typo";
 import TextValidator from "@/app/components/InputValidator/TextField";
 import { ValidatorForm } from "react-form-validator-core";
-import { useState } from "react";
+import { useState, ChangeEvent } from "react";
 import { fromMIST, amountFormat } from "@/utils/helpers";
 import { useAccountBalance } from "@suiet/wallet-kit";
 import ProgressRaised from "@/app/components/Common/ProgressRaised";
@@ -266,18 +266,18 @@ const ArenaCard = () => {
       </Box>
       <Pooling amount={amount} setAmount={setAmount} />
       <TypoC size="h5" sx={{ textAlign: "right", mt: 1 }}>
-        Your balance: {amountFormat(fromMIST(balance))} SUI
+        Your balance: {amountFormat(fromMIST(balance as unknown as number))} SUI
       </TypoC>
       <ProgressRaised
         sx={{ mt: 2 }}
-        startValue={10000 || "0"}
-        endValue={20000}
+        startValue={'10000' || "0"}
+        endValue={"20000"}
         endText={<EndTextProcess />}
         startText={<StartTextProcess />}
         prefix=""
       />
       <Box
-        sx={{ borderRadius: "22px", border: "solid 1px #ededed", px: 2, py: 1.5, mt: 1 }}
+        sx={{ borderRadius: "22px", border: "solid 1px #ededed", px: 2, py: 1.5, mt: 2 }}
       >
         <Box className="summary-list">
           SUMMARY

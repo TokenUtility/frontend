@@ -95,6 +95,7 @@ const NetworkCard = styled(YellowCard)`
 const StyledBalance = styled.div`
   padding: 0 8px;
   font-weight: bold;
+  color: rgba(0,0,0,0.87)
 `;
 
 // const NETWORK_LABELS: { [chainId in ChainId]: string | null } = {
@@ -152,7 +153,7 @@ const Wallet = observer(() => {
             className="account-element"
           >
             <StyledBalance>
-              {amountFormat(fromMIST(balance))} SUI
+              {amountFormat(fromMIST(balance as unknown as number))} SUI
             </StyledBalance>
             <WalletButton>
               {/* <Image

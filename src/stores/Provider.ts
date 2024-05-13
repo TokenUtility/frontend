@@ -14,6 +14,7 @@ import IPancakePair from "@/abi/IPancakePair.json";
 import Token from "@/abi/Token.json";
 import { logClient } from "@/utils";
 import { ChainId } from "@/constants";
+import { toChecksum } from "@/utils/helpers";
 // import { isAddressEqual, getCookie, setCookie } from "@/utils/helpers";
 
 // import snackbarHelper from "@/utils/snackbarHelper";
@@ -96,7 +97,7 @@ export default class ProviderStore {
       updateChainData: action,
       setNavigator: action,
       setAccount: action,
-      setActiveChainId: action,
+      // setActiveChainId: action,
       // sendTransaction: action,
       // sendTransactionWithEstimatedGas: action,
       // handleNetworkChanged: action,
@@ -104,7 +105,7 @@ export default class ProviderStore {
       handleAccountsChanged: action,
       loadProvider: action,
       loadWeb3: action,
-      fetchUserBlockchainData: action,
+      // fetchUserBlockchainData: action,
     });
     this.rootStore = rootStore;
     this.chainData = { currentBlockNumber: -1 } as ChainData;
@@ -164,7 +165,7 @@ export default class ProviderStore {
       activeChainId: chainId,
     });
     if (changedNetwork && this.providerStatus.account) {
-      blockchainFetchStore.blockchainFetch(false);
+      // blockchainFetchStore.blockchainFetch(false);
       // transactionStore.loadTxRecords();
       // TODO: load subgraph
     }
@@ -369,7 +370,7 @@ export default class ProviderStore {
     } else {
       const { blockchainFetchStore } = this.rootStore;
       this.setAccount(account);
-      blockchainFetchStore.blockchainFetch(true);
+      // blockchainFetchStore.blockchainFetch(true);
     }
     if (userStore?.profile?.address) {
       userStore.handleLogout();
@@ -607,60 +608,60 @@ export default class ProviderStore {
   //     });
   // };
 
-  // getContractMetaData = () => {
-  //   // const contracts = networkConnectors.getContracts(
-  //   //   this.providerStatus.activeChainId
-  //   // );
-  //   const multiCall = networkConnectors.getMultiAddress(
-  //     this.providerStatus.activeChainId
-  //   );
-  //   const { tokens: _tokens } = networkConnectors.getAssets();
-  //   const tokens = { ...(_tokens || {}) };
-
-  //   const contractMetadata = {
-  //     tokens: [] as TokenMetadata[],
-  //     multiCallContract: multiCall,
-  //   };
-  //   const tokensObjId: { [address: string]: 1 } = {};
-
-  //   Object.keys(tokens).forEach((tokenAddress) => {
-  //     const token = tokens[tokenAddress];
-  //     const { address, symbol, name, precision } = token;
-  //     if (tokensObjId[tokenAddress?.toLowerCase()]) {
-  //       return;
-  //     }
-  //     tokensObjId[tokenAddress?.toLowerCase()] = 1;
-  //     contractMetadata.tokens.push({
-  //       address: toChecksum(address),
-  //       symbol,
-  //       name,
-  //       decimals: token.decimals || 18,
-  //       precision,
-  //       isSupported: true,
-  //       allowance: new BigNumber(0),
-  //     });
-  //   });
-  //   return contractMetadata;
-  // };
-
-  fetchUserBlockchainData = async (account: string) => {
-    const { tokenStore, transactionStore } = this.rootStore;
-
-    console.debug("[Provider] fetchUserBlockchainData", {
-      account,
-    });
-    transactionStore.checkPendingTransactions(account);
-    await tokenStore.fetchBalancerTokenData(
-      account,
-      tokenStore.getTrackedTokenAddresses
-    );
-
-    // await tokenStore.fetchBalancerTokenERC721Data(
-    //   account,
-    //   tokenStore.getTrackedToken721Addresses()
+  getContractMetaData = () => {
+    // const contracts = networkConnectors.getContracts(
+    //   this.providerStatus.activeChainId
     // );
-    runInAction(() => {
-      this.countFetchUserBlockchainData = this.countFetchUserBlockchainData + 1;
+    const multiCall = networkConnectors.getMultiAddress(
+      // this.providerStatus.activeChainId
+    );
+    const { tokens: _tokens } = networkConnectors.getAssets();
+    const tokens = { ...(_tokens || {}) };
+
+    const contractMetadata = {
+      tokens: [] as TokenMetadata[],
+      multiCallContract: multiCall,
+    };
+    const tokensObjId: { [address: string]: 1 } = {};
+
+    Object.keys(tokens).forEach((tokenAddress) => {
+      const token = tokens[tokenAddress];
+      const { address, symbol, name, precision } = token;
+      if (tokensObjId[tokenAddress?.toLowerCase()]) {
+        return;
+      }
+      tokensObjId[tokenAddress?.toLowerCase()] = 1;
+      contractMetadata.tokens.push({
+        address: toChecksum(address),
+        symbol,
+        name,
+        decimals: token.decimals || 18,
+        precision,
+        isSupported: true,
+        allowance: new BigNumber(0),
+      });
     });
+    return contractMetadata;
   };
+
+  // fetchUserBlockchainData = async (account: string) => {
+  //   const { tokenStore, transactionStore } = this.rootStore;
+
+  //   console.debug("[Provider] fetchUserBlockchainData", {
+  //     account,
+  //   });
+  //   transactionStore.checkPendingTransactions(account);
+  //   await tokenStore.fetchBalancerTokenData(
+  //     account,
+  //     tokenStore.getTrackedTokenAddresses
+  //   );
+
+  //   // await tokenStore.fetchBalancerTokenERC721Data(
+  //   //   account,
+  //   //   tokenStore.getTrackedToken721Addresses()
+  //   // );
+  //   runInAction(() => {
+  //     this.countFetchUserBlockchainData = this.countFetchUserBlockchainData + 1;
+  //   });
+  // };
 }

@@ -11,9 +11,16 @@ export interface ArenaPoolDataBackend {
   name: string;
   decimals: 9;
   address?: string;
+  ticker?: string;
   createdAt: string;
   updatedAt: string;
   network?: string;
+  liquidity?: string;
+  marketCap?: string;
+  dayChange?: string;
+  weekChange?: string;
+  totalSupply?: string;
+  contract?: string;
   price: number;
   overview?: any[];
   backersPartners?: any[];

@@ -28,7 +28,7 @@ export const infoList: InfoProps[] = [
 ];
 
 export function InfoItem(props: { data: InfoProps }) {
-  const { image, alt, title, descList } = props.data;
+  const { title, descList } = props.data;
   return (
     <Box
       sx={{

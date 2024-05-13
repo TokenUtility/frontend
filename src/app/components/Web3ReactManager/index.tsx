@@ -2,14 +2,10 @@
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import { useStores } from "@/contexts/storesContext";
-import { useEagerConnect } from "@/hooks";
-import { injected, network } from "@/provider/connectors";
 import { getNetworkConfigs } from "@/provider/networks";
 import useInterval from "@/hooks/useInterval";
 import { logClient } from "@/utils";
-import { 
-  useWallet,
-} from "@suiet/wallet-kit";
+import { useWallet } from "@suiet/wallet-kit";
 
 const Web3Manager = observer(() => {
   const {
@@ -21,6 +17,7 @@ const Web3Manager = observer(() => {
   // Load on-chain data as soon as a provider is available
   useEffect(() => {
     providerStore.loadWeb3(wallet);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // const { active, account, library, connector } = useWallet();

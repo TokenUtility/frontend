@@ -5,7 +5,6 @@ import {
   Container,
   List,
   ListItem,
-  ListIcon,
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
@@ -172,7 +171,7 @@ const ArenaPools = ({ data, sx }) => {
         </TypoC>
         </Box>
         <Box sx={{ position: "absolute", bottom: "0px", right: "5px" }}>
-          <InfoOutlinedIcon size="small"></InfoOutlinedIcon>
+          <InfoOutlinedIcon />
         </Box>
       </Box>
     </Box>
