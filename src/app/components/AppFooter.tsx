@@ -36,7 +36,7 @@ export default function ColorInversionFooter() {
                 <Link href="/reward-pool" target="_blank">Reward Pools</Link>
               </li>
               <li>
-                <Link href="https://blog.givefund.io/" target="_blank">Blog</Link>
+                <Link href="https://blog.tokenutility.io/" target="_blank">Blog</Link>
               </li>
             </ul>
           </ul>

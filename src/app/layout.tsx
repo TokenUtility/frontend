@@ -8,16 +8,16 @@ export const metadata: Metadata = {
   title:
     "Token Utility",
   description:
-    "Token Utility",
-  metadataBase: new URL("https://www.givefund.io/"),
+    "Token Utility is an innovative protocol that enables utilities for all tokens.",
+  metadataBase: new URL("https://www.tokenutility.io/"),
   viewport: "width=device-width, initial-scale=1",
   openGraph: {
     type: "website",
-    url: "https://givefund.io/",
+    url: "https://tokenutility.io/",
     title:
       "Token Utility",
     description:
-      "Token Utility",
+      "Token Utility is an innovative protocol that enables utilities for all tokens.",
     siteName: "Token Utility",
     images: [
       {
@@ -44,7 +44,7 @@ export default function RootLayout({
         name="google-site-verification"
         content="3vOcTg4_XxgkxA2v06byg1FYgCbjGLTyNvRVZ5jOjRY"
       />
-      <link rel="canonical" href="https://www.givefund.io/"  />
+      <link rel="canonical" href="https://www.tokenutility.io/"  />
       <link href="https://cdn.flowx.finance/swap-widget/0.0.8/main.css" rel="stylesheet"  />
       {/* <Script
         strategy="lazyOnload"
