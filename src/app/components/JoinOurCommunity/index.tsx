@@ -63,7 +63,7 @@ export default function JoinOurCommunity(props: {
           ></Image>
         </a>
         <a
-          href="https://medium.com/@givefund.io/"
+          href="https://medium.com/@tokenutility.io/"
           target="_blank"
           rel="noreferrer"
         >
@@ -75,7 +75,7 @@ export default function JoinOurCommunity(props: {
           ></Image>
         </a>
         <a
-          href="https://www.instagram.com/givefund.io/"
+          href="https://www.instagram.com/tokenutility.io/"
           target="_blank"
           rel="noreferrer"
         >
