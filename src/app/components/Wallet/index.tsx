@@ -177,7 +177,7 @@ const Wallet = observer(() => {
       );
     } else {
       return (
-        <div><ConnectButton /></div>
+        <div><ConnectButton label="Connect Wallet" /></div>
       );
     }
   }

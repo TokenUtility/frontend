@@ -2,11 +2,11 @@
 <svg width="38px" height="38px" viewBox="0 0 38 38" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <title>INSTA</title>
     <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="BGR_Footer" transform="translate(-1576.000000, -94.000000)" fill="#FFFFFF">
+        <g id="BGR_Footer" transform="translate(-1576.000000, -94.000000)" fill="#000">
             <g id="Footer-widget-1" transform="translate(1384.000000, 65.000000)">
                 <g id="Socials" transform="translate(0.000000, 29.000000)">
                     <g id="INSTA" transform="translate(192.000000, 0.000000)">
-                        <rect id="Rectangle" fill-opacity="0.15" x="0" y="0" width="38" height="38" rx="2"></rect>
+                        
                         <g id="logo--instagram" transform="translate(11.000000, 11.000000)" fill-rule="nonzero">
                             <circle id="Oval" cx="12.2704" cy="3.7296" r="1"></circle>
                             <path d="M8,3.89186667 C5.73114061,3.89186667 3.89186667,5.73114061 3.89186667,8 C3.89186667,10.2688594 5.73114061,12.1081333 8,12.1081333 C10.2688594,12.1081333 12.1081333,10.2688594 12.1081333,8 C12.1081333,5.73114061 10.2688594,3.89186667 8,3.89186667 L8,3.89186667 Z M8,10.6666667 C6.52724067,10.6666667 5.33333333,9.47275933 5.33333333,8 C5.33333333,6.52724067 6.52724067,5.33333333 8,5.33333333 C9.47275933,5.33333333 10.6666667,6.52724067 10.6666667,8 C10.6666667,8.70724397 10.3857151,9.38552107 9.88561808,9.88561808 C9.38552107,10.3857151 8.70724397,10.6666667 8,10.6666667 Z" id="Shape"></path>

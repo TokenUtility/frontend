@@ -9,11 +9,11 @@ export default function JoinOurCommunity(props: {
 }) {
   const imageSize = props.imageSize || 38;
   return (
-    <>
+    <Box sx={{display: 'flex', alignItems: 'center', gap: 2}}>
       <Typography
-        sx={{ fontSize: "14px", fontWeight: "bold", ...props.titleSxProps }}
+        sx={{ fontSize: "18px", fontWeight: "bold", ...props.titleSxProps }}
       >
-        Join GiveFund Community
+        Join Our Community
       </Typography>
       <Box
         className={"social-icons"}
@@ -26,7 +26,7 @@ export default function JoinOurCommunity(props: {
           ...props.wrapImageSxProps,
         }}
       >
-        <a
+        {/* <a
           href="https://www.facebook.com/groups/nftcommunityofficial"
           target="_blank"
           rel="noreferrer"
@@ -37,7 +37,7 @@ export default function JoinOurCommunity(props: {
             width={imageSize}
             height={imageSize}
           ></Image>
-        </a>
+        </a> */}
         <a
           href="https://twitter.com/givefund_io"
           target="_blank"
@@ -62,31 +62,31 @@ export default function JoinOurCommunity(props: {
             height={imageSize}
           ></Image>
         </a>
-        <a
+        {/* <a
           href="https://medium.com/@tokenutility.io/"
           target="_blank"
           rel="noreferrer"
         >
           <Image
             src="/images/socials/medium.svg"
-            alt="telegram"
+            alt="medium"
             width={imageSize}
             height={imageSize}
           ></Image>
-        </a>
-        <a
+        </a> */}
+        {/* <a
           href="https://www.instagram.com/tokenutility.io/"
           target="_blank"
           rel="noreferrer"
         >
           <Image
             src="/images/socials/instagram.svg"
-            alt="telegram"
+            alt="instagram"
             width={imageSize}
             height={imageSize}
           ></Image>
-        </a>
+        </a> */}
       </Box>
-    </>
+    </Box>
   );
 }
