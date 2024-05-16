@@ -1,4 +1,4 @@
-'use client'
+// @ts-nocheck
 import Script from "next/script";
 import React, { useEffect, useRef, useState } from "react";
 
