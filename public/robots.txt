@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://tokenutinity.io
+Host: https://tokenutility.io
 
 # Sitemaps
-Sitemap: https://tokenutinity.io/sitemap.xml
+Sitemap: https://tokenutility.io/sitemap.xml

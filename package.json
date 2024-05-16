@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "buildindocker": "cp -a next.config-docker.js next.config.js && next build",
     "postbuild": "next-sitemap",
     "start": "next start",
     "lint": "next lint",
