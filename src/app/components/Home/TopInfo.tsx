@@ -5,6 +5,7 @@ import {
   Container,
   List,
   ListItem,
+  ListIcon,
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
@@ -171,7 +172,7 @@ const ArenaPools = ({ data, sx }) => {
         </TypoC>
         </Box>
         <Box sx={{ position: "absolute", bottom: "0px", right: "5px" }}>
-          <InfoOutlinedIcon />
+          <InfoOutlinedIcon size="small"></InfoOutlinedIcon>
         </Box>
       </Box>
     </Box>
@@ -192,7 +193,7 @@ const TopInfo = () => {
         </CardContent>
       </Card>
 
-      <Card sx={{ backgroundColor: "#eeeeff" }}>
+      {/* <Card sx={{ backgroundColor: "#eeeeff" }}>
           <CardContent>
             <TypoC
               font="bold"
@@ -209,7 +210,7 @@ const TopInfo = () => {
               </Box>
             </Box>
           </CardContent>
-        </Card>
+        </Card> */}
 
       <Box sx={{ display: "flex", gap: {xs: 2, xl: 3} }}>
         <Box sx={{ flex: 1, overflow: "auto" }}>

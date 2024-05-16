@@ -1,6 +1,5 @@
 <svg width="38" height="38" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg">
-    <g fill="#FFF" fill-rule="evenodd">
-        <rect fill-opacity=".15" width="38" height="38" rx="2"/>
+    <g fill="#000" fill-rule="evenodd">
         <path d="M20.522 17.875 26.48 11h-1.412l-5.172 5.97-4.13-5.97H11l6.247 9.026L11 27.236h1.412l5.461-6.304 4.363 6.303H27l-6.478-9.36zm-1.933 2.23-.633-.898-5.036-7.152h2.168l4.064 5.772.633.899 5.283 7.502H22.9l-4.311-6.122z" fill-rule="nonzero"/>
     </g>
 </svg>

@@ -5,7 +5,6 @@ import { Tabs, Tab, Box, Card, Divider, Button } from "@mui/material";
 import { a11yProps, CustomTabPanel } from "@/app/components/Common/Tabs";
 import TypoC from "@/app/components/Common/Typo";
 import CardContent from "@/app/components/Common/CardContent";
-
 import useArenaPool from "@/hooks/useArenaPool";
 import SUILogo from "@/assets/images/tokens/101.svg";
 import { ChainIcon } from "@/app/components/Home/Banner";

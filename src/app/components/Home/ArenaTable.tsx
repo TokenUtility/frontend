@@ -13,6 +13,11 @@ import {
 } from "@mui/material";
 import TypoC from "@/app/components/Common/Typo";
 import SUILogo from "@/assets/images/tokens/101.svg";
+import TURBOS from "@/assets/images/tokens/TURBOS.png";
+import CETUS from "@/assets/images/tokens/Cetus.png";
+import FUD from "@/assets/images/tokens/FUD.png";
+import SCB from "@/assets/images/tokens/sacabam.png";
+import FLX from "@/assets/images/tokens/flowx.png";
 import Link from "next/link";
 import { ChainIcon } from "./Banner";
 import Image from "next/image";
@@ -24,6 +29,11 @@ import ArenaImageBox from  '@/app/components/Common/ArenaImageBox'
 
 const mapSymbolImageToken = {
   SUI: SUILogo,
+  TURBOS: TURBOS,
+  CETUS: CETUS,
+  FUD: FUD,
+  FLX: FLX,
+  SCB: SCB
 };
 
 const styleTableCellHead = {
