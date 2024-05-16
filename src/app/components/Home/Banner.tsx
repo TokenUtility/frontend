@@ -16,7 +16,7 @@ export function ChainIcon({ size = 46, src, alt, disabledResponsive = false }) {
           : xlAndUp
           ? size
           : size * 0.85;
-        return <Image src={src} height={calcSize} width={calcSize} alt={alt} />;
+        return <Image src={src} height={calcSize} width={calcSize} alt={alt} style={{borderRadius: '999px'}} />;
       }}
     </ScreenMedia>
   );

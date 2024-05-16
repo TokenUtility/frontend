@@ -10,7 +10,7 @@ export default function ColorInversionFooter() {
       sx={{
         borderTop: "solid 1px rgba(255, 255, 255, 0.15)",
         pt: { xs: 2, md: 0 },
-        pb: { xs: 2, md: 4 },
+        pb: { xs: 2, md: 3 },
         flexShrink: 0,
       }}
     >
