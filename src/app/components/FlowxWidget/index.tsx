@@ -1,4 +1,4 @@
-// @ts-nocheck
+'use client'
 import Script from "next/script";
 import React, { useEffect, useRef, useState } from "react";
 
@@ -14,6 +14,7 @@ const FlowXWidget = () => {
       console.error("FlowXInitial");
       return;
     }
+    console.log({a: window.FlowXInitial})
     const root = window.FlowXInitial(ref.current);
     return () => {
       root.unmount();

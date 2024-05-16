@@ -4,11 +4,12 @@ import TopInfo from "@/app/components/Home/TopInfo";
 import WhyTokenUtility from "@/app/components/Home/WhyTokenUtility";
 import ArenaTable from "@/app/components/Home/ArenaTable";
 import HowToPlay from "@/app/components/Home/HowToPlay";
-import FlowXWidget from "@/app/components/FlowxWidget";
 import dynamic from "next/dynamic";
 import React, { useEffect, useRef, useState } from "react";
 import Box from "@mui/material/Box";
 import { Container } from "@mui/material";
+
+const FlowXWidget = dynamic(() => import("@/app/components/FlowxWidget"), { ssr: false });
 
 export default function Home() {
   return (

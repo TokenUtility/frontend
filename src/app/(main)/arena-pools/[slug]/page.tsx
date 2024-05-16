@@ -11,7 +11,9 @@ import { ChainIcon } from "@/app/components/Home/Banner";
 import Link from "next/link";
 import ArenaCard from "@/app/(main)/arena-pools/[slug]/components/ArenaCard";
 import BoxEditor from "@/app/(main)/arena-pools/[slug]/components/BoxEditor";
-import FlowXWidget from "@/app/components/FlowxWidget";
+import dynamic from "next/dynamic";
+
+const FlowXWidget = dynamic(() => import("@/app/components/FlowxWidget"), { ssr: false });
 
 const TAB_LIST = ["active", "ended"];
 
