@@ -31,7 +31,7 @@ const StyledDots = styled(Dots)`
   letter-spacing: 3px;
   color: rgba(0,0,0,0.87);
 `;
- 
+
 const PreLoader = () => {
   return <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
   <Image

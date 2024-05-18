@@ -1,8 +1,7 @@
 import "./globals.scss";
 import type { Metadata } from "next";
 import ThemeProvider from "@/app/components/ThemeProvider";
-import Script from "next/script";
-import { SpeedInsights } from "@vercel/speed-insights/next";
+// import Script from "next/script";
 
 export const metadata: Metadata = {
   title:
@@ -58,7 +57,6 @@ export default function RootLayout({
       </Script> */}
       <body>
         <ThemeProvider>{children}</ThemeProvider>
-        <SpeedInsights />
       </body>
     </html>
   );

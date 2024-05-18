@@ -5,8 +5,11 @@ import { styled, SxProps } from "@mui/material/styles";
 
 const TypographyStyle = styled(Typography)(({ theme }) => ({
   "& b": {
-    color: "#fff",
+    color: "#000",
   },
+  ".color-primary" :{
+    color: "#7645d9"
+  }
 }));
 
 interface TypoProps {
@@ -43,20 +46,32 @@ const styleBySize: any = (size: string) => {
     }
     case "h5": //18
       return {
-        fontSize: { xs: "15px", sm: "16px", xl: "18px" },
+        fontSize: { xs: "15px", sm: "16px", lg: "18px" },
         lineHeight: 1.2,
       };
+    case "xl": {
+      return {
+        fontSize: { xs: "18px", sm: "18px", lg: "20px", xl: "22px" }, // 22
+      };
+    }
     case "medium": //16px
       return {
         fontSize: { xs: "12px", sm: "14px", xl: "1rem" },
       };
-    case "small": // 15px
+    case "small": // 14px
       return {
         fontSize: "14px",
       };
-    case "tiny-small": // 1px
+    case "tiny-small": // 12px
       return {
-        fontSize: "11px",
+        fontSize: "12px",
+      };
+
+    case "title-tab": // 1px
+      return {
+        fontSize: { xs: "15px", sm: "16px", xl: "18px" },
+        fontWeight: "bold",
+        textTransform: "capitalize",
       };
     default:
       return {
@@ -68,7 +83,10 @@ const styleBySize: any = (size: string) => {
 const styleByColor = (color: string) => {
   switch (color) {
     case "primary": {
-      return { color: "#ffab00" };
+      return { color: "#7645d9" };
+    }
+    case "orange": {
+      return { color: "#f39c0b" };
     }
     case "gray":
       return { color: "#6f6f70" };

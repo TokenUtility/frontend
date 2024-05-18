@@ -10,9 +10,9 @@ import {
 } from "@mui/material";
 
 const styleHelpText = {
-  color: "#d8d8d8",
-  mt: 2,
-  fontSize: "18px",
+  color: "#00",
+  mt: 1,
+  fontSize: "12px",
   lineHeight: 1.2,
 };
 

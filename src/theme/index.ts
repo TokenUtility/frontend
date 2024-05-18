@@ -51,6 +51,7 @@ const components: Components<Omit<Theme, "components">> = {
         boxShadow: "unset",
         textTransform: "unset",
         lineHeight: 1.3,
+        fontWeight: 'bold'
       },
       sizeSmall: {
         borderRadius: "7px",
@@ -59,13 +60,13 @@ const components: Components<Omit<Theme, "components">> = {
       sizeMedium: {
         textTransform: "unset",
         padding: "8px 16px",
-        borderRadius: "11px",
+        borderRadius: "10px",
         minHeight: HeightsConfig.MEDIUM,
       },
       sizeLarge: {
         minHeight: HeightsConfig.LARGE.xs,
         padding: "8px 14px",
-        borderRadius: "20px",
+        borderRadius: "10px",
         "@media screen and (min-width: 600px)": {
           padding: "15px 36px",
           minHeight: HeightsConfig.LARGE.xs,
@@ -143,7 +144,8 @@ const components: Components<Omit<Theme, "components">> = {
     styleOverrides: {
       root: {
         backgroundColor: "#f6f6f6",
-        borderRadius: "8px",
+        borderRadius: "10px",
+        minHeight: "62px",
         border: "1px solid transparent",
         "&::before, &::after": {
           display: "none",
@@ -154,7 +156,11 @@ const components: Components<Omit<Theme, "components">> = {
         "&.MuiInputBase-adornedStart": {
           paddingLeft: "10px",
           fontSize: "16px",
-          color: "#d8d8d8",
+          color: "#000",
+          fontWeight: "bold",
+          '.MuiFilledInput-input': {
+            paddingLeft: '0 !important'
+          },
           "@media screen and (min-width: 900px)": {
             fontSize: "18px",
             paddingLeft: "16px",
@@ -172,16 +178,19 @@ const components: Components<Omit<Theme, "components">> = {
         },
       },
       input: {
-        padding: "12px",
-        fontSize: "20px",
-        color: "#7645d9",
+        padding: "16px 16px 16px 20px",
+        fontSize: "16px",
+        color: "#000",
         fontWeight: 'bold',
+        minHeight: '40px !important',
+        display: "flex",
+        alignItems: "center",
         "@media screen and (min-width: 900px)": {
-          fontSize: "26px",
-          padding: "8px 16px 8px 20px",
+          fontSize: "16px",
+          padding: "10px 2rem 10px 1.5rem !important",
         },
         "@media screen and (min-width: 1536px)": {
-          padding: "8px 16px 8px 20px",
+          padding: "10px 2rem 10px 1.5rem !important",
         },
       },
       inputMultiline: {

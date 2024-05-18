@@ -6,35 +6,20 @@ import {
   TableHead,
   TableRow,
   Paper,
-  IconButton,
   Divider,
   Box,
   Button,
 } from "@mui/material";
 import TypoC from "@/app/components/Common/Typo";
-import SUILogo from "@/assets/images/tokens/101.svg";
-import TURBOS from "@/assets/images/tokens/TURBOS.png";
-import CETUS from "@/assets/images/tokens/Cetus.png";
-import FUD from "@/assets/images/tokens/FUD.png";
-import SCB from "@/assets/images/tokens/sacabam.png";
-import FLX from "@/assets/images/tokens/flowx.png";
 import Link from "next/link";
-import { ChainIcon } from "./Banner";
+import ChainIcon from '@/app/components/Common/ChainIcon';
 import Image from "next/image";
 import { ReactNode } from "react";
 import EastRoundedIcon from "@mui/icons-material/EastRounded";
 import { useWallet } from "@suiet/wallet-kit";
 import useArenaPools from "@/hooks/useArenaPools";
 import ArenaImageBox from  '@/app/components/Common/ArenaImageBox'
-
-const mapSymbolImageToken = {
-  SUI: SUILogo,
-  TURBOS: TURBOS,
-  CETUS: CETUS,
-  FUD: FUD,
-  FLX: FLX,
-  SCB: SCB
-};
+import { mapSymbolImageToken } from '@/configs'
 
 const styleTableCellHead = {
   fontSize: { xs: "16px", lg: "16px", xl: "18px" },
@@ -68,7 +53,6 @@ const ArenaTable = () => {
       <Divider color="#979797" sx={{ mb: 3, mt: 1 }}></Divider>
       <Table
         sx={{
-          minWidth: 650,
           borderCollapse: "separate",
           borderSpacing: "0px 8px",
         }}
