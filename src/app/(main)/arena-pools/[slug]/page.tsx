@@ -6,13 +6,12 @@ import { a11yProps, CustomTabPanel } from "@/app/components/Common/Tabs";
 import TypoC from "@/app/components/Common/Typo";
 import CardContent from "@/app/components/Common/CardContent";
 import useArenaPool from "@/hooks/useArenaPool";
-import SUILogo from "@/assets/images/tokens/101.svg";
-import { ChainIcon } from "@/app/components/Home/Banner";
+import ChainIcon from '@/app/components/Common/ChainIcon';
 import Link from "next/link";
 import ArenaCard from "@/app/(main)/arena-pools/[slug]/components/ArenaCard";
 import BoxEditor from "@/app/(main)/arena-pools/[slug]/components/BoxEditor";
 import dynamic from "next/dynamic";
-
+import { mapSymbolImageToken } from '@/configs'
 const FlowXWidget = dynamic(() => import("@/app/components/FlowxWidget"), { ssr: false });
 
 const TAB_LIST = ["active", "ended"];
@@ -125,10 +124,6 @@ const BoxInfoLink = ({ data }) => {
       </InfoLinkRow>
     </Box>
   );
-};
-
-const mapSymbolImageToken = {
-  SUI: SUILogo,
 };
 
 const AreaPools = ({ params }: { params: { slug: string } }) => {

@@ -386,13 +386,13 @@ const ProfileButton = observer(() => {
             <StyledMenuItem onClick={handleClose}>My Profile</StyledMenuItem>
           </Link>
           <Link
-            href="/profile"
+            href="/profile#history"
             style={{ color: "inherit", textDecoration: "none" }}
           >
-            <StyledMenuItem onClick={handleClose}>My Withdraw</StyledMenuItem>
+            <StyledMenuItem onClick={handleClose}>My Activity</StyledMenuItem>
           </Link>
           <Link
-            href="/profile"
+            href="/profile#revenue-sharing"
             style={{ color: "inherit", textDecoration: "none" }}
           >
             <StyledMenuItem onClick={handleClose}>

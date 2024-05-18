@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import TypoC from "@/app/components/Common/Typo";
-import { ChainIcon } from "./Banner";
+import ChainIcon from '@/app/components/Common/ChainIcon';
 import SUILogo from "@/assets/images/tokens/101.svg";
 import FlowXLogo from "@/assets/images/tokens/flowx.png";
 import SacabamLogo from "@/assets/images/tokens/sacabam.png";

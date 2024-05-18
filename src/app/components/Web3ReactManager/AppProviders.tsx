@@ -52,11 +52,11 @@ const AppProviders = observer(({ children }) => {
 
   return (
       <WalletProvider>
-      <MessageWrapper
+      {/* <MessageWrapper
         hidden={!showLoader &&  providerStore.providerStatus.active }
       >
         <PreLoader />
-      </MessageWrapper>
+      </MessageWrapper> */}
       <Web3ReactManager />
       <SWRConfig
         value={{

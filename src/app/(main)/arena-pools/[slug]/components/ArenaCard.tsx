@@ -17,11 +17,7 @@ import { useAccountBalance } from "@suiet/wallet-kit";
 import ProgressRaised from "@/app/components/Common/ProgressRaised";
 import InfoIcon from "@mui/icons-material/InfoOutlined";
 import Link from "next/link";
-
-const PERCENT_DISTRIBUTION = {
-  DIRECT_POOL: 90,
-  PLATFORM_FEE: 10,
-};
+import { PERCENT_DISTRIBUTION } from '@/constants'
 
 const ButtonSelectPool = ({ type, joined, total, active, ...props }) => {
   return (
