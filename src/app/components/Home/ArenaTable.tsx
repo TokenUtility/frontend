@@ -12,14 +12,15 @@ import {
 } from "@mui/material";
 import TypoC from "@/app/components/Common/Typo";
 import Link from "next/link";
-import ChainIcon from '@/app/components/Common/ChainIcon';
+import ChainIcon from "@/app/components/Common/ChainIcon";
 import Image from "next/image";
 import { ReactNode } from "react";
 import EastRoundedIcon from "@mui/icons-material/EastRounded";
 import { useWallet } from "@suiet/wallet-kit";
 import useArenaPools from "@/hooks/useArenaPools";
-import ArenaImageBox from  '@/app/components/Common/ArenaImageBox'
-import { mapSymbolImageToken } from '@/configs'
+import ArenaImageBox from "@/app/components/Common/ArenaImageBox";
+import { mapSymbolImageToken } from "@/configs";
+import { PoolType } from "@/utils/types";
 
 const styleTableCellHead = {
   fontSize: { xs: "16px", lg: "16px", xl: "18px" },
@@ -34,8 +35,6 @@ const styleTableCell = {
   px: 1.5,
   py: 1.5,
 };
-
-
 
 const ArenaTable = () => {
   const wallet = useWallet();
@@ -66,17 +65,17 @@ const ArenaTable = () => {
             <TableCell sx={styleTableCellHead}>24h Change</TableCell>
             <TableCell sx={styleTableCellHead}>7D Change</TableCell>
             <TableCell sx={styleTableCellHead}>
-              <ArenaImageBox type="x2" sizeImage={76}>
+              <ArenaImageBox type={PoolType.x2} sizeImage={76}>
                 Arena Pool
               </ArenaImageBox>
             </TableCell>
             <TableCell sx={styleTableCellHead}>
-              <ArenaImageBox type="x10" sizeImage={76}>
+              <ArenaImageBox type={PoolType.x10} sizeImage={76}>
                 Arena Pool
               </ArenaImageBox>
             </TableCell>
             <TableCell sx={styleTableCellHead}>
-              <ArenaImageBox type="x100" sizeImage={76}>
+              <ArenaImageBox type={PoolType.x100} sizeImage={76}>
                 Arena Pool
               </ArenaImageBox>
             </TableCell>
@@ -103,7 +102,9 @@ const ArenaTable = () => {
                     ...styleTableCell,
                   }}
                 >
-                  <TypoC size="h5" font="bold">{index + 1}</TypoC>
+                  <TypoC size="h5" font="bold">
+                    {index + 1}
+                  </TypoC>
                 </TableCell>
                 <TableCell
                   sx={{
@@ -118,7 +119,14 @@ const ArenaTable = () => {
                         size={45}
                       />
                     ) : (
-                      <Box sx={{background: '#eee', width: '38px', height: '38px', borderRadius: '9999px'}}></Box>
+                      <Box
+                        sx={{
+                          background: "#eee",
+                          width: "38px",
+                          height: "38px",
+                          borderRadius: "9999px",
+                        }}
+                      ></Box>
                     )}
 
                     <TypoC size="h5" font="bold" sx={{ ml: 1.5 }}>
@@ -131,12 +139,14 @@ const ArenaTable = () => {
                     ...styleTableCell,
                   }}
                 >
-                  <TypoC size="h5" font="bold">{row.price ? `$${row.price}` : "__"}</TypoC>
+                  <TypoC size="h5" font="bold">
+                    {row.price ? `$${row.price}` : "__"}
+                  </TypoC>
                 </TableCell>
                 <TableCell
                   sx={{
                     ...styleTableCell,
-                    textAlign: 'center'
+                    textAlign: "center",
                   }}
                 >
                   {row.dayChange || "__"}
@@ -144,15 +154,20 @@ const ArenaTable = () => {
                 <TableCell
                   sx={{
                     ...styleTableCell,
-                    textAlign: 'center'
+                    textAlign: "center",
                   }}
                 >
                   {row.weekChange || "__"}
                 </TableCell>
                 <TableCell sx={styleTableCell}>
                   <Link href={`/arena-pools/${row.id}`}>
-                    <Button variant="contained" color="inherit" size="small" sx={{py: 0.5, borderRadius: '11px'}}>
-                      <ArenaImageBox type="x2" sizeImage={30}>
+                    <Button
+                      variant="contained"
+                      color="inherit"
+                      size="small"
+                      sx={{ py: 0.5, borderRadius: "11px" }}
+                    >
+                      <ArenaImageBox type={PoolType.x2} sizeImage={30}>
                         &nbsp;Join Pool
                       </ArenaImageBox>
                     </Button>
@@ -160,8 +175,13 @@ const ArenaTable = () => {
                 </TableCell>
                 <TableCell sx={styleTableCell}>
                   <Link href={`/arena-pools/${row.id}`}>
-                    <Button variant="contained" color="inherit" size="small" sx={{py: 0.5, borderRadius: '11px'}}>
-                      <ArenaImageBox type="x10" sizeImage={30}>
+                    <Button
+                      variant="contained"
+                      color="inherit"
+                      size="small"
+                      sx={{ py: 0.5, borderRadius: "11px" }}
+                    >
+                      <ArenaImageBox type={PoolType.x10} sizeImage={30}>
                         &nbsp;Join Pool
                       </ArenaImageBox>
                     </Button>
@@ -169,8 +189,13 @@ const ArenaTable = () => {
                 </TableCell>
                 <TableCell sx={styleTableCell}>
                   <Link href={`/arena-pools/${row.id}`}>
-                    <Button variant="contained" color="inherit" size="small" sx={{py: 0.5, borderRadius: '11px'}}>
-                      <ArenaImageBox type="x100" sizeImage={30}>
+                    <Button
+                      variant="contained"
+                      color="inherit"
+                      size="small"
+                      sx={{ py: 0.5, borderRadius: "11px" }}
+                    >
+                      <ArenaImageBox type={PoolType.x100} sizeImage={30}>
                         &nbsp;Join Pool
                       </ArenaImageBox>
                     </Button>

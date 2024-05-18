@@ -18,6 +18,7 @@ import ProgressRaised from "@/app/components/Common/ProgressRaised";
 import InfoIcon from "@mui/icons-material/InfoOutlined";
 import Link from "next/link";
 import { PERCENT_DISTRIBUTION } from '@/constants'
+import { ArenaCardProps }  from '@/utils/types'
 
 const ButtonSelectPool = ({ type, joined, total, active, ...props }) => {
   return (
@@ -38,11 +39,12 @@ const ButtonSelectPool = ({ type, joined, total, active, ...props }) => {
           backgroundColor: "rgba(118, 69, 217, 1)",
           color: "#fff",
         },
-        py: 0.7
+        py: 0.7,
+        px: 1
       }}
       {...props}
     >
-      <Box sx={{fontWeight: 'bold'}}>${type}</Box>
+      <TypoC font="bold">${type}</TypoC>
       <Box
         sx={{
           display: "flex",
@@ -53,7 +55,7 @@ const ButtonSelectPool = ({ type, joined, total, active, ...props }) => {
           size="18px"
           color={active ? "#fff" : "rgba(118, 69, 217, 1)"}
         />
-        &nbsp;{joined}/{total}
+        <TypoC size="small" font="bold">&nbsp;{joined}/{total}</TypoC>
       </Box>
     </Button>
   );
@@ -120,7 +122,7 @@ const Pooling = ({ amount, setAmount }) => {
         Pooling
       </TypoC>
       <Box sx={{ mt: 2 }}>
-        <Box sx={{ display: "flex", gap: 2 }}>
+        <Box sx={{ display: "flex", gap: {sm: 1, xl: 2} }}>
           <ButtonSelectPool
             type="10"
             joined={1}
@@ -131,14 +133,14 @@ const Pooling = ({ amount, setAmount }) => {
           <ButtonSelectPool
             type="100"
             joined={0}
-            total={2}
+            total={10}
             active={poolSelected === 2}
             onClick={() => handleSelectPool(2)}
           />
           <ButtonSelectPool
             type="500"
             joined={0}
-            total={2}
+            total={100}
             active={poolSelected === 3}
             onClick={() => handleSelectPool(3)}
           />
@@ -206,9 +208,12 @@ const Pooling = ({ amount, setAmount }) => {
   );
 };
 
-const ArenaCard = () => {
+
+
+
+const ArenaCard = ({type, arenaPool}: ArenaCardProps) => {
   const { balance } = useAccountBalance();
-  const [amount, setAmount] = useState();
+  const [amount, setAmount] = useState('0');
 
   return (
     <Box
@@ -225,7 +230,7 @@ const ArenaCard = () => {
           alignItems: "center",
         }}
       >
-        <ArenaImageBox type="x2" sizeImage={76}>
+        <ArenaImageBox type={type} sizeImage={76}>
           Arena Pool
         </ArenaImageBox>
         <Box
@@ -238,14 +243,15 @@ const ArenaCard = () => {
             pl: 3,
             pr: 1,
             py: 1,
+            fontWeight: 'bold'
           }}
         >
-          2 &nbsp;
+          {type} &nbsp;
           <UserIcon size="18px" color="#7645d9" />
         </Box>
       </Box>
       <TypoC size="h5" font="bold" sx={{ mt: 1 }}>
-        Sacabam - X2 Arena Pool #1
+        {arenaPool?.name || '__'} - X{type} Arena Pool #1
       </TypoC>
       <TypoC color="gray" sx={{ mt: 0.5 }}>
         Ends in: <span style={{ color: "#000" }}>1d:4h:15m:15s</span>
@@ -254,10 +260,10 @@ const ArenaCard = () => {
         sx={{ borderRadius: "22px", border: "solid 1px #ededed", px: 3, py: 1.5, mt: 1 }}
       >
         <TypoC>
-          <span style={{ color: "#7645d9" }}>Deposit</span> SCB to join{" "}
-          <span style={{ color: "#7645d9" }}>X10</span> Arena Pool. <br />
+          <span style={{ color: "#7645d9" }}>Deposit</span> {arenaPool?.symbol || '__'} to join{" "}
+          <span style={{ color: "#7645d9" }}>X{type}</span> Arena Pool. <br />
           You will have a chance to{" "}
-          <span style={{ color: "#7645d9" }}>X10</span> your token.
+          <span style={{ color: "#7645d9" }}>X{type}</span> your token.
         </TypoC>
       </Box>
       <Pooling amount={amount} setAmount={setAmount} />
@@ -279,8 +285,8 @@ const ArenaCard = () => {
           SUMMARY
           <ul>
             <li>
-              You deposit <span>{amount}&nbsp; SCB</span> to join{" "}
-              <span>Sacabam - X2 Arena Pool #1 - ticket: $10</span>
+              You deposit <span>{amount}&nbsp; {arenaPool?.symbol || '__'}</span> to join{" "}
+              <span>{arenaPool?.name || '__'} - X{type} Arena Pool #1 - ticket: ${amount}</span>
             </li>
 
             <li>

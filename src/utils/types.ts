@@ -27,3 +27,14 @@ export interface ArenaPoolDataBackend {
   officialLinks?: Array<{url: string, id:string}>
   socials?:Array<{url: string, id:string, type: string}>;
 }
+
+
+export enum PoolType  {
+  x2 = 2,
+  x10 = 10,
+  x100 = 100,
+}
+export interface ArenaCardProps {
+  type: PoolType,
+  arenaPool: ArenaPoolDataBackend
+}
