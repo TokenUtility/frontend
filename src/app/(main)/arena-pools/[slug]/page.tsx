@@ -1,6 +1,6 @@
 "use client";
 import { Container } from "@mui/material";
-import React, { useEffect, Fragment } from "react";
+import React, { useEffect } from "react";
 import { Tabs, Tab, Box, Card, Divider, Button } from "@mui/material";
 import { a11yProps, CustomTabPanel } from "@/app/components/Common/Tabs";
 import TypoC from "@/app/components/Common/Typo";
@@ -13,6 +13,7 @@ import BoxEditor from "@/app/(main)/arena-pools/[slug]/components/BoxEditor";
 import dynamic from "next/dynamic";
 import { mapSymbolImageToken } from '@/configs'
 const FlowXWidget = dynamic(() => import("@/app/components/FlowxWidget"), { ssr: false });
+import { PoolType } from "@/utils/types";
 
 const TAB_LIST = ["active", "ended"];
 
@@ -352,9 +353,9 @@ const AreaPools = ({ params }: { params: { slug: string } }) => {
               gap: {xs: '16px', xl: '24px'},
             }}
           >
-            <ArenaCard />
-            <ArenaCard />
-            <ArenaCard />
+            <ArenaCard type={PoolType.x2} arenaPool={arenaPool} />
+            <ArenaCard type={PoolType.x10} arenaPool={arenaPool}/>
+            <ArenaCard type={PoolType.x100} arenaPool={arenaPool}/>
           </Box>
         </CustomTabPanel>
         <CustomTabPanel
