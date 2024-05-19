@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  namespace: ext
+  name: tu-frontend-svc
+spec:
+  selector:
+    app: tu-frontend
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+      name: "tu-frontend"

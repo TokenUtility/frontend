@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: ext
+  name: tu-frontend
+spec:
+  selector:
+    matchLabels:
+      app: tu-frontend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tu-frontend
+        env: prod
+        checks: passed
+    spec:
+      serviceAccountName: wanaka-pod
+      imagePullSecrets:
+      - name: regcred
+      nodeSelector:
+        group: workernode
+      containers:
+        - name: tu-frontend
+          image: pod-image-name
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          resources:
+            limits:
+              cpu: 1
+              memory: "1Gi"
+            requests:
+              cpu: 0.5
+              memory: 500Mi
