@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const path = require("path");
-import './envConfig.js'
+require('./envConfig.js')
 
 const nextConfig = {
   output: 'standalone',
