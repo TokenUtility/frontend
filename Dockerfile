@@ -40,6 +40,5 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 USER nextjs
 
 EXPOSE ${PORT}
-ENV PORT ${NEXT_PORT}
 # backup all files in the public folder to mount volume
 ENTRYPOINT ["node", "/app/server.js"]
