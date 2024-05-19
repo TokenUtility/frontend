@@ -4,9 +4,9 @@ import { ChainId } from "../constants";
 import { NetworkConnector } from "./NetworkConnector";
 
 export const RPC_URLS: { [chainId: string]: string } = {
-  [ChainId.MAINNET]: process.env.NEXT_PUBLIC_RPC_URL_MAINNET as string,
-  [ChainId.DEVNET]: process.env.NEXT_PUBLIC_RPC_URL_DEVNET as string,
-  [ChainId.TESTNET]: process.env.NEXT_PUBLIC_RPC_URL_TESTNET as string,
+  [ChainId.MAINNET]: (process.env.NEXT_PUBLIC_RPC_URL_MAINNET || 'https://rpc.mainnet.sui.io/' ) as string,
+  [ChainId.DEVNET]: (process.env.NEXT_PUBLIC_RPC_URL_DEVNET || 'https://fullnode.devnet.sui.io/' ) as string,
+  [ChainId.TESTNET]: (process.env.NEXT_PUBLIC_RPC_URL_TESTNET || 'https://fullnode.testnet.sui.io/' ) as string
 };
 
 export const API_URLS: { [chainId: string]: string } = {
