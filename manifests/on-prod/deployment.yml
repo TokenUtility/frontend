@@ -24,9 +24,9 @@ spec:
         - name: tu-frontend
           image: pod-image-name
           imagePullPolicy: Always
-          envFrom:
-            - secretRef:
-                name: tu-frontend-credentials
+          # envFrom:
+          #   - secretRef:
+          #       name: tu-frontend-credentials
           ports:
             - containerPort: 3000
           resources:
