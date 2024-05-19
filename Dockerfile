@@ -13,12 +13,12 @@ RUN yarn install
 FROM node:${NODE_VERSION}${PLATFORM} AS builder
 WORKDIR /app
 COPY . ./
+COPY ./next.config-docker.js ./next.config.js
 
-# COPY ./next.config-docker.js ./next.config.js
 COPY --from=deps /app/node_modules ./node_modules
 ENV PATH="./node_modules/.bin:$PATH"
 
-RUN yarn buildindocker
+RUN yarn build
 
 ################## stage 3
 FROM node:${NODE_VERSION}${PLATFORM} as runner
