@@ -12,7 +12,7 @@ spec:
     metadata:
       labels:
         app: tu-frontend
-        env: prod
+        env: ext
         checks: passed
     spec:
       serviceAccountName: wanaka-pod
