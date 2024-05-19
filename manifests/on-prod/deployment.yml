@@ -15,7 +15,7 @@ spec:
         env: ext
         checks: passed
     spec:
-      serviceAccountName: wanaka-pod
+      serviceAccountName: tu-pod
       imagePullSecrets:
       - name: regcred
       nodeSelector:
