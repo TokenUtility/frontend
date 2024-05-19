@@ -15,7 +15,6 @@ export const CONTRACTS: { [chainId in ChainId]?: any } = {
 };
 
 
-console.log("process.env.NEXT_PUBLIC_ENV", process.env.NEXT_PUBLIC_ENV, process.env.NEXT_PUBLIC_API_URL_MAINNET);
 logClient("process.env.NEXT_PUBLIC_ENV", process.env.NEXT_PUBLIC_ENV);
 
 export const MULTICALL_ADDRESSES: { [chainId in ChainId]?: string } = {
