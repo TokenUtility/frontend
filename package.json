@@ -29,6 +29,7 @@
     "@mui/icons-material": "^5.14.9",
     "@mui/material": "^5.14.10",
     "@mysten/sui.js": "^0.52.0",
+    "@next/env": "^14.2.3",
     "@suiet/wallet-kit": "^0.2.24",
     "@types/node": "20.6.3",
     "@types/react": "18.2.22",
