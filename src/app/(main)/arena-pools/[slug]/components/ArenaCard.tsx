@@ -86,7 +86,7 @@ const EndTextProcess = ({raised, goal, ticker, ...props}) => {
   );
 };
 
-const Pooling = ({poolType, amount, setAmount, setPoolValue, ticker, price=0, poolData, setPoolData }) => {
+const Pooling = ({poolType, amount, setAmount, setPoolValue, poolData, setPoolData, ticker, price=0 }) => {
   const [poolSelected, setPoolSelected] = useState(0);
 
   function getTokenAmount(uAmount) {
@@ -123,10 +123,17 @@ const Pooling = ({poolType, amount, setAmount, setPoolValue, ticker, price=0, po
     setPoolSelected(index);
     setPoolValue(poolValue)
     setAmount(getTokenAmount(poolValue));
-    
+
+    let dataOfType = poolData[poolType] ?? {}
+    let updatePool = {poolValue}
+    updatePool["key_" + poolValue] = {}
+
+    let dataUpdate = {};
+    dataUpdate[poolType] = {...dataOfType, ...updatePool}
+
     setPoolData(x => ({
       ...x,
-      ...{poolValue, poolIndex: index}
+      ...dataUpdate
     }));
   }
 
@@ -139,21 +146,21 @@ const Pooling = ({poolType, amount, setAmount, setPoolValue, ticker, price=0, po
         <Box sx={{ display: "flex", gap: {sm: 1, xl: 2} }}>
           <ButtonSelectPool
             type="10"
-            joined={1}
+            joined={poolData["10"]?.joined ?? 0}
             total={poolType}
             active={poolSelected === 1}
             onClick={() => handleSelectPool(1)}
           />
           <ButtonSelectPool
             type="100"
-            joined={0}
+            joined={poolData["100"]?.joined ?? 0}
             total={poolType}
             active={poolSelected === 2}
             onClick={() => handleSelectPool(2)}
           />
           <ButtonSelectPool
             type="500"
-            joined={0}
+            joined={poolData["500"]?.joined ?? 0}
             total={poolType}
             active={poolSelected === 3}
             onClick={() => handleSelectPool(3)}
@@ -230,10 +237,7 @@ const ArenaCard = ({type, arenaPool}: ArenaCardProps) => {
   const [amount, setAmount] = useState('0');
   const [poolValue, setPoolValue] = useState('0');
   const [isDisabled, setIsDisabled] = useState('0');
-  const {poolData, setPoolData} = useState({
-    poolValue: 0, 
-    poolIndex: 0
-  });
+  const [poolData, setPoolData] = useState({});
 
   function acceptChanged(_, value) {
     setIsDisabled(!value)
@@ -241,6 +245,26 @@ const ArenaCard = ({type, arenaPool}: ArenaCardProps) => {
 
   const FIXED_PRICE = 1.03
   const priceOfToken = arenaPool?.price || FIXED_PRICE
+
+  function getStartValue() {
+    const dataOfType = poolData[type]
+    if (!dataOfType) {
+      return "0"
+    }
+    const key = "key_" + dataOfType?.poolValue
+    const poolValue = dataOfType[key];
+    console.log("getStartValue", dataOfType, key)
+    console.log("getStartValue", poolValue)
+    return "0";
+  }
+
+  function getEndValue() {
+    const dataOfType = poolData[type]
+    if (!dataOfType) {
+      return "0"
+    }
+    return "0"
+  }
 
   return (
     <Box
@@ -298,18 +322,18 @@ const ArenaCard = ({type, arenaPool}: ArenaCardProps) => {
         amount={amount} 
         setAmount={setAmount} 
         setPoolValue={setPoolValue}
-        ticker={arenaPool?.symbol} 
-        price={priceOfToken}
         poolData={poolData}
-        setPoolData={setPoolData} />
+        setPoolData={setPoolData} 
+        ticker={arenaPool?.symbol} 
+        price={priceOfToken} />
       <TypoC size="h5" sx={{ textAlign: "right", mt: 1 }}>
         Your balance: {amountFormat(fromMIST(balance as unknown as number))} SUI
       </TypoC>
       <ProgressRaised
         sx={{ mt: 2 }}
-        startValue={'10' || "0"}
-        endValue={"20"}
-        endText={<EndTextProcess raised={10} goal={20} ticker={arenaPool?.symbol} />}
+        startValue={getStartValue()}
+        endValue={getEndValue()}
+        endText={<EndTextProcess raised={getStartValue()} goal={getEndValue()} ticker={arenaPool?.symbol} />}
         startText={<StartTextProcess />}
         prefix=""
       />
