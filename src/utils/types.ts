@@ -37,4 +37,5 @@ export enum PoolType  {
 export interface ArenaCardProps {
   type: PoolType,
   arenaPool: ArenaPoolDataBackend
+  isReady: boolean
 }

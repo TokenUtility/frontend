@@ -135,7 +135,7 @@ const AreaPools = ({ params }: { params: { slug: string } }) => {
   };
   const { arenaPool, isError, isLoading } = useArenaPool(params.slug);
   const {
-    ticker,
+    symbol,
     network,
     price,
     liquidity,
@@ -215,7 +215,7 @@ const AreaPools = ({ params }: { params: { slug: string } }) => {
                       </Box>
                       <BoxInfoMarket
                         data={{
-                          ticker,
+                          ticker: symbol,
                           network,
                           price,
                           liquidity,
@@ -353,9 +353,9 @@ const AreaPools = ({ params }: { params: { slug: string } }) => {
               gap: {xs: '16px', xl: '24px'},
             }}
           >
-            <ArenaCard type={PoolType.x2} arenaPool={arenaPool} />
-            <ArenaCard type={PoolType.x10} arenaPool={arenaPool}/>
-            <ArenaCard type={PoolType.x100} arenaPool={arenaPool}/>
+            <ArenaCard type={PoolType.x2} arenaPool={arenaPool} isReady={true} />
+            <ArenaCard type={PoolType.x10} arenaPool={arenaPool} isReady={false} />
+            <ArenaCard type={PoolType.x100} arenaPool={arenaPool} isReady={false} />
           </Box>
         </CustomTabPanel>
         <CustomTabPanel
