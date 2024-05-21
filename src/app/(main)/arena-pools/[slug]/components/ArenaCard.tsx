@@ -81,7 +81,7 @@ const StartTextProcess = () => {
 const EndTextProcess = ({raised, goal, ticker, ...props}) => {
   return (
     <Box sx={{ display: "flex", alignItems: "center" }}>
-      {raised} / <span style={{ color: "rgba(0, 0, 0, 0.22)" }}>{goal} {ticker}</span>
+      {raised}/<span style={{ color: "rgba(0, 0, 0, 0.22)" }}>{goal} {ticker}</span>
     </Box>
   );
 };
@@ -98,6 +98,7 @@ const Pooling = ({poolType, amount, setAmount, setPoolValue, poolData, setPoolDa
     setAmount(event.target.value);
     setPoolSelected(0);
   }
+
   function handleSubmit(e) {
     try {
       e.preventDefault();
@@ -195,24 +196,6 @@ const Pooling = ({poolType, amount, setAmount, setPoolValue, poolData, setPoolDa
               <Typography sx={{ fontWeight: "bold", fontSize: "18px" }}>
                 {ticker}
               </Typography>
-              {/* <Button
-                size="small"
-                variant="contained"
-                disableElevation={true}
-                sx={{
-                  borderRadius: "10px",
-                  backgroundColor: "rgba(33, 193, 134, 0.19)",
-                  padding: "4px 8px",
-                  minWidth: "unset",
-                  color: "#21c186",
-                  "&:hover": {
-                    backgroundColor: "rgba(33, 193, 134, 0.30)",
-                  },
-                }}
-                onClick={onMaxAmount}
-              >
-                Max
-              </Button> */}
             </Box>
           }
           FormHelperTextProps={{ sx: { mt: 1 } }}

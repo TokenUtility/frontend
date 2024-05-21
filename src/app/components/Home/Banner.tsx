@@ -6,7 +6,7 @@ import TypoC from "@/app/components/Common/Typo";
 import Image from "next/image";
 import SUILogo from "@/assets/images/tokens/101.svg";
 import ScreenMedia from "@/app/components/Common/ScreenMedia";
-import ChainIcon from '@/app/components/Common/ChainIcon';
+import ChainIcon from "@/app/components/Common/ChainIcon";
 
 const Banner = () => {
   return (
@@ -18,41 +18,42 @@ const Banner = () => {
         position: "relative",
       }}
     >
-      <Box sx={{ padding: {xs: "36px 0 20px 36px", xl: "50px 0 24px 40px"}, width: "65%" }}>
+      <Box
+        sx={{
+          padding: { xs: "36px 0 20px 36px", xl: "50px 0 24px 40px" },
+          width: { xs: "100%", sm: "65%" },
+        }}
+      >
         <TypoC font="bold" size="h1" color="white" lineHeight={1.4}>
           Token Utility is an innovative protocol that enables utilities for all
           tokens.
         </TypoC>
-        <TypoC font="bold" size="h4" sx={{ mt: 1 }}>
-          Token holders can make at 2x, 10x, 100x fairness, transparency and
-          fully on chain
-        </TypoC>
-        <Button
-          variant="outlined"
-          color="primary"
-          size="large"
-          sx={{ maxWidth: "275px", width: "100%", mt: 2, fontSize: "18px" }}
-        >
-          Get Started
-        </Button>
-        <Box sx={{ display: "flex", alignItems: "center", mt: 3 }}>
-          <TypoC font="bold" size="h4" sx={{ mr: 2 }}>
-            Build on Sui
+        <Box sx={{ width: { xs: "60%", sm: "100%" }, display: "flex", flexDirection: "column" }}>
+          <TypoC font="bold" size="h4" sx={{ mt: 1 }}>
+            Token holders can make at 2x, 10x, 100x fairness, transparency and
+            fully on chain
           </TypoC>
-          <ChainIcon src={SUILogo} alt="sui-logo" />
+          <Button
+            variant="outlined"
+            color="primary"
+            size="large"
+            sx={{ maxWidth: "275px", width: "100%", mt: 2, fontSize: "18px", order: { xs: 1, sm: 0} }}
+          >
+            Get Started
+          </Button>
+          <Box sx={{ display: "flex", alignItems: "center", mt: 3 }}>
+            <TypoC font="bold" size="h4" sx={{ mr: 2 }}>
+              Build on Sui
+            </TypoC>
+            <ChainIcon src={SUILogo} alt="sui-logo" />
+          </Box>
         </Box>
       </Box>
       <Image
         src="/images/banner-img.png"
+        className="banner-img"
         width={0}
         height={0}
-        style={{
-          height: "95%",
-          width: "auto",
-          position: "absolute",
-          right: "10px",
-          top: 0,
-        }}
         alt="banner"
       ></Image>
     </Box>

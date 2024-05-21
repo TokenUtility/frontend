@@ -37,7 +37,7 @@ export default function Home() {
               overflow: "hidden",
             }}
           >
-            <FlowXWidget />
+            {/* <FlowXWidget /> */}
           </Box>
         </Box>
         <Box sx={{ mt: { xs: 2, lg: 6, xl: 8 } }}>

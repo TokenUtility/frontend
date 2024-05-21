@@ -19,8 +19,7 @@ interface KeyProps extends FilterOptionProps {
 }
 
 const getKey = ({ chain, pageIndex, previousPageData }: KeyProps) => {
-  const baseUrl = networkConnectors.getAPIUrl(chain);
-
+  const  baseUrl = networkConnectors.getAPIUrl(chain);
   if (!baseUrl) return null;
 
   if (pageIndex && !previousPageData?.docs) {

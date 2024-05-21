@@ -250,7 +250,6 @@ ul, li {
     margin-top: 10px;
   }
   @media screen and (min-width: 1536px) {
-    font-size: 22px;
     margin-top: 12px;
   }
   span {
@@ -261,5 +260,18 @@ ul, li {
 .share-link-input {
   .Mui-disabled {
     background-color: #f6f6f6
+  }
+}
+
+.banner-img {
+  height: 120px;
+  width: auto;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  @media screen and (min-width: 600px) {
+    height: 95%;
+    top: 0;
+    bottom: 'unset';
   }
 }

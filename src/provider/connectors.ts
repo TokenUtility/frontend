@@ -1,5 +1,4 @@
 "use client";
-import { AbstractConnector } from "@web3-react/abstract-connector";
 import { ChainId } from "../constants";
 import { NetworkConnector } from "./NetworkConnector";
 
@@ -46,18 +45,3 @@ export const chainNameById = {
   [ChainId.TESTNET.toString()]: "SUI testnet",
   [ChainId.DEVNET.toString()]: "SUI devnet",
 };
-
-export interface WalletInfo {
-  connector?: AbstractConnector;
-  name: string;
-  iconName: string;
-  description: string;
-  href: string | null;
-  color: string;
-  primary?: true;
-  mobile?: true;
-  mobileOnly?: true;
-  downloadLink?: {
-    desktop: string;
-  };
-}
