@@ -17,8 +17,8 @@ export interface ArenaPoolDataBackend {
   network?: string;
   liquidity?: string;
   marketCap?: string;
-  dayChange?: string;
-  weekChange?: string;
+  price24hChange?: string;
+  price7hChange?: string;
   totalSupply?: string;
   contract?: string;
   price: number;

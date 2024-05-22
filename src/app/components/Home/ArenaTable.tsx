@@ -21,6 +21,7 @@ import useArenaPools from "@/hooks/useArenaPools";
 import ArenaImageBox from "@/app/components/Common/ArenaImageBox";
 import { mapSymbolImageToken } from "@/configs";
 import { PoolType } from "@/utils/types";
+import { amountFormat, bnum } from "@/utils/helpers";
 
 const styleTableCellHead = {
   fontSize: { xs: "16px", lg: "16px", xl: "18px" },
@@ -148,8 +149,11 @@ const ArenaTable = () => {
                     ...styleTableCell,
                     textAlign: "center",
                   }}
+                  className={bnum(row.price24hChange).isLessThan(0) ? 'price--down' : 'price--up'}
                 >
-                  {row.dayChange || "__"}
+                  <TypoC size="h5" font="bold" >
+                    {row.price24hChange ? `${amountFormat(row.price24hChange, 2)}%` : "__"}
+                  </TypoC>
                 </TableCell>
                 <TableCell
                   sx={{
@@ -157,7 +161,9 @@ const ArenaTable = () => {
                     textAlign: "center",
                   }}
                 >
-                  {row.weekChange || "__"}
+                  <TypoC size="h5" font="bold">
+                    {row.price7dChange ? `$${row.price7dChange}` : "__"}
+                  </TypoC>
                 </TableCell>
                 <TableCell sx={styleTableCell}>
                   <Link href={`/arena-pools/${row.id}`}>
