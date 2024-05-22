@@ -33,22 +33,5 @@ export default class RootStore {
     this.notificationModalStore = new NotificationModalStore(this);
     this.appStore = new AppStore(this);
     this.userStore = new UserStore(this);
-    this.asyncSetup().catch((e) => {
-      // TODO: Add retry on these fetches
-      throw new Error("Async Setup Failed " + e);
-    });
-  }
-
-  async asyncSetup() {
-    if (typeof window !== "undefined") {
-      const windowEthereum = window.ethereum || window.BinanceChain;
-      if (!windowEthereum) {
-        await new Promise((resolve) => {
-          setTimeout(resolve, 500);
-        });
-      }
-      // Load on-chain data as soon as a provider is available
-      // await this.providerStore.loadWeb3();
-    }
   }
 }

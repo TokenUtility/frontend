@@ -59,7 +59,7 @@ export interface TokenMetadata {
   chainId?: ChainId;
 }
 export interface ProviderStatus {
-  activeChainId: number;
+  activeChainId: string;
   account: string;
   library: any;
   active: boolean;
@@ -97,7 +97,7 @@ export default class ProviderStore {
       updateChainData: action,
       setNavigator: action,
       setAccount: action,
-      // setActiveChainId: action,
+      setActiveChainId: action,
       // sendTransaction: action,
       // sendTransactionWithEstimatedGas: action,
       // handleNetworkChanged: action,
@@ -127,7 +127,7 @@ export default class ProviderStore {
     return !!this.providerStatus.account;
   }
 
-  get activeChainId(): number {
+  get activeChainId(): string {
     return this.providerStatus.activeChainId;
   }
 
@@ -158,17 +158,17 @@ export default class ProviderStore {
   }
 
   setActiveChainId = (chainId: any): void => {
-    const { blockchainFetchStore, transactionStore } = this.rootStore;
-    networkConnectors.setCurrentChainId(chainId);
-    const changedNetwork = chainId !== this.providerStatus.activeChainId;
-    this.providerStatus = Object.assign({}, this.providerStatus, {
-      activeChainId: chainId,
-    });
-    if (changedNetwork && this.providerStatus.account) {
-      // blockchainFetchStore.blockchainFetch(false);
-      // transactionStore.loadTxRecords();
-      // TODO: load subgraph
-    }
+    // const { blockchainFetchStore, transactionStore } = this.rootStore;
+    // networkConnectors.setCurrentChainId(chainId);
+    // this.providerStatus = Object.assign({}, this.providerStatus, {
+    //   activeChainId: chainId,
+    // });
+    // const changedNetwork = chainId !== this.providerStatus.activeChainId;
+    // if (changedNetwork && this.providerStatus.account) {
+    //   // blockchainFetchStore.blockchainFetch(false);
+    //   // transactionStore.loadTxRecords();
+    //   // TODO: load subgraph
+    // }
   };
 
   // account is optional
@@ -405,7 +405,7 @@ export default class ProviderStore {
       //     this.handleNetworkChanged
       //   );
       // }
-
+      console.log({provider})
       if (provider.on) {
         logClient(`[Provider] Subscribing Listeners`);
         // provider.on("chainChanged", this.handleNetworkChanged); // For now assume network/chain ids are same thing as only rare case when they don't match
@@ -442,13 +442,12 @@ export default class ProviderStore {
     */
    const {connected, chain} = wallet
 
-    if (connected) {
-      logClient(`[Provider] Loading Injected Provider`);
-      await this.loadProvider(wallet);
-    }
+    // if (connected) {
+    //   logClient(`[Provider] Loading Injected Provider`);
+    //   await this.loadProvider(wallet);
+    // }
 
     // If no injected provider or inject provider is wrong chain fall back to Infura
-
     if (
       !connected ||
       !networkConnectors.isChainIdSupported(chain.id)
@@ -484,6 +483,7 @@ export default class ProviderStore {
       }
     } else {
       logClient(`[Provider] Injected provider active.`);
+      console.log({a: wallet.chain.id})
       runInAction(() => {
         this.setActiveChainId(wallet.chain.id);
         this.providerStatus.injectedActive = true;

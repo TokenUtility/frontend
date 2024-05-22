@@ -8,7 +8,6 @@ import dynamic from "next/dynamic";
 import React, { useEffect, useRef, useState } from "react";
 import Box from "@mui/material/Box";
 import { Container } from "@mui/material";
-
 const FlowXWidget = dynamic(() => import("@/app/components/FlowxWidget"), { ssr: false });
 
 export default function Home() {
@@ -37,7 +36,7 @@ export default function Home() {
               overflow: "hidden",
             }}
           >
-            {/* <FlowXWidget /> */}
+            <FlowXWidget id="home" />
           </Box>
         </Box>
         <Box sx={{ mt: { xs: 2, lg: 6, xl: 8 } }}>

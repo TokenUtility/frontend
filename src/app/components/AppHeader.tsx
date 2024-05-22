@@ -65,7 +65,7 @@ const navItems = [
     target: "",
   },
   {
-    link: "/#revenue-sharing",
+    link: "/profile#revenue-sharing",
     text: "Revenue Sharing",
     target: "",
   },

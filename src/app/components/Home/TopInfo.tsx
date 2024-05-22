@@ -21,6 +21,7 @@ import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined
 import Image from "next/image";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import { RevenueSharingInfo } from '@/app/(main)/profile/RevenueSharing'
 
 const MockupWinners = [
   {
@@ -285,6 +286,8 @@ const TopInfo = () => {
           </Card>
         </Box>
       </Box>
+
+      <RevenueSharingInfo />
     </Box>
   );
 };

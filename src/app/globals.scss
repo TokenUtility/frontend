@@ -157,7 +157,9 @@ a {
 
 .header-position-start {
   .network-card {
-    background-color: rgb(0 0 0 / 90%);
+    border: 1px solid #ededed;
+    font-size: 14px;
+    font-weight: bold;
   }
   .account-element span {
     color: #000;

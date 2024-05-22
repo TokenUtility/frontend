@@ -112,6 +112,7 @@ const ArenaTable = () => {
                     ...styleTableCell,
                   }}
                 >
+                  <Link href={`/arena-pools/${row.cgkId}`} style={{textDecoration: 'none'}}>
                   <Box sx={{ display: "flex", alignItems: "center" }}>
                     {mapSymbolImageToken[row.symbol] ? (
                       <ChainIcon
@@ -134,6 +135,7 @@ const ArenaTable = () => {
                       {row.name || "__"}
                     </TypoC>
                   </Box>
+                  </Link>
                 </TableCell>
                 <TableCell
                   sx={{
@@ -166,7 +168,7 @@ const ArenaTable = () => {
                   </TypoC>
                 </TableCell>
                 <TableCell sx={styleTableCell}>
-                  <Link href={`/arena-pools/${row.id}`}>
+                  <Link href={`/arena-pools/${row.cgkId}`}>
                     <Button
                       variant="contained"
                       color="inherit"
@@ -180,7 +182,7 @@ const ArenaTable = () => {
                   </Link>
                 </TableCell>
                 <TableCell sx={styleTableCell}>
-                  <Link href={`/arena-pools/${row.id}`}>
+                  <Link href={`/arena-pools/${row.cgkId}`}>
                     <Button
                       variant="contained"
                       color="inherit"
@@ -194,7 +196,7 @@ const ArenaTable = () => {
                   </Link>
                 </TableCell>
                 <TableCell sx={styleTableCell}>
-                  <Link href={`/arena-pools/${row.id}`}>
+                  <Link href={`/arena-pools/${row.cgkId}`}>
                     <Button
                       variant="contained"
                       color="inherit"

@@ -19,6 +19,7 @@ import InfoIcon from "@mui/icons-material/InfoOutlined";
 import Link from "next/link";
 import { PERCENT_DISTRIBUTION } from '@/constants'
 import { ArenaCardProps }  from '@/utils/types'
+import { bnum } from '@/utils/helpers'
 
 const ButtonSelectPool = ({ type, joined, total, active, ...props }) => {
   return (
@@ -89,10 +90,6 @@ const EndTextProcess = ({raised, goal, ticker, ...props}) => {
 const Pooling = ({poolType, amount, setAmount, setPoolValue, poolData, setPoolData, ticker, price=0 }) => {
   const [poolSelected, setPoolSelected] = useState(0);
 
-  function getTokenAmount(uAmount) {
-    const tokenAmount = uAmount / price + '';
-    return parseFloat(tokenAmount).toFixed(2)
-  }
 
   function handleAmountChange(event: ChangeEvent<HTMLInputElement>) {
     setAmount(event.target.value);
@@ -123,7 +120,7 @@ const Pooling = ({poolType, amount, setAmount, setPoolValue, poolData, setPoolDa
     }
     setPoolSelected(index);
     setPoolValue(poolValue)
-    setAmount(getTokenAmount(poolValue));
+    setAmount(bnum(poolValue).dividedBy(price).toFixed(2, 2));
 
     let dataOfType = poolData[poolType] ?? {}
     let updatePool = {poolValue}
@@ -194,7 +191,7 @@ const Pooling = ({poolType, amount, setAmount, setPoolValue, poolData, setPoolDa
               }}
             >
               <Typography sx={{ fontWeight: "bold", fontSize: "18px" }}>
-                {ticker}
+                USDT
               </Typography>
             </Box>
           }
@@ -219,7 +216,7 @@ const ArenaCard = ({type, arenaPool}: ArenaCardProps) => {
   const { balance } = useAccountBalance();
   const [amount, setAmount] = useState('0');
   const [poolValue, setPoolValue] = useState('0');
-  const [isDisabled, setIsDisabled] = useState('0');
+  const [isDisabled, setIsDisabled] = useState(true);
   const [poolData, setPoolData] = useState({});
 
   function acceptChanged(_, value) {
@@ -300,17 +297,17 @@ const ArenaCard = ({type, arenaPool}: ArenaCardProps) => {
           <span style={{ color: "#7645d9" }}>X{type}</span> your token.
         </TypoC>
       </Box>
-      <Pooling 
+      <Pooling
         poolType={type}
-        amount={amount} 
-        setAmount={setAmount} 
+        amount={amount}
+        setAmount={setAmount}
         setPoolValue={setPoolValue}
         poolData={poolData}
-        setPoolData={setPoolData} 
-        ticker={arenaPool?.symbol} 
+        setPoolData={setPoolData}
+        ticker={arenaPool?.symbol}
         price={priceOfToken} />
       <TypoC size="h5" sx={{ textAlign: "right", mt: 1 }}>
-        Your balance: {amountFormat(fromMIST(balance as unknown as number))} SUI
+        Your balance: {amountFormat(fromMIST(balance as unknown as number))} {arenaPool?.symbol}
       </TypoC>
       <ProgressRaised
         sx={{ mt: 2 }}

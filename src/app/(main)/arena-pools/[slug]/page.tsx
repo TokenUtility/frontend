@@ -14,7 +14,8 @@ import dynamic from "next/dynamic";
 import { mapSymbolImageToken } from '@/configs'
 const FlowXWidget = dynamic(() => import("@/app/components/FlowxWidget"), { ssr: false });
 import { PoolType } from "@/utils/types";
-
+import { useWallet } from "@suiet/wallet-kit";
+import { amountFormat } from "@/utils/helpers";
 const TAB_LIST = ["active", "ended"];
 
 
@@ -49,10 +50,10 @@ const BoxInfoMarket = ({ data }) => {
         {liquidity}
       </InfoMarketRow>
       <InfoMarketRow title={"Marketcap"} value={marketCap}>
-        {marketCap}
+        {amountFormat(marketCap, 3)}
       </InfoMarketRow>
       <InfoMarketRow title={"TotalSupply"} value={totalSupply}>
-        {totalSupply}
+        {amountFormat(totalSupply, 3)}
       </InfoMarketRow>
     </Box>
   );
@@ -128,12 +129,14 @@ const BoxInfoLink = ({ data }) => {
 };
 
 const AreaPools = ({ params }: { params: { slug: string } }) => {
+  const wallet = useWallet();
+  const { chain } = wallet;
   const [value, setValue] = React.useState(0);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
     // window.history.replaceState(null, "", `/arena-pools#${TAB_LIST[newValue]}`);
   };
-  const { arenaPool, isError, isLoading } = useArenaPool(params.slug);
+  const { arenaPool, isError, isLoading } = useArenaPool(params.slug, chain.id);
   const {
     symbol,
     network,
@@ -287,7 +290,7 @@ const AreaPools = ({ params }: { params: { slug: string } }) => {
               overflow: "hidden",
             }}
           >
-            <FlowXWidget />
+            <FlowXWidget id="detail" />
           </Box>
           </Box>
         )}

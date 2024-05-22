@@ -10,8 +10,8 @@ import { observer } from "mobx-react";
 import { useStores } from "@/contexts/storesContext";
 import PreLoader from "@/app/components/PreLoader";
 import styled from "@emotion/styled";
-import {WalletProvider} from '@suiet/wallet-kit';
-import '@suiet/wallet-kit/style.css';
+import { WalletProvider, SuietWallet, SuiWallet } from "@suiet/wallet-kit";
+import "@suiet/wallet-kit/style.css";
 
 const Web3ReactManager = dynamic(
   () => {
@@ -49,11 +49,10 @@ const AppProviders = observer(({ children }) => {
     }
   }, []);
 
-
   return (
-      <WalletProvider>
+    <WalletProvider defaultWallets={[SuietWallet,SuiWallet]}>
       <MessageWrapper
-        hidden={!showLoader &&  providerStore.providerStatus.active }
+        hidden={!showLoader && providerStore.providerStatus.active}
       >
         <PreLoader />
       </MessageWrapper>
@@ -86,7 +85,7 @@ const AppProviders = observer(({ children }) => {
           {children}
         </ApolloProvider>
       </SWRConfig>
-      </WalletProvider>
+    </WalletProvider>
   );
 });
 

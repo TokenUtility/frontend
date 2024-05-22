@@ -12,6 +12,7 @@ import SignalCellularAltIcon from "@mui/icons-material/SignalCellularAlt";
 import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
 import {ConnectButton, useWallet, addressEllipsis} from '@suiet/wallet-kit';
 import { useAccountBalance } from '@suiet/wallet-kit';
+import { isMobile } from "react-device-detect";
 
 export const YellowCard = styled.div`
   background-color: rgba(243, 132, 30, 0.05);
@@ -98,13 +99,11 @@ const StyledBalance = styled.div`
   color: rgba(0,0,0,0.87)
 `;
 
-// const NETWORK_LABELS: { [chainId in ChainId]: string | null } = {
-//   [ChainId.MAINNET]: null,
-//   [ChainId.ETH_MAINNET]: null,
-//   [ChainId.CHAPEL]: "Testnet",
-//   [ChainId.VICTION_TESTNET]: "Viction",
-//   [ChainId.SEPOLIA]: "Sepolia",
-// };
+const NETWORK_LABELS: { [chainId in ChainId]: string | null } = {
+  [ChainId.MAINNET]: null,
+  [ChainId.DEVNET]: "Devnet",
+  [ChainId.TESTNET]: "Testnet",
+};
 
 const Wallet = observer(() => {
   const {
@@ -121,11 +120,11 @@ const Wallet = observer(() => {
   const { balance } = useAccountBalance();
   const { connected, address } = useWallet()
 
-  if (!activeChainId && active) {
-    // throw new Error(`No chain ID specified ${activeChainId}`);
-    console.error(`No chain ID specified ${activeChainId}`);
-    return null;
-  }
+  // if (!activeChainId && active) {
+  //   // throw new Error(`No chain ID specified ${activeChainId}`);
+  //   console.error(`No chain ID specified ${activeChainId}`);
+  //   return null;
+  // }
 
   function getWalletDetails() {
     // Wrong network
@@ -139,14 +138,13 @@ const Wallet = observer(() => {
     } else if (connected) {
       return (
         <React.Fragment>
-          {/* {!isMobile && activeChainId && NETWORK_LABELS[activeChainId] && (
+          {!isMobile && activeChainId && NETWORK_LABELS[activeChainId] && (
             <TestnetWrapper>
               <NetworkCard className="network-card">
                 {NETWORK_LABELS[activeChainId]}
               </NetworkCard>
             </TestnetWrapper>
-          )} */}
-
+          )}
           <AccountElement
             active={!!address}
             style={{ pointerEvents: "auto" }}
@@ -156,13 +154,6 @@ const Wallet = observer(() => {
               {amountFormat(fromMIST(balance as unknown as number))} SUI
             </StyledBalance>
             <WalletButton>
-              {/* <Image
-                src="/images/wallet/metamask.png"
-                alt="metamask"
-                height={25}
-                width={0}
-                style={{ marginRight: "8px", width: "auto" }}
-              ></Image> */}
               <span>{addressEllipsis(address)}</span>
             </WalletButton>
           </AccountElement>

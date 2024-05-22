@@ -1,7 +1,7 @@
 import "./globals.scss";
 import type { Metadata } from "next";
 import ThemeProvider from "@/app/components/ThemeProvider";
-// import Script from "next/script";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title:
@@ -55,6 +55,10 @@ export default function RootLayout({
         });
     `}
       </Script> */}
+      <Script
+        strategy="afterInteractive"
+        src="https://cdn.flowx.finance/swap-widget/0.0.8/main.js"
+      ></Script>
       <body>
         <ThemeProvider>{children}</ThemeProvider>
       </body>

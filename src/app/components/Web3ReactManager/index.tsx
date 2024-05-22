@@ -17,9 +17,9 @@ const Web3Manager = observer(() => {
   // Load on-chain data as soon as a provider is available
   useEffect(() => {
     providerStore.loadWeb3(wallet);
+    console.log({wallet: wallet})
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
   // const { active, account, library, connector } = useWallet();
   // const {
   //   active: networkActive,
