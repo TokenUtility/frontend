@@ -1,6 +1,5 @@
 "use client";
 import { ChainId } from "../constants";
-import { NetworkConnector } from "./NetworkConnector";
 
 export const RPC_URLS: { [chainId: string]: string } = {
   [ChainId.MAINNET]: (process.env.NEXT_PUBLIC_RPC_URL_MAINNET || 'https://rpc.mainnet.sui.io/' ) as string,
@@ -29,10 +28,6 @@ export const SEARCH_INDEX: { [chainId: string]: string } = {
 export const NETWORK_CHAIN_ID: number = parseInt(
   process.env.NEXT_PUBLIC_SUPPORTED_NETWORK_ID ?? "sui:mainnet"
 );
-
-export const network = new NetworkConnector({
-  urls: { [NETWORK_CHAIN_ID]: RPC_URLS[ChainId.MAINNET] },
-});
 
 export const SUPPORTED_CHAINS = [
   ChainId.MAINNET,
