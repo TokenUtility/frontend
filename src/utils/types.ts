@@ -7,6 +7,7 @@ export interface TabPanelProps {
 
 export interface ArenaPoolDataBackend {
   id: string;
+  cgkId: string;
   symbol: string;
   name: string;
   decimals: 9;
@@ -18,7 +19,7 @@ export interface ArenaPoolDataBackend {
   liquidity?: string;
   marketCap?: string;
   price24hChange?: string;
-  price7hChange?: string;
+  price7dChange?: string;
   totalSupply?: string;
   contract?: string;
   price: number;

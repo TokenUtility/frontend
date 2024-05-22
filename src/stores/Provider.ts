@@ -59,7 +59,7 @@ export interface TokenMetadata {
   chainId?: ChainId;
 }
 export interface ProviderStatus {
-  activeChainId: string;
+  activeChainId: ChainId;
   account: string;
   library: any;
   active: boolean;

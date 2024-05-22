@@ -340,7 +340,7 @@ const ArenaCard = ({type, arenaPool}: ArenaCardProps) => {
         </Box>
       </Box>
       <Box sx={{ mt: 2, color: "#6f6f70", fontWeight: 'bold' }}>
-        <Checkbox disabled={!(amount > 0)} onChange={acceptChanged} /> I have read and accept the{" "}
+        <Checkbox disabled={bnum(amount).isGreaterThan(0)} onChange={acceptChanged} /> I have read and accept the{" "}
         <Link href="#">Term of Service</Link>
       </Box>
       <Button
