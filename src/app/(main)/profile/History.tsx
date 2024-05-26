@@ -13,10 +13,10 @@ import Image from "next/image";
 import ChainIcon from "@/app/components/Common/ChainIcon";
 import TypoC from "@/app/components/Common/Typo";
 import ArenaActiveItem from "./components/ArenaActiveItem";
-import HistoryTable from './components/HistoryTable'
+import HistoryTable from "./components/HistoryTable";
 
 const History = () => {
-  const [historyType, setHistoryType] = React.useState('1');
+  const [historyType, setHistoryType] = React.useState("1");
   const handleHistoryType = (event: SelectChangeEvent) => {
     setHistoryType(event.target.value);
   };

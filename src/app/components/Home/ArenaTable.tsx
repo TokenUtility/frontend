@@ -64,7 +64,7 @@ const ArenaTable = () => {
             <TableCell sx={styleTableCellHead}>Tokens</TableCell>
             <TableCell sx={styleTableCellHead}>Price</TableCell>
             <TableCell sx={styleTableCellHead}>24h Change</TableCell>
-            <TableCell sx={styleTableCellHead}>7D Change</TableCell>
+            {/* <TableCell sx={styleTableCellHead}>7D Change</TableCell> */}
             <TableCell sx={styleTableCellHead}>
               <ArenaImageBox type={PoolType.x2} sizeImage={76}>
                 Arena Pool
@@ -112,29 +112,32 @@ const ArenaTable = () => {
                     ...styleTableCell,
                   }}
                 >
-                  <Link href={`/arena-pools/${row.cgkId}`} style={{textDecoration: 'none'}}>
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
-                    {mapSymbolImageToken[row.symbol] ? (
-                      <ChainIcon
-                        src={mapSymbolImageToken[row.symbol]}
-                        alt="sui-logo"
-                        size={45}
-                      />
-                    ) : (
-                      <Box
-                        sx={{
-                          background: "#eee",
-                          width: "38px",
-                          height: "38px",
-                          borderRadius: "9999px",
-                        }}
-                      ></Box>
-                    )}
+                  <Link
+                    href={`/arena-pools/${row.cgkId}`}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      {mapSymbolImageToken[row.symbol] ? (
+                        <ChainIcon
+                          src={mapSymbolImageToken[row.symbol]}
+                          alt="sui-logo"
+                          size={45}
+                        />
+                      ) : (
+                        <Box
+                          sx={{
+                            background: "#eee",
+                            width: "38px",
+                            height: "38px",
+                            borderRadius: "9999px",
+                          }}
+                        ></Box>
+                      )}
 
-                    <TypoC size="h5" font="bold" sx={{ ml: 1.5 }}>
-                      {row.name || "__"}
-                    </TypoC>
-                  </Box>
+                      <TypoC size="h5" font="bold" sx={{ ml: 1.5 }}>
+                        {row.name || "__"}
+                      </TypoC>
+                    </Box>
                   </Link>
                 </TableCell>
                 <TableCell
@@ -151,13 +154,19 @@ const ArenaTable = () => {
                     ...styleTableCell,
                     textAlign: "center",
                   }}
-                  className={bnum(row.price24hChange).isLessThan(0) ? 'price--down' : 'price--up'}
+                  className={
+                    bnum(row.price24hChange).isLessThan(0)
+                      ? "price--down"
+                      : "price--up"
+                  }
                 >
-                  <TypoC size="h5" font="bold" >
-                    {row.price24hChange ? `${amountFormat(row.price24hChange, 2)}%` : "__"}
+                  <TypoC size="h5" font="bold">
+                    {row.price24hChange
+                      ? `${amountFormat(row.price24hChange, 2)}%`
+                      : "__"}
                   </TypoC>
                 </TableCell>
-                <TableCell
+                {/* <TableCell
                   sx={{
                     ...styleTableCell,
                     textAlign: "center",
@@ -166,7 +175,7 @@ const ArenaTable = () => {
                   <TypoC size="h5" font="bold">
                     {row.price7dChange ? `$${row.price7dChange}` : "__"}
                   </TypoC>
-                </TableCell>
+                </TableCell> */}
                 <TableCell sx={styleTableCell}>
                   <Link href={`/arena-pools/${row.cgkId}`}>
                     <Button

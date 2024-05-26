@@ -145,7 +145,7 @@ export default class TokenStore {
 
   getBalance: (
     tokenAddressParam: string,
-    accountParam?: string
+    accountParam?: string,
   ) => BigNumber | undefined = computedFn((tokenAddressParam, accountParam) => {
     const chainBalances = this.balances;
     const tokenAddress = toChecksum(tokenAddressParam);
@@ -167,7 +167,7 @@ export default class TokenStore {
 
   getAccountBalances: (
     tokens: TokenMetadata[],
-    account: string
+    account: string,
   ) => BigNumberMap = computedFn((tokens, account) => {
     const userBalances = this.balances;
     if (!userBalances) {
@@ -186,7 +186,7 @@ export default class TokenStore {
   isAllowanceFetched: (
     tokenAddress: string,
     owner: string,
-    spender: string
+    spender: string,
   ) => boolean = computedFn((tokenAddress, owner, spender) => {
     const chainApprovals = this.allowances;
     return (
@@ -200,7 +200,7 @@ export default class TokenStore {
     tokenAddress: string,
     owner: string,
     spender: string,
-    blockNumber: number
+    blockNumber: number,
   ) => boolean = computedFn((tokenAddress, owner, spender, blockNumber) => {
     const chainApprovals = this.allowances;
     return (
@@ -214,13 +214,13 @@ export default class TokenStore {
       return (
         !!chainBalances[tokenAddress] && !!chainBalances[tokenAddress][account]
       );
-    }
+    },
   );
 
   isBalanceStale: (
     tokenAddress: string,
     account: string,
-    blockNumber: number
+    blockNumber: number,
   ) => boolean = computedFn((tokenAddress, account, blockNumber) => {
     const chainBalances = this.balances;
     return chainBalances[tokenAddress][account].lastFetched < blockNumber;
@@ -239,7 +239,7 @@ export default class TokenStore {
     owner: string,
     spenderParam: string,
     approvals: BigNumber[],
-    fetchBlock: number
+    fetchBlock: number,
   ) {
     const chainApprovals = this.allowances;
     const spender = spenderParam?.toLowerCase();
@@ -278,7 +278,7 @@ export default class TokenStore {
     balances: BigNumber[],
     account: string,
     fetchBlock: number,
-    forceUpdate?: boolean
+    forceUpdate?: boolean,
   ) {
     const fetchedBalances: TokenBalanceMap = {};
 
@@ -631,7 +631,7 @@ export default class TokenStore {
   getAllowance = (
     tokenAddressParam: string,
     account: string,
-    spenderParam: string
+    spenderParam: string,
   ): BigNumber | undefined => {
     const chainApprovals = this.allowances;
     if (chainApprovals) {

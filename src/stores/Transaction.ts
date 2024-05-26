@@ -89,7 +89,7 @@ export default class TransactionStore {
   addTransactionRecord(
     account: string,
     txResponse: TransactionResponse,
-    summary?: string
+    summary?: string,
   ) {
     const record: TransactionRecord = {
       hash: txResponse.hash,
@@ -167,7 +167,7 @@ export default class TransactionStore {
           "liquid_tx_records",
           JSON.stringify({
             "1": this.txRecords,
-          })
+          }),
         );
         return;
       }
@@ -176,8 +176,8 @@ export default class TransactionStore {
         JSON.stringify(
           Object.assign({}, records, {
             [activeChainId]: this.txRecords,
-          })
-        )
+          }),
+        ),
       );
     } catch (e) {}
   }
@@ -218,7 +218,7 @@ export default class TransactionStore {
     if (checksum && this.txRecords[checksum]) {
       const records = this.txRecords[checksum];
       const finder = records.find(
-        (r) => r.hash?.toLowerCase() === txId?.toLowerCase()
+        (r) => r.hash?.toLowerCase() === txId?.toLowerCase(),
       );
       return !this.isTxPending(finder);
     }

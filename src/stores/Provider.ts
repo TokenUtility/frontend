@@ -159,49 +159,15 @@ export default class ProviderStore {
 
   setActiveChainId = (chainId: any): void => {
     // const { blockchainFetchStore, transactionStore } = this.rootStore;
-    // networkConnectors.setCurrentChainId(chainId);
-    // this.providerStatus = Object.assign({}, this.providerStatus, {
-    //   activeChainId: chainId,
-    // });
-    // const changedNetwork = chainId !== this.providerStatus.activeChainId;
-    // if (changedNetwork && this.providerStatus.account) {
-    //   // blockchainFetchStore.blockchainFetch(false);
-    //   // transactionStore.loadTxRecords();
-    //   // TODO: load subgraph
-    // }
+    networkConnectors.setCurrentChainId(chainId);
+    this.providerStatus.activeChainId = chainId
+    const changedNetwork = chainId !== this.providerStatus.activeChainId;
+    if (changedNetwork && this.providerStatus.account) {
+      // blockchainFetchStore.blockchainFetch(false);
+      // transactionStore.loadTxRecords();
+      // TODO: load subgraph
+    }
   };
-
-  // account is optional
-  // getProviderOrSigner(library: any, account: string) {
-  //   console.debug("[getProviderOrSigner", {
-  //     library,
-  //     account,
-  //     signer: library.getSigner(account),
-  //   });
-
-  //   return account
-  //     ? new UncheckedJsonRpcSigner(library.getSigner(account))
-  //     : library;
-  // }
-
-  // getSigner() {
-  //   return this.getProviderOrSigner(
-  //     this.providerStatus.library,
-  //     this.providerStatus.account
-  //   );
-  // }
-
-  // getWeb3Provider(): Web3Provider | undefined {
-  //   if (this.providerStatus.activeProvider) {
-  //     const web3Provider = new Web3Provider(
-  //       this.providerStatus.activeProvider,
-  //       "any"
-  //     );
-  //     web3Provider.pollingInterval = 15000;
-  //     return web3Provider;
-  //   }
-  //   return undefined;
-  // }
 
   // sendTransaction = async (
   //   contractType: ContractTypes,
@@ -361,12 +327,12 @@ export default class ProviderStore {
   //   }
   // };
 
-  handleAccountsChanged = (params: { account: {address: string} }): void => {
-    const account = params.account.address
+  handleAccountsChanged = (params: { account: { address: string } }): void => {
+    const account = params.account.address;
     const { userStore, notificationStore } = this.rootStore;
     logClient(`[Provider] Accounts changed`);
     if (!account) {
-      this.setAccount('');
+      this.setAccount("");
     } else {
       const { blockchainFetchStore } = this.rootStore;
       this.setAccount(account);
@@ -375,7 +341,7 @@ export default class ProviderStore {
     if (userStore?.profile?.address) {
       userStore.handleLogout();
       notificationStore.showErrorNotification(
-        "You have changed account, please login again"
+        "You have changed account, please login again",
       );
     }
   };
@@ -405,10 +371,10 @@ export default class ProviderStore {
       //     this.handleNetworkChanged
       //   );
       // }
-      console.log({provider})
+      console.log({ provider });
       if (provider.on) {
         logClient(`[Provider] Subscribing Listeners`);
-        // provider.on("chainChanged", this.handleNetworkChanged); // For now assume network/chain ids are same thing as only rare case when they don't match
+        provider.on("chainChanged", () => {console.log('chainChanged')}); // For now assume network/chain ids are same thing as only rare case when they don't match
         provider.on("accountChange", this.handleAccountsChanged);
         // provider.on("disconnect", this.handleClose);
       }
@@ -416,7 +382,7 @@ export default class ProviderStore {
       runInAction(() => {
         this.providerStatus.injectedLoaded = true;
         this.providerStatus.active = true;
-        this.providerStatus.injectedChainId = provider.chain.id
+        this.providerStatus.injectedChainId = provider.chain.id;
         this.providerStatus.activeProvider = provider;
         this.setAccount(provider.address);
       });
@@ -435,55 +401,33 @@ export default class ProviderStore {
   };
 
   async loadWeb3(wallet) {
-    /*
-    Handles loading web3 provider.
-    Injected web3 loaded and active if chain Id matches.
-    Backup web3 loaded and active if no injected or injected chain Id not correct.
-    */
-   const {connected, chain} = wallet
+    const { connected, chain } = wallet;
 
-    // if (connected) {
-    //   logClient(`[Provider] Loading Injected Provider`);
-    //   await this.loadProvider(wallet);
-    // }
+    if (connected) {
+      logClient(`[Provider] Loading Injected Provider`);
+      await this.loadProvider(wallet);
+    }
 
     // If no injected provider or inject provider is wrong chain fall back to Infura
-    if (
-      !connected ||
-      !networkConnectors.isChainIdSupported(chain.id)
-    ) {
-      logClient(
-        `[Provider] Reverting To Backup Provider.`,
-        this.providerStatus
-      );
-      try {
-        runInAction(() => {
-          this.providerStatus.injectedActive = false;
-          this.providerStatus.backUpLoaded = true;
-          this.setActiveChainId(wallet.chain.id);
-          this.setAccount("");
-          this.providerStatus.activeProvider = "backup";
-        });
+    if (!connected || !networkConnectors.isChainIdSupported(chain.id)) {
+      // logClient(
+      //   `[Provider] Reverting To Backup Provider.`,
+      //   this.providerStatus,
+      // );
+      // try {
+      //   runInAction(() => {
+      //     this.providerStatus.injectedActive = false;
+      //     this.providerStatus.backUpLoaded = true;
+      //     this.setActiveChainId(wallet.chain.id);
+      //     this.setAccount("");
+      //     this.providerStatus.activeProvider = "backup";
+      //   });
 
-        logClient(`[Provider] BackUp Provider Loaded & Active`);
-      } catch (err) {
-        console.error(`[Provider] loadWeb3 BackUp Error`, err);
-        runInAction(() => {
-          this.providerStatus.injectedActive = false;
-          this.providerStatus.backUpLoaded = false;
-          this.setActiveChainId(-1);
-          this.setAccount("");
-          this.providerStatus.backUpWeb3 = null;
-          this.providerStatus.active = true; // false;
-          this.providerStatus.error = new Error(ERRORS.NoWeb3);
-          this.providerStatus.activeProvider = null;
-        });
-
-        return;
-      }
+      //   logClient(`[Provider] BackUp Provider Loaded & Active`);
+      // } catch (err) {}
     } else {
       logClient(`[Provider] Injected provider active.`);
-      console.log({a: wallet.chain.id})
+      console.log({ a: wallet.chain.id });
       runInAction(() => {
         this.setActiveChainId(wallet.chain.id);
         this.providerStatus.injectedActive = true;
@@ -501,120 +445,14 @@ export default class ProviderStore {
     return schema[type];
   };
 
-  /**
-   * for ethers v4
-   */
-  // getContract(
-  //   type: ContractTypes | any[],
-  //   address: string,
-  //   signerAccount?: string
-  // ): ethers.Contract | undefined {
-  //   if (!address) {
-  //     return undefined;
-  //   }
-  //   const { library } = this.providerStatus;
-  //   const abi = Array.isArray(type) ? type : schema[type];
-  //   if (signerAccount) {
-  //     return new ethers.Contract(
-  //       address,
-  //       abi,
-  //       this.getProviderOrSigner(library, signerAccount)
-  //     );
-  //   }
-
-  //   return new ethers.Contract(address, abi, library);
-  // }
-  //
-  /**
-   * for ethers v5
-   */
-  // getContract(
-  //   type: ContractTypes | any[],
-  //   address: string,
-  //   signerAccount?: string
-  // ): EthersProjectContract {
-  //   const { web3Provider } = this.providerStatus;
-  //   const abi = Array.isArray(type) ? type : schema[type];
-
-  //   const providerOrSigner = signerAccount
-  //     ? web3Provider.getSigner(signerAccount).connectUnchecked()
-  //     : web3Provider;
-
-  //   return new EthersProjectContract(address, abi, providerOrSigner as any);
-  // }
-
-  // estimateSafeGas = (
-  //   type: ContractTypes | any[],
-  //   contractAddress: string,
-  //   method: string,
-  //   args: any[],
-  //   overrides?: any
-  // ): Promise<{ gas?: EtherBigNumber; error?: Error }> | undefined => {
-  //   logClient(`[@estimate: ${method}]`, contractAddress, args, overrides);
-  //   const { account } = this.providerStatus;
-  //   const contract = this.getContract(type, contractAddress, account);
-  //   if (!contract.estimateGas[method]) {
-  //     return undefined;
-  //   }
-  //   return contract.estimateGas[method](...args, overrides || {})
-  //     .then((gas) => {
-  //       return { gas: calculateGasMargin(gas.toString()) };
-  //     })
-  //     .catch((error) => {
-  //       if (!contract.callStatic) {
-  //         console.debug(
-  //           `estimateGas failed`,
-  //           contractAddress,
-  //           method,
-  //           args,
-  //           error
-  //         );
-  //         return { error };
-  //       }
-  //       console.debug(
-  //         "Gas estimate failed, trying eth_call to extract error",
-  //         contractAddress,
-  //         method,
-  //         args,
-  //         `value: ${overrides?.value?.toString()}`
-  //       );
-
-  //       return contract.callStatic[method](...args, overrides || {})
-  //         .then((result) => {
-  //           console.debug(
-  //             "Unexpected successful call after failed estimate gas",
-  //             error,
-  //             result
-  //           );
-  //           return {
-  //             error: new Error(
-  //               "Unexpected issue with estimating the gas. Please try again."
-  //             ),
-  //           };
-  //         })
-  //         .catch((callError) => {
-  //           console.error(
-  //             "Call threw error",
-  //             contractAddress,
-  //             method,
-  //             args,
-  //             callError
-  //           );
-  //           const errorReason =
-  //             callError.reason || callError.data?.message || callError.message;
-  //           // Sentry.captureException(errorReason);
-  //           return { error: errorReason };
-  //         });
-  //     });
-  // };
-
   getContractMetaData = () => {
     // const contracts = networkConnectors.getContracts(
     //   this.providerStatus.activeChainId
     // );
-    const multiCall = networkConnectors.getMultiAddress(
+    const multiCall = networkConnectors
+      .getMultiAddress
       // this.providerStatus.activeChainId
-    );
+      ();
     const { tokens: _tokens } = networkConnectors.getAssets();
     const tokens = { ...(_tokens || {}) };
 

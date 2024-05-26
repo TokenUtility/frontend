@@ -6,7 +6,7 @@ import { useStores } from "@/contexts/storesContext";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import { useSearchParams, redirect } from "next/navigation";
-import { getCookie } from "@/utils/helpers";;
+import { getCookie } from "@/utils/helpers";
 
 const Login = observer(() => {
   const {
@@ -15,7 +15,7 @@ const Login = observer(() => {
   const [loading, setLoading] = useState<boolean>(false);
   const [loginText, setLoginText] = useState<string>("Connect wallet");
   const { providerStatus } = providerStore;
-  // const { handleLoginWallet } = userStore;
+  const { handleLoginWallet } = userStore;
 
   const searchParams = useSearchParams();
   const from = searchParams.get("from");
@@ -37,12 +37,7 @@ const Login = observer(() => {
     if (providerStatus.account && userStore.profile.address && accessToken) {
       redirect(from || "/");
     }
-  }, [
-    providerStatus.account,
-    userStore.profile.address,
-    from,
-    accessToken,
-  ]);
+  }, [providerStatus.account, userStore.profile.address, from, accessToken]);
 
   const toggleWalletDropdown = async () => {
     dropdownStore.toggleWalletDropdown();
@@ -59,11 +54,11 @@ const Login = observer(() => {
   async function loginWithWallet() {
     if (providerStatus.account) {
       setLoading(true);
-      // handleLoginWallet()
-      //   .catch(() => {})
-      //   .finally(() => {
-      //     setLoading(false);
-      //   });
+      handleLoginWallet()
+        .catch(() => {})
+        .finally(() => {
+          setLoading(false);
+        });
     } else {
       toggleWalletDropdown();
     }

@@ -124,7 +124,12 @@ const MenuNetwork = observer(() => {
         }}
       >
         <Box sx={{ display: "flex", alignItems: "center", fontSize: "14px" }}>
-          <Image src={getNetworkConfigs()?.icon} height="32" width="32" alt="" />
+          <Image
+            src={getNetworkConfigs()?.icon}
+            height="32"
+            width="32"
+            alt=""
+          />
           {/* &nbsp;
           {getNetworkConfigs(activeChainId).name} */}
         </Box>

@@ -9,7 +9,7 @@ export const setupNetwork = async () => {
     // const chainId = parseInt(process.env.NEXT_PUBLIC_CHAIN_ID, 10);
     const chainId = parseInt(
       isDevEnv() ? ChainId.TESTNET?.toString() : ChainId.MAINNET?.toString(),
-      10
+      10,
     );
     try {
       await provider.request({
@@ -35,7 +35,7 @@ export const setupNetwork = async () => {
     }
   } else {
     console.error(
-      "Can't setup the BSC network on metamask because window.ethereum is undefined"
+      "Can't setup the BSC network on metamask because window.ethereum is undefined",
     );
     return false;
   }

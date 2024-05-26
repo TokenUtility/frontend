@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import * as React from "react";
 import ArenaActiveItem from "./components/ArenaActiveItem";
-import FilterTokenPool from './components/FilterTokenPool';
+import FilterTokenPool from "./components/FilterTokenPool";
 
 const ActiveArena = () => {
   return (
@@ -12,9 +12,13 @@ const ActiveArena = () => {
       <Box
         sx={{
           display: "grid",
-          gridTemplateColumns: { xs: '1fr', lg: '1fr 1fr 1fr', xl: '1fr 1fr 1fr 1fr' },
+          gridTemplateColumns: {
+            xs: "1fr",
+            lg: "1fr 1fr 1fr",
+            xl: "1fr 1fr 1fr 1fr",
+          },
           gap: { xs: 2, lg: 3.5 },
-          mt: 3
+          mt: 3,
         }}
       >
         <ArenaActiveItem />

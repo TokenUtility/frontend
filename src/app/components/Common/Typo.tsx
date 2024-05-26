@@ -7,9 +7,9 @@ const TypographyStyle = styled(Typography)(({ theme }) => ({
   "& b": {
     color: "#000",
   },
-  ".color-primary" :{
-    color: "#7645d9"
-  }
+  ".color-primary": {
+    color: "#7645d9",
+  },
 }));
 
 interface TypoProps {

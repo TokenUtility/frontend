@@ -5,18 +5,18 @@ import { fetcher } from "@/configs/fetcher";
 
 const useArenaPool = (
   id: string,
-  chain: any
+  chain: any,
 ): {
   arenaPool: ArenaPoolDataBackend;
   isLoading: boolean;
   isError: any;
 } => {
-  const baseUrl = networkConnectors.getAPIUrl(chain);
+  const baseUrl = networkConnectors.getAPICmsUrl(chain);
 
   const { data, error, isLoading } = useSWR(
     id && baseUrl ? baseUrl + `/tokens/?where[cgkId][equals]=${id}` : null,
     fetcher,
-    { }
+    {},
   );
 
   return {

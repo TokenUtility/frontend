@@ -39,7 +39,7 @@ export function shortenAddress(address: string, chars = 4): string {
 export function getEtherscanLink(
   chainId: ChainId | undefined | number,
   data: string | number,
-  type: "transaction" | "token" | "address" | "block" = "address"
+  type: "transaction" | "token" | "address" | "block" = "address",
 ): string {
   const cid = chainId ?? networkConnectors.getCurrentChainId();
   const network = getNetworkConfigs(cid);
@@ -80,7 +80,7 @@ export function escapeRegExp(string: string): string {
 
 // add 10%
 export function calculateGasMargin(
-  _value: string | EtherBigNumber
+  _value: string | EtherBigNumber,
 ): EtherBigNumber {
   let value = _value;
   if (typeof value === "string") {
@@ -107,7 +107,6 @@ export function logClient(...props) {
   }
 }
 
-
 export function formatTimeBackend(time, formatType = "DD MMM YYYY") {
   if (!time) {
     return false;
@@ -133,7 +132,7 @@ export function isCampaignNotStart(startTime) {
 export function parseTimeToText(
   expiryDate,
   createDate,
-  formatType = "YYYY/MM/DD"
+  formatType = "YYYY/MM/DD",
 ) {
   if (!expiryDate || !createDate) {
     return "__";

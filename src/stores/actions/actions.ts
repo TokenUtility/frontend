@@ -46,7 +46,7 @@ const postLog = (result: ActionResponse) => {
 };
 
 export const sendAction = async (
-  params: ActionRequest
+  params: ActionRequest,
 ): Promise<ActionResponse> => {
   const { contract, action, sender, data, overrides } = params;
   preLog(params);
@@ -67,7 +67,7 @@ export const sendAction = async (
       // Gas estimation
       const gasLimitNumber = await contract.estimateGas[action](
         ...data,
-        overrides
+        overrides,
       ).catch((e) => {
         if (networkConnectors.getCurrentChainId() !== ChainId.MAINNET) {
           error = e;

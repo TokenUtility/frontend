@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import * as React from "react";
 import WinAreaItem from "./components/WinAreaItem";
-import FilterTokenPool from './components/FilterTokenPool'
+import FilterTokenPool from "./components/FilterTokenPool";
 
 const WinnerArena = () => {
   return (

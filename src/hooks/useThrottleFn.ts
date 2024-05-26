@@ -3,7 +3,7 @@ import { throttle } from "lodash";
 
 export const useThrottleFn = <T extends (...args: any) => any>(
   fn: T,
-  ms = 1000
+  ms = 1000,
 ) => {
   const throttledFn = useMemo(() => {
     return throttle(fn, ms);

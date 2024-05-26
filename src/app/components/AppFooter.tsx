@@ -19,7 +19,7 @@ export default function ColorInversionFooter() {
           className="footer-app"
           sx={{
             display: "flex",
-            justifyContent: 'flex-end',
+            justifyContent: "flex-end",
             gap: 2,
             maxWidth: "768px",
             ml: "auto",

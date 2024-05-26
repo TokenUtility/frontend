@@ -39,7 +39,7 @@ const Wallet = dynamic(
   () => {
     return import("@/app/components/Wallet");
   },
-  { ssr: false }
+  { ssr: false },
 );
 
 const ButtonLink = styled(Button)(({ theme }) => ({
@@ -55,12 +55,12 @@ const ButtonLink = styled(Button)(({ theme }) => ({
   },
   "&.active": {
     borderColor: "#7645d9",
-  }
+  },
 }));
 
 const navItems = [
   {
-    link: "/#arena-pools",
+    link: "/arena-pools",
     text: "Arena Pools",
     target: "",
   },
@@ -227,9 +227,7 @@ const MenuMobile = observer(() => {
             <Box sx={{ p: 2 }}>
               <List>
                 {navItems.map((item) => (
-                  <ListItem
-                    key={item.link}
-                  >
+                  <ListItem key={item.link}>
                     <Link
                       href={item.link}
                       style={{
@@ -417,7 +415,7 @@ const DrawerAppBar = observer(() => {
   const pathname = usePathname();
   const isPageHome = pathname === "/";
   const [headerPositionStart, setHeaderScrolled] = useState(
-    isPageHome ? true : false
+    isPageHome ? true : false,
   );
 
   // const smAndUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"));
@@ -467,19 +465,20 @@ const DrawerAppBar = observer(() => {
   // }, [providerStore.providerStatus.injectedActive]);
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex",  }}>
       <AppBar
         component="nav"
         sx={{
-          backgroundColor: '#fff',
+          backgroundColor: "#fff",
           transitionDuration: "200ms",
+          boxShadow: '0px 3px 10px rgba(0,0,0,0.3)'
         }}
         className={
           headerPositionStart && isPageHome ? "header-position-start" : ""
         }
       >
         <div id="app-header-content" />
-        <Container maxWidth="xxl" sx={{background: "#fff"}}>
+        <Container maxWidth="xxl" sx={{ background: "#fff" }}>
           <Toolbar className="c-toolbar">
             <Box
               sx={{
@@ -516,13 +515,9 @@ const DrawerAppBar = observer(() => {
                 <SearchMobile />
                 <Box sx={{ display: { xs: "none", lg: "block" } }}>
                   {navItems.map((item) => (
-                    <Link
-                      key={item.link}
-                      href={item.link}
-                      target={item.target}
-                    >
+                    <Link key={item.link} href={item.link} target={item.target}>
                       <ButtonLink
-                        sx={{ mx: 1.5, fontWeight: 'bold' }}
+                        sx={{ mx: 1.5, fontWeight: "bold" }}
                         variant="text"
                         className={
                           (pathname === item.link ? "active" : "") +

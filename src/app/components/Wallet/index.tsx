@@ -10,8 +10,8 @@ import Image from "next/image";
 import { Button } from "@mui/material";
 import SignalCellularAltIcon from "@mui/icons-material/SignalCellularAlt";
 import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
-import {ConnectButton, useWallet, addressEllipsis} from '@suiet/wallet-kit';
-import { useAccountBalance } from '@suiet/wallet-kit';
+import { ConnectButton, useWallet, addressEllipsis } from "@suiet/wallet-kit";
+import { useAccountBalance } from "@suiet/wallet-kit";
 import { isMobile } from "react-device-detect";
 
 export const YellowCard = styled.div`
@@ -96,7 +96,7 @@ const NetworkCard = styled(YellowCard)`
 const StyledBalance = styled.div`
   padding: 0 8px;
   font-weight: bold;
-  color: rgba(0,0,0,0.87)
+  color: rgba(0, 0, 0, 0.87);
 `;
 
 const NETWORK_LABELS: { [chainId in ChainId]: string | null } = {
@@ -109,16 +109,11 @@ const Wallet = observer(() => {
   const {
     root: { dropdownStore, providerStore },
   } = useStores();
-  const {
-    activeChainId,
-    active,
-    error,
-    injectedActive,
-    injectedLoaded,
-  } = providerStore.providerStatus;
+  const { activeChainId, active, error, injectedActive, injectedLoaded } =
+    providerStore.providerStatus;
 
   const { balance } = useAccountBalance();
-  const { connected, address } = useWallet()
+  const { connected, address } = useWallet();
 
   // if (!activeChainId && active) {
   //   // throw new Error(`No chain ID specified ${activeChainId}`);
@@ -168,16 +163,14 @@ const Wallet = observer(() => {
       );
     } else {
       return (
-        <div><ConnectButton label="Connect Wallet" /></div>
+        <div>
+          <ConnectButton label="Connect Wallet" />
+        </div>
       );
     }
   }
 
-  return (
-    <>
-      {getWalletDetails()}
-    </>
-  );
+  return <>{getWalletDetails()}</>;
 });
 
 export default Wallet;

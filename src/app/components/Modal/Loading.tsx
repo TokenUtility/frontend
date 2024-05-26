@@ -2,7 +2,9 @@
 import * as React from "react";
 import { Box, Typography, Modal } from "@mui/material";
 import { Dots } from "@/app/components/PreLoader";
-import CircularProgress, { CircularProgressProps } from "@mui/material/CircularProgress";
+import CircularProgress, {
+  CircularProgressProps,
+} from "@mui/material/CircularProgress";
 import { useStores } from "@/contexts/storesContext";
 import { observer } from "mobx-react";
 

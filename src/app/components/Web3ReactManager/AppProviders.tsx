@@ -17,7 +17,7 @@ const Web3ReactManager = dynamic(
   () => {
     return import("@/app/components/Web3ReactManager");
   },
-  { ssr: false }
+  { ssr: false },
 );
 
 const MessageWrapper = styled.div<{ hidden?: boolean }>`
@@ -50,9 +50,9 @@ const AppProviders = observer(({ children }) => {
   }, []);
 
   return (
-    <WalletProvider defaultWallets={[SuietWallet,SuiWallet]}>
+    <WalletProvider defaultWallets={[SuietWallet, SuiWallet]}>
       <MessageWrapper
-        hidden={!showLoader && providerStore.providerStatus.active}
+        hidden={!showLoader || providerStore.providerStatus.active}
       >
         <PreLoader />
       </MessageWrapper>
@@ -80,7 +80,7 @@ const AppProviders = observer(({ children }) => {
         }}
       >
         <ApolloProvider
-          client={createClient(providerStore.providerStatus.activeChainId)}
+          client={createClient(process.env.NEXT_PUBLIC_SUPPORTED_NETWORK_ID)}
         >
           {children}
         </ApolloProvider>

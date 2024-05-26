@@ -22,13 +22,10 @@ const DataInfos = [
   },
 ];
 
-
 const WhyTokenUtility = () => {
   return (
     <Card sx={{ textAlign: "center" }}>
-      <CardContent
-        sx={{ backgroundColor: "#6f3ecf", color: "#fff" }}
-      >
+      <CardContent sx={{ backgroundColor: "#6f3ecf", color: "#fff" }}>
         <TypoC font="bold" size="h2">
           Why Token Utility
         </TypoC>
@@ -37,9 +34,9 @@ const WhyTokenUtility = () => {
             display: "flex",
             justifyContent: "space-between",
             pt: 4,
-            gap: {xs: 3, lg: 6, xl: 8},
-            px: {xs: 2, xl: 4},
-            pb: 2
+            gap: { xs: 3, lg: 6, xl: 8 },
+            px: { xs: 2, xl: 4 },
+            pb: 2,
           }}
         >
           {DataInfos.map(({ title, desc }, index) => (

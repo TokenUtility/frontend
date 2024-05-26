@@ -13,7 +13,7 @@ export interface ProtocolToken {
   [symbol: string]: TokenInfo;
 }
 
-const protocolTokenByChainID  = (chainID: ChainId) => {
+const protocolTokenByChainID = (chainID: ChainId) => {
   return {
     USDT: {
       address: CONTRACTS[chainID].USDTTokenContract,
@@ -22,8 +22,8 @@ const protocolTokenByChainID  = (chainID: ChainId) => {
       decimals: 18,
       image: "/images/wallet/usdt.svg",
     },
-  }
-}
+  };
+};
 
 export const PROTOCOL_TOKENS: { [chainId in ChainId]?: ProtocolToken } = {
   [ChainId.TESTNET]: protocolTokenByChainID(ChainId.TESTNET),

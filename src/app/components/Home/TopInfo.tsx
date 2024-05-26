@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import TypoC from "@/app/components/Common/Typo";
-import ChainIcon from '@/app/components/Common/ChainIcon';
+import ChainIcon from "@/app/components/Common/ChainIcon";
 import SUILogo from "@/assets/images/tokens/101.svg";
 import FlowXLogo from "@/assets/images/tokens/flowx.png";
 import SacabamLogo from "@/assets/images/tokens/sacabam.png";
@@ -21,7 +21,7 @@ import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined
 import Image from "next/image";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import { RevenueSharingInfo } from '@/app/(main)/profile/RevenueSharing'
+import { RevenueSharingInfo } from "@/app/(main)/profile/RevenueSharing";
 
 const MockupWinners = [
   {
@@ -128,8 +128,7 @@ const ArenaPools = ({ data, sx }) => {
         ...sx,
         borderRadius: "12px",
         boxShadow: "0 2px 10px 0 rgba(0, 0, 0, 0.25)",
-        margin: '10px',
-        overflow: "hidden"
+        margin: "10px",
       }}
     >
       <Box
@@ -168,8 +167,8 @@ const ArenaPools = ({ data, sx }) => {
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <ChainIcon src={tokenImage} alt="sui-logo" size={45} />
           <TypoC size="medium" font="bold" sx={{ ml: 1.5 }}>
-          {poolName}
-        </TypoC>
+            {poolName}
+          </TypoC>
         </Box>
         <Box sx={{ position: "absolute", bottom: "0px", right: "5px" }}>
           <InfoOutlinedIcon></InfoOutlinedIcon>
@@ -181,7 +180,9 @@ const ArenaPools = ({ data, sx }) => {
 
 const TopInfo = () => {
   return (
-    <Box sx={{ display: "flex", gap: {xs: 2, lg: 3}, flexDirection: "column" }}>
+    <Box
+      sx={{ display: "flex", gap: { xs: 2, lg: 3 }, flexDirection: "column" }}
+    >
       <Card>
         <CardContent>
           <Box sx={{ display: "flex", alignItems: "center", py: 1 }}>
@@ -212,10 +213,16 @@ const TopInfo = () => {
           </CardContent>
         </Card> */}
 
-      <Box sx={{ display: "flex", gap: {xs: 2, xl: 3} }}>
-        <Box sx={{ flex: 1, overflow: "auto" }}>
+      <Box sx={{ display: "flex", gap: { xs: 2, xl: 3 } }}>
+        {/* widget - PoolTogether - gapX2 - mainPaddingX2  */}
+        <Box
+          sx={{
+            flex: 1,
+            maxWidth: "calc(100vw - 320px - 350px - 16px - 16px - 24px - 24px)",
+          }}
+        >
           <Card sx={{ backgroundColor: "#fef6ee" }}>
-            <CardContent sx={{pb: {xs: 1, lg: 1, xl: 1}}}>
+            <CardContent sx={{ pb: { xs: 1, lg: 1, xl: 1 } }}>
               <TypoC
                 font="bold"
                 size="h3"
@@ -223,9 +230,21 @@ const TopInfo = () => {
               >
                 Popular Arena Pools
               </TypoC>
-              <Box sx={{ display: "flex", gap: 0, mt: 0, overflow: "auto", mx: "-10px" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 0,
+                  mt: 0,
+                  mx: "-10px",
+                  overflow: "auto",
+                }}
+              >
                 {MockupArenaPools.map((data, index) => (
-                  <ArenaPools key={index} data={data} sx={{ width: "200px", flexShrink: 0 }} />
+                  <ArenaPools
+                    key={index}
+                    data={data}
+                    sx={{ width: "200px", flexShrink: 0, overflow: "hidden" }}
+                  />
                 ))}
               </Box>
             </CardContent>
@@ -238,7 +257,7 @@ const TopInfo = () => {
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
-                height: '100%'
+                height: "100%",
               }}
             >
               <Box
@@ -277,7 +296,9 @@ const TopInfo = () => {
                       style={{ display: "flex", alignItems: "center" }}
                     >
                       <CheckCircleOutlineIcon />
-                      <TypoC font="bold" sx={{ml: 1.5}}>{text}</TypoC>
+                      <TypoC font="bold" sx={{ ml: 1.5 }}>
+                        {text}
+                      </TypoC>
                     </li>
                   ))}
                 </ul>

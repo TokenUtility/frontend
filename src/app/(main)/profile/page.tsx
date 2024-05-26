@@ -21,28 +21,29 @@ import { useWallet, addressEllipsis } from "@suiet/wallet-kit";
 import useCopyClipboard from "@/hooks/useCopyClipboard";
 import TypoC from "@/app/components/Common/Typo";
 
-
 const NetWorthInfo = () => {
-  return (<Box sx={{ display: "flex", gap: 2 }}>
-  <Box>
-    <TypoC font="bold">Net worth</TypoC>
-    <TypoC size="xl" font="bold" sx={{mt: 1}}>
-      $205
-    </TypoC>
-  </Box>
-  <Divider
-    color="#d8d8d8"
-    orientation="vertical"
-    sx={{ height: "unset" }}
-  />
-  <Box>
-    <TypoC font="bold">Commission Rewards</TypoC>
-    <TypoC size="xl" font="bold" sx={{mt: 1}}>
-      $115.8
-    </TypoC>
-  </Box>
-</Box>)
-}
+  return (
+    <Box sx={{ display: "flex", gap: 2 }}>
+      <Box>
+        <TypoC font="bold">Net worth</TypoC>
+        <TypoC size="xl" font="bold" sx={{ mt: 1 }}>
+          $205
+        </TypoC>
+      </Box>
+      <Divider
+        color="#d8d8d8"
+        orientation="vertical"
+        sx={{ height: "unset" }}
+      />
+      <Box>
+        <TypoC font="bold">Commission Rewards</TypoC>
+        <TypoC size="xl" font="bold" sx={{ mt: 1 }}>
+          $115.8
+        </TypoC>
+      </Box>
+    </Box>
+  );
+};
 
 const ProfilePage = () => {
   const { connected, address } = useWallet();
@@ -51,7 +52,14 @@ const ProfilePage = () => {
   return (
     <Box sx={{ pt: { xs: 12, md: 18, lg: 17, xl: 17 }, pb: 6 }}>
       <Box sx={{ backgroundColor: " #fef6ee", pt: 8, pb: 0 }}>
-        <Container maxWidth="xxl" sx={{display: 'flex', justifyContent: 'space-between', alignItems: "baseline"}}>
+        <Container
+          maxWidth="xxl"
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "baseline",
+          }}
+        >
           <Box>
             <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
               <Box

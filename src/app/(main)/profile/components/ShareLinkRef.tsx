@@ -10,7 +10,7 @@ export default function ShareLinkRef(props: {
   const imageSize = props.imageSize || 38;
 
   return (
-    <Box sx={{display: 'flex', alignItems: 'center', gap: 2}}>
+    <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
       <Typography
         sx={{ fontSize: "16px", fontWeight: "bold", ...props.titleSxProps }}
       >
@@ -39,7 +39,7 @@ export default function ShareLinkRef(props: {
           ></Image>
         </a>
         <a
-          href="https://twitter.com/givefund_io"
+          href="https://x.com/tokenutility_io"
           target="_blank"
           rel="noreferrer"
         >
@@ -51,7 +51,7 @@ export default function ShareLinkRef(props: {
           ></Image>
         </a>
         <a
-          href="https://t.me/givefund_announcement"
+          href="https://t.me/tokenutility_channel"
           target="_blank"
           rel="noreferrer"
         >

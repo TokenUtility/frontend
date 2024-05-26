@@ -5,7 +5,7 @@ metadata:
   name: ingress-tu-frontend-service
   annotations:
     ingressclass.kubernetes.io/is-default-class: "true"
-    nginx.ingress.kubernetes.io/configuration-snippet : |
+    nginx.ingress.kubernetes.io/configuration-snippet: |
       if ($request_uri ~* \.(css|gif|jpe?g|png|webp|pdf|ico)) {
         expires 1M;
         add_header Cache-Control "max-age=900, public";

@@ -3,10 +3,10 @@
 // @import "@fontsource/roboto/500.css";
 // @import "@fontsource/roboto/700.css";
 // Supports weights 300-700
-@import '@fontsource-variable/comfortaa';
+@import "@fontsource-variable/comfortaa";
 
 * {
-  font-family: 'Comfortaa Variable', Roboto, Arial;
+  font-family: "Comfortaa Variable", Roboto, Arial;
 }
 
 :root {
@@ -195,7 +195,6 @@ a {
   }
 }
 
-
 .capitalize {
   text-transform: capitalize;
 }
@@ -222,7 +221,8 @@ a {
   z-index: 9999999 !important;
 }
 
-ul, li {
+ul,
+li {
   padding: 0;
   margin: 0;
 }
@@ -231,7 +231,7 @@ ul, li {
   list-style: none;
   opacity: 0.8;
   li {
-    padding: 7px 0 7px
+    padding: 7px 0 7px;
   }
 }
 
@@ -255,13 +255,13 @@ ul, li {
     margin-top: 12px;
   }
   span {
-    font-weight: 700
+    font-weight: 700;
   }
 }
 
 .share-link-input {
   .Mui-disabled {
-    background-color: #f6f6f6
+    background-color: #f6f6f6;
   }
 }
 
@@ -274,12 +274,12 @@ ul, li {
   @media screen and (min-width: 600px) {
     height: 95%;
     top: 0;
-    bottom: 'unset';
+    bottom: "unset";
   }
 }
 .price--down {
-  color: #ee2737
+  color: #ee2737;
 }
 .price--up {
-  color: #55c200
+  color: #55c200;
 }

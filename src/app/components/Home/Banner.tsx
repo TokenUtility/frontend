@@ -28,7 +28,13 @@ const Banner = () => {
           Token Utility is an innovative protocol that enables utilities for all
           tokens.
         </TypoC>
-        <Box sx={{ width: { xs: "60%", sm: "100%" }, display: "flex", flexDirection: "column" }}>
+        <Box
+          sx={{
+            width: { xs: "60%", sm: "100%" },
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
           <TypoC font="bold" size="h4" sx={{ mt: 1 }}>
             Token holders can make at 2x, 10x, 100x fairness, transparency and
             fully on chain
@@ -37,7 +43,13 @@ const Banner = () => {
             variant="outlined"
             color="primary"
             size="large"
-            sx={{ maxWidth: "275px", width: "100%", mt: 2, fontSize: "18px", order: { xs: 1, sm: 0} }}
+            sx={{
+              maxWidth: "275px",
+              width: "100%",
+              mt: 2,
+              fontSize: "18px",
+              order: { xs: 1, sm: 0 },
+            }}
           >
             Get Started
           </Button>

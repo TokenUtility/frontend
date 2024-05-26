@@ -25,18 +25,17 @@ export interface ArenaPoolDataBackend {
   price: number;
   overview?: any[];
   backersPartners?: any[];
-  officialLinks?: Array<{url: string, id:string}>
-  socials?:Array<{url: string, id:string, type: string}>;
+  officialLinks?: Array<{ url: string; id: string }>;
+  socials?: Array<{ url: string; id: string; type: string }>;
 }
 
-
-export enum PoolType  {
+export enum PoolType {
   x2 = 2,
   x10 = 10,
   x100 = 100,
 }
 export interface ArenaCardProps {
-  type: PoolType,
-  arenaPool: ArenaPoolDataBackend
-  isReady: boolean
+  type: PoolType;
+  arenaPool: ArenaPoolDataBackend;
+  isReady: boolean;
 }

@@ -6,19 +6,19 @@ import { a11yProps, CustomTabPanel } from "@/app/components/Common/Tabs";
 import TypoC from "@/app/components/Common/Typo";
 import CardContent from "@/app/components/Common/CardContent";
 import useArenaPool from "@/hooks/useArenaPool";
-import ChainIcon from '@/app/components/Common/ChainIcon';
+import ChainIcon from "@/app/components/Common/ChainIcon";
 import Link from "next/link";
 import ArenaCard from "@/app/(main)/arena-pools/[slug]/components/ArenaCard";
 import BoxEditor from "@/app/(main)/arena-pools/[slug]/components/BoxEditor";
 import dynamic from "next/dynamic";
-import { mapSymbolImageToken } from '@/configs'
-const FlowXWidget = dynamic(() => import("@/app/components/FlowxWidget"), { ssr: false });
+import { mapSymbolImageToken } from "@/configs";
+const FlowXWidget = dynamic(() => import("@/app/components/FlowxWidget"), {
+  ssr: false,
+});
 import { PoolType } from "@/utils/types";
 import { useWallet } from "@suiet/wallet-kit";
 import { amountFormat } from "@/utils/helpers";
 const TAB_LIST = ["active", "ended"];
-
-
 
 const InfoMarketRow = ({ title, value, children }) => {
   if (!value) {
@@ -282,16 +282,16 @@ const AreaPools = ({ params }: { params: { slug: string } }) => {
               </Card>
             </Box>
             <Box
-            sx={{
-              width: "350px",
-              flexShrink: 0,
-              boxShadow: "0 2px 18px 0 rgba(0, 0, 0, 0.22)",
-              borderRadius: "22px",
-              overflow: "hidden",
-            }}
-          >
-            <FlowXWidget id="detail" />
-          </Box>
+              sx={{
+                width: "350px",
+                flexShrink: 0,
+                boxShadow: "0 2px 18px 0 rgba(0, 0, 0, 0.22)",
+                borderRadius: "22px",
+                overflow: "hidden",
+              }}
+            >
+              <FlowXWidget id="detail" />
+            </Box>
           </Box>
         )}
 
@@ -353,12 +353,24 @@ const AreaPools = ({ params }: { params: { slug: string } }) => {
             sx={{
               display: "grid",
               gridTemplateColumns: "repeat(auto-fit, minmax(450px, 1fr))",
-              gap: {xs: '16px', xl: '24px'},
+              gap: { xs: "16px", xl: "24px" },
             }}
           >
-            <ArenaCard type={PoolType.x2} arenaPool={arenaPool} isReady={true} />
-            <ArenaCard type={PoolType.x10} arenaPool={arenaPool} isReady={false} />
-            <ArenaCard type={PoolType.x100} arenaPool={arenaPool} isReady={false} />
+            <ArenaCard
+              type={PoolType.x2}
+              arenaPool={arenaPool}
+              isReady={true}
+            />
+            <ArenaCard
+              type={PoolType.x10}
+              arenaPool={arenaPool}
+              isReady={false}
+            />
+            <ArenaCard
+              type={PoolType.x100}
+              arenaPool={arenaPool}
+              isReady={false}
+            />
           </Box>
         </CustomTabPanel>
         <CustomTabPanel

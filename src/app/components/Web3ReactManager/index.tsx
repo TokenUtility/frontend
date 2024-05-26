@@ -12,14 +12,14 @@ const Web3Manager = observer(() => {
     root: { providerStore, blockchainFetchStore },
   } = useStores();
   const wallet = useWallet();
-  const {account, status} = wallet
+  const { account, status } = wallet;
 
   // Load on-chain data as soon as a provider is available
   useEffect(() => {
     providerStore.loadWeb3(wallet);
-    console.log({wallet: wallet})
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    console.log({ wallet: wallet });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [wallet]);
   // const { active, account, library, connector } = useWallet();
   // const {
   //   active: networkActive,
@@ -57,7 +57,7 @@ const Web3Manager = observer(() => {
   // );
 
   // This means no injected web3 and infura backup has failed
-  return <></>
+  return <></>;
 });
 
 export default Web3Manager;

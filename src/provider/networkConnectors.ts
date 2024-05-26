@@ -8,16 +8,16 @@ import { ChainId } from "@/constants";
 import { chainNameById } from "@/provider/connectors";
 import {
   API_URLS,
+  API_CMS_URLS,
   RPC_URLS,
   SUPPORTED_CHAINS,
   SUBGRAPH_URLS,
   SEARCH_INDEX,
 } from "./connectors";
 
-
 const supportedChains = SUPPORTED_CHAINS;
 const defaultChainId = String(
-  process.env.NEXT_PUBLIC_SUPPORTED_NETWORK_ID || supportedChains[0]
+  process.env.NEXT_PUBLIC_SUPPORTED_NETWORK_ID || supportedChains[0],
 );
 
 class NetworkConnectorsClass {
@@ -57,6 +57,10 @@ class NetworkConnectorsClass {
 
   public getAPIUrl(chainId?: ChainId): string {
     return API_URLS[this.toValidChainId(chainId)] || "";
+  }
+
+  public getAPICmsUrl(chainId?: ChainId): string {
+    return API_CMS_URLS[this.toValidChainId(chainId)] || "";
   }
 
   public getMultiAddress(chainId?: ChainId): string {

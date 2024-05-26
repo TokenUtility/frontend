@@ -3,7 +3,7 @@ import { BigNumber as EtherBigNumber } from "@ethersproject/bignumber";
 import { ethers } from "ethers";
 import { BigNumber } from "../utils/bignumber";
 import { Result } from "@ethersproject/abi";
-import { MIST_PER_SUI } from '@mysten/sui.js/utils';
+import { MIST_PER_SUI } from "@mysten/sui.js/utils";
 // Utils
 export const MAX_GAS = ethers.BigNumber.from("0xffffffff");
 export const MAX_UINT = ethers.BigNumber.from(ethers.constants.MaxUint256);
@@ -17,7 +17,7 @@ export const addZero = (value) => {
 };
 
 export function bnum(
-  val: string | number | ethers.BigNumber | BigNumber | Result
+  val: string | number | ethers.BigNumber | BigNumber | Result,
 ): BigNumber {
   return !val ? new BigNumber(0) : new BigNumber(val.toString());
 }
@@ -29,7 +29,7 @@ export function scale(input: BigNumber, decimalPlaces: number): BigNumber {
 }
 
 export function fromWei(
-  val: string | ethers.BigNumber | BigNumber | EtherBigNumber
+  val: string | ethers.BigNumber | BigNumber | EtherBigNumber,
 ): string {
   if (!val) {
     return "0";
@@ -39,40 +39,35 @@ export function fromWei(
 
 export function toWei(
   val: string | ethers.BigNumber | BigNumber | number | EtherBigNumber,
-  decimal = 18
+  decimal = 18,
 ): BigNumber {
   return scale(bnum(val.toString()), decimal).integerValue();
 }
 
-export function fromMIST(
-  val:number
-): number  {
+export function fromMIST(val: number): number {
   if (!val) {
     return 0;
   }
   return Number.parseInt(val as unknown as string) / Number(MIST_PER_SUI);
 }
 
-export function toMIST(
-  val:number | bigint
-): number {
+export function toMIST(val: number | bigint): number {
   if (!val) {
     return 0;
   }
   return Number.parseInt(val as unknown as string) * Number(MIST_PER_SUI);
 }
 
-
 export function denormalizedBalance(
   amount: number | string | BigNumber,
-  tokenDecimals: number
+  tokenDecimals: number,
 ): BigNumber {
   return scale(bnum(amount), tokenDecimals).decimalPlaces(0);
 }
 
 export function normalizeBalance(
   amount: number | string | BigNumber,
-  tokenDecimals: number
+  tokenDecimals: number,
 ): BigNumber {
   return scale(bnum(amount), -tokenDecimals).decimalPlaces(tokenDecimals);
 }
@@ -125,7 +120,7 @@ export function shortenTransactionHash(hash, digits = 4) {
     return null;
   }
   return `${hash.substring(0, digits + 2)}...${hash.substring(
-    hash.length - digits
+    hash.length - digits,
   )}`;
 }
 
@@ -143,7 +138,7 @@ export function formatPctString(value: BigNumber): string {
 
 export function getQueryParam(windowLocation, name) {
   const q = windowLocation.search.match(
-    new RegExp("[?&]" + name + "=([^&#?]*)")
+    new RegExp("[?&]" + name + "=([^&#?]*)"),
   );
   return q && q[1];
 }
@@ -216,7 +211,7 @@ interface NumberFormatOptions {
 
 export const formatBalanceTruncated = (
   balance?: number | string | BigNumber,
-  options: NumberFormatOptions = {}
+  options: NumberFormatOptions = {},
 ): string => {
   if (!balance) {
     return "0.00";
@@ -239,14 +234,14 @@ export const formatBalanceTruncated = (
 
 export const formatBalanceWithCommas = (
   balance?: number | string | BigNumber,
-  options: NumberFormatOptions = {}
+  options: NumberFormatOptions = {},
 ) => {
   return formatBalanceTruncated(balance, { ...options, thousandsSep: "," });
 };
 
 export const toBalanceFormatted = (
   weiBalance: number | string | BigNumber,
-  decimals: number
+  decimals: number,
 ): string => {
   let balance: BigNumber;
   try {
@@ -265,7 +260,7 @@ export function abbreviateNumber(
   number,
   min = 1e3,
   digits = 2,
-  options: NumberFormatOptions = { thousandsSep: "," }
+  options: NumberFormatOptions = { thousandsSep: "," },
 ): string {
   if (!number || isNaN(number)) {
     return number;
@@ -291,7 +286,7 @@ export function abbreviateNumber(
 
 export const padToDecimalPlaces = (
   value: string,
-  minDecimals: number
+  minDecimals: number,
 ): string => {
   const split = value.split(".");
 
@@ -320,7 +315,7 @@ export const getGasPriceFromETHGasStation = () => {
       (e) => {
         clearTimeout(timeout);
         reject(e);
-      }
+      },
     );
   });
 };
@@ -330,7 +325,7 @@ export function numberFormat(
   decimals = null,
   thousandsSep = ",",
   decPoint = ".",
-  trailingZeros = false
+  trailingZeros = false,
 ) {
   if (typeof number === "undefined") {
     return;
@@ -374,7 +369,7 @@ export function amountFormat(num, decimals = 2) {
     }
   }
   if (_num.gt(0) && _num.lte(1e-7)) {
-    return '<0.000001'
+    return "<0.000001";
   }
   return numberFormat(num, d);
 }
@@ -475,6 +470,9 @@ export function setCookie(cname, cvalue, extimes, timeType = "days") {
 }
 
 export function getCookie(cname) {
+  if(!process.browser) {
+    return ''
+  }
   const name = cname + "=";
   const decodedCookie = decodeURIComponent(document.cookie);
   const ca = decodedCookie.split(";");
@@ -600,7 +598,7 @@ export const parseJwt = (token) => {
       .map(function (c) {
         return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
       })
-      .join("")
+      .join(""),
   );
 
   return JSON.parse(jsonPayload);

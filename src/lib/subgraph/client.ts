@@ -11,12 +11,3 @@ export const createClient = (chainId) => {
     ssrMode: typeof window === "undefined",
   });
 };
-
-// export const createClientReward = () => {
-//   return new ApolloClient({
-//     uri: "https://api.thegraph.com/subgraphs/name/piavgh/give-fund-sepolia-beta",
-//     cache: new InMemoryCache(),
-//     defaultOptions: defaultOptions,
-//     ssrMode: typeof window === "undefined",
-//   });
-// };

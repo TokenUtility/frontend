@@ -10,7 +10,7 @@ export const fetcher = async (resource, init) => {
   // we still try to parse and throw it.
   if (!res.ok) {
     const error: ErrorException = new Error(
-      "An error occurred while fetching the data."
+      "An error occurred while fetching the data.",
     );
     error.info = await res.json();
     error.status = res.status;

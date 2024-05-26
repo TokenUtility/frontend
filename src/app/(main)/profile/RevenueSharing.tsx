@@ -213,7 +213,7 @@ const FormLinkRef = () => {
                 <IconButton
                   onClick={() =>
                     setCopied(
-                      `${process.env.NEXT_PUBLIC_SITE_URL}\\${revenueSharingLink}`
+                      `${process.env.NEXT_PUBLIC_SITE_URL}\\${revenueSharingLink}`,
                     )
                   }
                 >

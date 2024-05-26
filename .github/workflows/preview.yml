@@ -25,7 +25,7 @@ jobs:
       - name: Log in to Harbor
         id: login-harbor
         run: |
-              echo ${{ secrets.HARBOR_PASSWORD }} | docker login -u ${{ secrets.HARBOR_USER }} --password-stdin ${{ env.HARBOR_REPOSITORY_URL }}
+          echo ${{ secrets.HARBOR_PASSWORD }} | docker login -u ${{ secrets.HARBOR_USER }} --password-stdin ${{ env.HARBOR_REPOSITORY_URL }}
 
       - name: Build, tag, and push image to Harbor
         id: build-image
@@ -39,7 +39,7 @@ jobs:
           docker build -t $HARBOR_REPOSITORY_URL/$HARBOR_PROJECT_NAME/$HARBOR_REGISTRY:$IMAGE_TAG ./
           docker push $HARBOR_REPOSITORY_URL/$HARBOR_PROJECT_NAME/$HARBOR_REGISTRY:$IMAGE_TAG
           echo "::set-output name=image::$HARBOR_REPOSITORY_URL/$HARBOR_PROJECT_NAME/$HARBOR_REGISTRY:$IMAGE_TAG"
- 
+
       - name: Copy manifest content recursively to remote
         uses: garygrossgarten/github-action-scp@release
         with:
@@ -47,8 +47,8 @@ jobs:
           remote: /opt/wanakafarm/manifests/${{ github.sha }}
           host: ${{ secrets.SSH_HOST_PROD }}
           username: ${{ secrets.SSH_USER_PROD }}
-          password: ${{ secrets.SSH_PASS_PROD }} 
-          port:  ${{ secrets.SSH_PORT_PROD }} 
+          password: ${{ secrets.SSH_PASS_PROD }}
+          port: ${{ secrets.SSH_PORT_PROD }}
 
       - name: Deploy application
         uses: appleboy/ssh-action@master
@@ -58,8 +58,8 @@ jobs:
         with:
           host: ${{ secrets.SSH_HOST_PROD }}
           username: ${{ secrets.SSH_USER_PROD }}
-          password: ${{ secrets.SSH_PASS_PROD }} 
-          port: ${{ secrets.SSH_PORT_PROD }} 
+          password: ${{ secrets.SSH_PASS_PROD }}
+          port: ${{ secrets.SSH_PORT_PROD }}
           envs: K8S_YAML_DIR,IMAGE_NAME
           script: |
             cd $K8S_YAML_DIR

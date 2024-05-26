@@ -17,9 +17,9 @@ import { useAccountBalance } from "@suiet/wallet-kit";
 import ProgressRaised from "@/app/components/Common/ProgressRaised";
 import InfoIcon from "@mui/icons-material/InfoOutlined";
 import Link from "next/link";
-import { PERCENT_DISTRIBUTION } from '@/constants'
-import { ArenaCardProps }  from '@/utils/types'
-import { bnum } from '@/utils/helpers'
+import { PERCENT_DISTRIBUTION } from "@/constants";
+import { ArenaCardProps } from "@/utils/types";
+import { bnum } from "@/utils/helpers";
 
 const ButtonSelectPool = ({ type, joined, total, active, ...props }) => {
   return (
@@ -41,7 +41,7 @@ const ButtonSelectPool = ({ type, joined, total, active, ...props }) => {
           color: "#fff",
         },
         py: 0.7,
-        px: 1
+        px: 1,
       }}
       {...props}
     >
@@ -56,7 +56,9 @@ const ButtonSelectPool = ({ type, joined, total, active, ...props }) => {
           size="18px"
           color={active ? "#fff" : "rgba(118, 69, 217, 1)"}
         />
-        <TypoC size="small" font="bold">&nbsp;{joined}/{total}</TypoC>
+        <TypoC size="small" font="bold">
+          &nbsp;{joined}/{total}
+        </TypoC>
       </Box>
     </Button>
   );
@@ -79,17 +81,28 @@ const StartTextProcess = () => {
   );
 };
 
-const EndTextProcess = ({raised, goal, ticker, ...props}) => {
+const EndTextProcess = ({ raised, goal, ticker, ...props }) => {
   return (
     <Box sx={{ display: "flex", alignItems: "center" }}>
-      {raised}/<span style={{ color: "rgba(0, 0, 0, 0.22)" }}>{goal} {ticker}</span>
+      {raised}/
+      <span style={{ color: "rgba(0, 0, 0, 0.22)" }}>
+        {goal} {ticker}
+      </span>
     </Box>
   );
 };
 
-const Pooling = ({poolType, amount, setAmount, setPoolValue, poolData, setPoolData, ticker, price=0 }) => {
+const Pooling = ({
+  poolType,
+  amount,
+  setAmount,
+  setPoolValue,
+  poolData,
+  setPoolData,
+  ticker,
+  price = 0,
+}) => {
   const [poolSelected, setPoolSelected] = useState(0);
-
 
   function handleAmountChange(event: ChangeEvent<HTMLInputElement>) {
     setAmount(event.target.value);
@@ -119,19 +132,19 @@ const Pooling = ({poolType, amount, setAmount, setPoolValue, poolData, setPoolDa
         break;
     }
     setPoolSelected(index);
-    setPoolValue(poolValue)
+    setPoolValue(poolValue);
     setAmount(bnum(poolValue).dividedBy(price).toFixed(2, 2));
 
-    let dataOfType = poolData[poolType] ?? {}
-    let updatePool = {poolValue}
-    updatePool["key_" + poolValue] = {}
+    let dataOfType = poolData[poolType] ?? {};
+    let updatePool = { poolValue };
+    updatePool["key_" + poolValue] = {};
 
     let dataUpdate = {};
-    dataUpdate[poolType] = {...dataOfType, ...updatePool}
+    dataUpdate[poolType] = { ...dataOfType, ...updatePool };
 
-    setPoolData(x => ({
+    setPoolData((x) => ({
       ...x,
-      ...dataUpdate
+      ...dataUpdate,
     }));
   }
 
@@ -141,7 +154,7 @@ const Pooling = ({poolType, amount, setAmount, setPoolValue, poolData, setPoolDa
         Pooling
       </TypoC>
       <Box sx={{ mt: 2 }}>
-        <Box sx={{ display: "flex", gap: {sm: 1, xl: 2} }}>
+        <Box sx={{ display: "flex", gap: { sm: 1, xl: 2 } }}>
           <ButtonSelectPool
             type="10"
             joined={poolData["10"]?.joined ?? 0}
@@ -209,41 +222,38 @@ const Pooling = ({poolType, amount, setAmount, setPoolValue, poolData, setPoolDa
   );
 };
 
-
-
-
-const ArenaCard = ({type, arenaPool}: ArenaCardProps) => {
+const ArenaCard = ({ type, arenaPool }: ArenaCardProps) => {
   const { balance } = useAccountBalance();
-  const [amount, setAmount] = useState('0');
-  const [poolValue, setPoolValue] = useState('0');
+  const [amount, setAmount] = useState("0");
+  const [poolValue, setPoolValue] = useState("0");
   const [isDisabled, setIsDisabled] = useState(true);
   const [poolData, setPoolData] = useState({});
 
   function acceptChanged(_, value) {
-    setIsDisabled(!value)
+    setIsDisabled(!value);
   }
 
-  const FIXED_PRICE = 1.03
-  const priceOfToken = arenaPool?.price || FIXED_PRICE
+  const FIXED_PRICE = 1.03;
+  const priceOfToken = arenaPool?.price || FIXED_PRICE;
 
   function getStartValue() {
-    const dataOfType = poolData[type]
+    const dataOfType = poolData[type];
     if (!dataOfType) {
-      return "0"
+      return "0";
     }
-    const key = "key_" + dataOfType?.poolValue
+    const key = "key_" + dataOfType?.poolValue;
     const poolValue = dataOfType[key];
-    console.log("getStartValue", dataOfType, key)
-    console.log("getStartValue", poolValue)
+    console.log("getStartValue", dataOfType, key);
+    console.log("getStartValue", poolValue);
     return "0";
   }
 
   function getEndValue() {
-    const dataOfType = poolData[type]
+    const dataOfType = poolData[type];
     if (!dataOfType) {
-      return "0"
+      return "0";
     }
-    return "0"
+    return "0";
   }
 
   return (
@@ -274,7 +284,7 @@ const ArenaCard = ({type, arenaPool}: ArenaCardProps) => {
             pl: 3,
             pr: 1,
             py: 1,
-            fontWeight: 'bold'
+            fontWeight: "bold",
           }}
         >
           {type} &nbsp;
@@ -282,16 +292,23 @@ const ArenaCard = ({type, arenaPool}: ArenaCardProps) => {
         </Box>
       </Box>
       <TypoC size="h5" font="bold" sx={{ mt: 1 }}>
-        {arenaPool?.name || '__'} - X{type} Arena Pool #1
+        {arenaPool?.name || "__"} - X{type} Arena Pool #1
       </TypoC>
       <TypoC color="gray" sx={{ mt: 0.5 }}>
         Ends in: <span style={{ color: "#000" }}>1d:4h:15m:15s</span>
       </TypoC>
       <Box
-        sx={{ borderRadius: "22px", border: "solid 1px #ededed", px: 3, py: 1.5, mt: 1 }}
+        sx={{
+          borderRadius: "22px",
+          border: "solid 1px #ededed",
+          px: 3,
+          py: 1.5,
+          mt: 1,
+        }}
       >
         <TypoC>
-          <span style={{ color: "#7645d9" }}>Deposit</span> {arenaPool?.symbol || '__'} to join{" "}
+          <span style={{ color: "#7645d9" }}>Deposit</span>{" "}
+          {arenaPool?.symbol || "__"} to join{" "}
           <span style={{ color: "#7645d9" }}>X{type}</span> Arena Pool. <br />
           You will have a chance to{" "}
           <span style={{ color: "#7645d9" }}>X{type}</span> your token.
@@ -305,27 +322,48 @@ const ArenaCard = ({type, arenaPool}: ArenaCardProps) => {
         poolData={poolData}
         setPoolData={setPoolData}
         ticker={arenaPool?.symbol}
-        price={priceOfToken} />
+        price={priceOfToken}
+      />
       <TypoC size="h5" sx={{ textAlign: "right", mt: 1 }}>
-        Your balance: {amountFormat(fromMIST(balance as unknown as number))} {arenaPool?.symbol}
+        Your balance: {amountFormat(fromMIST(balance as unknown as number))}{" "}
+        {arenaPool?.symbol}
       </TypoC>
       <ProgressRaised
         sx={{ mt: 2 }}
         startValue={getStartValue()}
         endValue={getEndValue()}
-        endText={<EndTextProcess raised={getStartValue()} goal={getEndValue()} ticker={arenaPool?.symbol} />}
+        endText={
+          <EndTextProcess
+            raised={getStartValue()}
+            goal={getEndValue()}
+            ticker={arenaPool?.symbol}
+          />
+        }
         startText={<StartTextProcess />}
         prefix=""
       />
       <Box
-        sx={{ borderRadius: "22px", border: "solid 1px #ededed", px: 2, py: 1.5, mt: 2 }}
+        sx={{
+          borderRadius: "22px",
+          border: "solid 1px #ededed",
+          px: 2,
+          py: 1.5,
+          mt: 2,
+        }}
       >
         <Box className="summary-list">
           SUMMARY
           <ul>
             <li>
-              You deposit <span>{amount}&nbsp; {arenaPool?.symbol || '__'}</span> to join{" "}
-              <span>{arenaPool?.name || '__'} - X{type} Arena Pool #1 - ticket: ${poolValue}</span>
+              You deposit{" "}
+              <span>
+                {amount}&nbsp; {arenaPool?.symbol || "__"}
+              </span>{" "}
+              to join{" "}
+              <span>
+                {arenaPool?.name || "__"} - X{type} Arena Pool #1 - ticket: $
+                {poolValue}
+              </span>
             </li>
 
             <li>
@@ -339,9 +377,12 @@ const ArenaCard = ({type, arenaPool}: ArenaCardProps) => {
           </ul>
         </Box>
       </Box>
-      <Box sx={{ mt: 2, color: "#6f6f70", fontWeight: 'bold' }}>
-        <Checkbox disabled={bnum(amount).isGreaterThan(0)} onChange={acceptChanged} /> I have read and accept the{" "}
-        <Link href="#">Term of Service</Link>
+      <Box sx={{ mt: 2, color: "#6f6f70", fontWeight: "bold" }}>
+        <Checkbox
+          disabled={bnum(amount).isGreaterThan(0)}
+          onChange={acceptChanged}
+        />{" "}
+        I have read and accept the <Link href="#">Term of Service</Link>
       </Box>
       <Button
         variant="contained"
