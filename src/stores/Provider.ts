@@ -15,7 +15,7 @@ import Token from "@/abi/Token.json";
 import { logClient } from "@/utils";
 import { ChainId } from "@/constants";
 import { toChecksum } from "@/utils/helpers";
-// import { isAddressEqual, getCookie, setCookie } from "@/utils/helpers";
+import { isAddressEqual, getCookie, setCookie } from "@/utils/helpers";
 
 // import snackbarHelper from "@/utils/snackbarHelper";
 export interface ChainData {
@@ -101,7 +101,6 @@ export default class ProviderStore {
       // sendTransaction: action,
       // sendTransactionWithEstimatedGas: action,
       // handleNetworkChanged: action,
-      // handleClose: action,
       handleAccountsChanged: action,
       loadProvider: action,
       loadWeb3: action,
@@ -146,15 +145,17 @@ export default class ProviderStore {
     this.navigator = v;
   }
   setAccount(account: string): void {
-    // const { userStore } = this.rootStore;
-    // const changedAccount = !isAddressEqual(
-    //   account,
-    //   this.providerStatus.account
-    // );
-    // if (changedAccount && account) {
-    //   const { handleLoginWallet } = userStore;
-    // }
+    const { userStore } = this.rootStore;
+    const changedAccount = !isAddressEqual(
+      account,
+      this.providerStatus.account
+    );
     this.providerStatus.account = account;
+    if (changedAccount && account) {
+      // const { handleLoginWallet } = userStore;
+      // handleLoginWallet()
+      console.log({changedAccount, account})
+    }
   }
 
   setActiveChainId = (chainId: any): void => {
@@ -320,17 +321,12 @@ export default class ProviderStore {
   //   }
   // };
 
-  // handleClose = async (): Promise<void> => {
-  //   logClient(`[Provider] HandleClose() ${this.providerStatus.active}`);
-  //   if (this.providerStatus.active) {
-  //     await this.loadWeb3();
-  //   }
-  // };
 
   handleAccountsChanged = (params: { account: { address: string } }): void => {
     const account = params.account.address;
     const { userStore, notificationStore } = this.rootStore;
     logClient(`[Provider] Accounts changed`);
+    console.log({params})
     if (!account) {
       this.setAccount("");
     } else {
@@ -348,35 +344,11 @@ export default class ProviderStore {
 
   loadProvider = async (provider: any) => {
     try {
-      // remove any old listeners
-      // if (
-      //   this.providerStatus.activeProvider &&
-      //   this.providerStatus.activeProvider.on
-      // ) {
-      //   logClient(`[Provider] Removing Old Listeners`);
-      //   this.providerStatus.activeProvider.removeListener(
-      //     "chainChanged",
-      //     this.handleNetworkChanged
-      //   );
-      //   this.providerStatus.activeProvider.removeListener(
-      //     "accountsChanged",
-      //     this.handleAccountsChanged
-      //   );
-      //   this.providerStatus.activeProvider.removeListener(
-      //     "disconnect",
-      //     this.handleClose
-      //   );
-      //   this.providerStatus.activeProvider.removeListener(
-      //     "chainChanged",
-      //     this.handleNetworkChanged
-      //   );
-      // }
       console.log({ provider });
       if (provider.on) {
         logClient(`[Provider] Subscribing Listeners`);
-        provider.on("chainChanged", () => {console.log('chainChanged')}); // For now assume network/chain ids are same thing as only rare case when they don't match
+        provider.on("chainChange", () => {console.log('chainChange')}); // For now assume network/chain ids are same thing as only rare case when they don't match
         provider.on("accountChange", this.handleAccountsChanged);
-        // provider.on("disconnect", this.handleClose);
       }
 
       runInAction(() => {
@@ -409,27 +381,16 @@ export default class ProviderStore {
     }
 
     // If no injected provider or inject provider is wrong chain fall back to Infura
-    if (!connected || !networkConnectors.isChainIdSupported(chain.id)) {
-      // logClient(
-      //   `[Provider] Reverting To Backup Provider.`,
-      //   this.providerStatus,
-      // );
-      // try {
-      //   runInAction(() => {
-      //     this.providerStatus.injectedActive = false;
-      //     this.providerStatus.backUpLoaded = true;
-      //     this.setActiveChainId(wallet.chain.id);
-      //     this.setAccount("");
-      //     this.providerStatus.activeProvider = "backup";
-      //   });
-
-      //   logClient(`[Provider] BackUp Provider Loaded & Active`);
-      // } catch (err) {}
-    } else {
+    if (connected && networkConnectors.isChainIdSupported(chain.id)) {
       logClient(`[Provider] Injected provider active.`);
-      console.log({ a: wallet.chain.id });
       runInAction(() => {
         this.setActiveChainId(wallet.chain.id);
+        this.providerStatus.injectedActive = true;
+      });
+    } else {
+      runInAction(() => {
+        this.setAccount("");
+        this.setActiveChainId(wallet?.chain?.id);
         this.providerStatus.injectedActive = true;
       });
     }

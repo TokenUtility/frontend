@@ -6,18 +6,11 @@ import RootStore from "./Root";
 import { makeAutoObservable, runInAction } from "mobx";
 
 export interface ProfileProps {
-  address: string;
-  avatar: string;
-  banner: string;
-  createdAt: string;
-  displayName: string;
-  email: string;
-  id: number;
-  shortBio: string;
-  socialLinks: string;
-  updatedAt: string;
-  username: string;
-  wallets: string;
+  id: string,
+  address: string,
+  referralCode: string,
+  createdAt: string,
+  updatedAt: string
 }
 
 export default class UserStore {
@@ -33,18 +26,11 @@ export default class UserStore {
     this.rootStore = rootStore;
     this.accessToken = "";
     this.profile = {
-      address: "",
-      avatar: "",
-      banner: "",
-      createdAt: "",
-      displayName: "",
-      email: "",
-      id: null,
-      shortBio: "",
-      socialLinks: null,
-      updatedAt: "",
-      username: "",
-      wallets: null,
+      id: '',
+      address: '',
+      referralCode: '',
+      createdAt: '',
+      updatedAt: ''
     };
   }
 
@@ -76,25 +62,25 @@ export default class UserStore {
       const address = providerStore.providerStatus.account;
       const nonce = await userStore.getUserNonce(address);
       const message = `${address}-${nonce}`;
-      const signatureHash =
+      const signatureRes =
         await providerStore.providerStatus.activeProvider.signPersonalMessage(
-          message,
+          {message: new TextEncoder().encode(message)},
         );
       const baseUrl = networkConnectors.getAPIUrl();
 
       return apiRequest
         .post(baseUrl + "/v1/auth/signin", {
-          signature: signatureHash,
+          signature: signatureRes.signature,
           message: message,
         })
         .then((res) => {
           const { data } = res;
           runInAction(() => {
-            this.profile = data.user;
+            this.profile = data.account;
             this.accessToken = data?.token;
           });
           const authData = {
-            address: data?.user?.address,
+            address: data?.account?.address,
             accessToken: data?.token,
           };
           setCookie("auth_data", JSON.stringify(authData), 1, "hours");
@@ -124,7 +110,7 @@ export default class UserStore {
     const { address } = authData;
 
     return authRequest
-      .get(baseUrl + `/v1/users/${address}`, {})
+      .get(baseUrl + `/v1/accounts/${address}`, {})
       .then((res) => {
         runInAction(() => {
           this.profile = res?.data;
@@ -147,7 +133,6 @@ export default class UserStore {
       runInAction(() => {
         this.accessToken = accessToken;
       });
-      this.getProfile();
       return accessToken;
     } catch (error) {
       deleteCookie("auth_data");
@@ -168,6 +153,9 @@ export default class UserStore {
         token,
       })
       .then((res) => {
+        runInAction(() => {
+          this.profile = res?.data;
+        });
         return res.data;
       })
       .catch((e) => {
@@ -182,18 +170,11 @@ export default class UserStore {
   handleLogout = () => {
     deleteCookie("auth_data");
     this.profile = {
-      address: null,
-      avatar: null,
-      banner: null,
-      createdAt: null,
-      displayName: null,
-      email: null,
-      id: null,
-      shortBio: null,
-      socialLinks: null,
-      updatedAt: null,
-      username: null,
-      wallets: null,
+      id: '',
+      address: '',
+      referralCode: '',
+      createdAt: '',
+      updatedAt: ''
     };
     this.accessToken = null;
   };

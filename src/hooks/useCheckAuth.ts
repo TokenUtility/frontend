@@ -22,7 +22,7 @@ export default function useCheckAuth(): (params?: handleAuthProps) => boolean {
       if (onlyCheck) {
         notificationStore.showWaringNotification("Please login first");
       } else {
-        // userStore.handleLoginWallet();
+        userStore.handleLoginWallet();
       }
       return false;
     }

@@ -275,14 +275,17 @@ const ProfileButton = observer(() => {
     root: { providerStore, userStore },
   } = useStores();
   const { disconnect, connected } = useWallet();
-  // const handleAuth = useCheckAuth();
-  const isAuth = connected; // providerStore.isConnect && userStore.accessToken;
+  const handleAuth = useCheckAuth();
+  const isAuth = connected && userStore.accessToken;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const { handleLoginWallet } = userStore
+  const [loading, setLoading] = useState<boolean>(false);
+
   const open = Boolean(anchorEl);
   function handleClick(event: MouseEvent<HTMLButtonElement>) {
-    // if (!handleAuth({ onlyCheck: false })) {
-    //   return;
-    // }
+    if (!handleAuth({ onlyCheck: false })) {
+      return;
+    }
     if (anchorEl !== event.currentTarget) {
       setAnchorEl(event.currentTarget);
     }
@@ -302,6 +305,30 @@ const ProfileButton = observer(() => {
     if (isAuth) {
       handleClick(event);
     }
+  }
+
+
+  async function loginWithWallet() {
+    setLoading(true);
+    handleLoginWallet()
+      .catch(() => {})
+      .finally(() => {
+        setLoading(false);
+      });
+  }
+  if(!providerStore.providerStatus.account) {
+    return
+  }
+  if (!isAuth) {
+    return <Button
+    variant="contained"
+    color="primary"
+    sx={{ fontWeight: "bold" }}
+    onClick={loginWithWallet}
+    loading={loading}
+  >
+    Login
+  </Button>
   }
 
   return (
@@ -331,18 +358,7 @@ const ProfileButton = observer(() => {
       >
         <ScreenMedia>
           {({ xsOnly }) =>
-            isAuth && userStore.profile?.avatar ? (
-              <Box sx={{ display: "flex" }}>
-                <Image
-                  src={userStore.profile?.avatar}
-                  width={44}
-                  height={44}
-                  alt="avatar"
-                />
-              </Box>
-            ) : (
-              <ProfileIcon size={xsOnly ? "24px" : "30px"} />
-            )
+           <ProfileIcon size={xsOnly ? "24px" : "30px"} />
           }
         </ScreenMedia>
       </Button>
@@ -444,25 +460,25 @@ const DrawerAppBar = observer(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // useEffect(() => {
-  //   try {
-  //     const authData = getCookie("auth_data")
-  //       ? JSON.parse(getCookie("auth_data"))
-  //       : "";
-  //     const { accessToken } = authData;
-  //     if (
-  //       accessToken &&
-  //       !userStore.accessToken &&
-  //       providerStore.providerStatus.injectedActive
-  //     ) {
-  //       userStore.reLoginByAccessToken(accessToken);
-  //     }
-  //   } catch (e) {
-  //     console.error("Error reLoginByAccessToken: ", e);
-  //     // do nothing
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [providerStore.providerStatus.injectedActive]);
+  useEffect(() => {
+    try {
+      const authData = getCookie("auth_data")
+        ? JSON.parse(getCookie("auth_data"))
+        : "";
+      const { accessToken } = authData;
+      if (
+        accessToken &&
+        !userStore.accessToken &&
+        providerStore.providerStatus.injectedActive
+      ) {
+        userStore.reLoginByAccessToken(accessToken);
+      }
+    } catch (e) {
+      console.error("Error reLoginByAccessToken: ", e);
+      // do nothing
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [providerStore.providerStatus.injectedActive]);
 
   return (
     <Box sx={{ display: "flex",  }}>

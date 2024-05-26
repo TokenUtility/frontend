@@ -7,26 +7,17 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import { useSearchParams, redirect } from "next/navigation";
 import { getCookie } from "@/utils/helpers";
+import { ConnectButton, useWallet, addressEllipsis } from "@suiet/wallet-kit";
 
 const Login = observer(() => {
   const {
     root: { dropdownStore, providerStore, userStore },
   } = useStores();
   const [loading, setLoading] = useState<boolean>(false);
-  const [loginText, setLoginText] = useState<string>("Connect wallet");
   const { providerStatus } = providerStore;
   const { handleLoginWallet } = userStore;
-
   const searchParams = useSearchParams();
   const from = searchParams.get("from");
-
-  useEffect(() => {
-    if (providerStatus.account) {
-      setLoginText("Login with wallet");
-    } else {
-      setLoginText("Connect wallet");
-    }
-  }, [providerStatus.account]);
 
   const authData = getCookie("auth_data")
     ? JSON.parse(getCookie("auth_data"))
@@ -43,25 +34,13 @@ const Login = observer(() => {
     dropdownStore.toggleWalletDropdown();
   };
 
-  useEffect(() => {
-    if (providerStatus.account) {
-      setLoginText("Login with wallet");
-    } else {
-      setLoginText("Connect wallet");
-    }
-  }, [providerStatus.account]);
-
   async function loginWithWallet() {
-    if (providerStatus.account) {
-      setLoading(true);
-      handleLoginWallet()
-        .catch(() => {})
-        .finally(() => {
-          setLoading(false);
-        });
-    } else {
-      toggleWalletDropdown();
-    }
+    setLoading(true);
+    handleLoginWallet()
+      .catch(() => {})
+      .finally(() => {
+        setLoading(false);
+      });
   }
   return (
     <Container maxWidth="lg" sx={{ height: "100%" }}>
@@ -78,15 +57,19 @@ const Login = observer(() => {
           alignItems: "center",
         }}
       >
-        <Button
-          variant="contained"
-          color="primary"
-          sx={{ fontWeight: "bold", width: { xs: "320px" } }}
-          onClick={loginWithWallet}
-          loading={loading}
-        >
-          {loginText}
-        </Button>
+        {providerStatus.account && !accessToken ? (
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{ fontWeight: "bold", width: { xs: "250px" } }}
+            onClick={loginWithWallet}
+            loading={loading}
+          >
+            Login with wallet
+          </Button>
+        ) : (
+          <ConnectButton label="Connect Wallet" />
+        )}
       </Box>
     </Container>
   );

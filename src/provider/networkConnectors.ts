@@ -56,6 +56,7 @@ class NetworkConnectorsClass {
   }
 
   public getAPIUrl(chainId?: ChainId): string {
+    console.log({toValidChainId: this.toValidChainId(chainId), chainId})
     return API_URLS[this.toValidChainId(chainId)] || "";
   }
 

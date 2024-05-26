@@ -1,18 +1,18 @@
 "use client";
 import { observer } from "mobx-react";
-import React from "react";
+import React, { useState} from "react";
 import styled from "@emotion/styled";
 import { ChainId } from "@/constants";
 import { useStores } from "@/contexts/storesContext";
 import { shortenAddress } from "@/utils";
 import { toBalanceFormatted, fromMIST, amountFormat } from "@/utils/helpers";
 import Image from "next/image";
-import { Button } from "@mui/material";
 import SignalCellularAltIcon from "@mui/icons-material/SignalCellularAlt";
 import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
 import { ConnectButton, useWallet, addressEllipsis } from "@suiet/wallet-kit";
 import { useAccountBalance } from "@suiet/wallet-kit";
 import { isMobile } from "react-device-detect";
+import Button from "@/app/components/Common/Button";
 
 export const YellowCard = styled.div`
   background-color: rgba(243, 132, 30, 0.05);
