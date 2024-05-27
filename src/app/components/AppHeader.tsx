@@ -344,8 +344,8 @@ const ProfileButton = observer(() => {
           display: { xs: !isAuth && "none" },
           width: { xs: "44px", md: "unset" },
           height: "44px",
-          minWidth: userStore.profile?.avatar ? "44px" : "54px",
-          padding: userStore.profile?.avatar ? 0 : "0 12px",
+          minWidth:  "54px",
+          padding: "0 12px",
           overflow: "hidden",
         }}
         className="cursor-pointer"

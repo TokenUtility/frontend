@@ -16,6 +16,7 @@ import { logClient } from "@/utils";
 import { ChainId } from "@/constants";
 import { toChecksum } from "@/utils/helpers";
 import { isAddressEqual, getCookie, setCookie } from "@/utils/helpers";
+import { getFullnodeUrl, SuiClient } from '@mysten/sui.js/client';
 
 // import snackbarHelper from "@/utils/snackbarHelper";
 export interface ChainData {
@@ -388,10 +389,17 @@ export default class ProviderStore {
         this.providerStatus.injectedActive = true;
       });
     } else {
+      logClient(`[Provider] BackUp Provider Loaded & Active`);
       runInAction(() => {
         this.setAccount("");
         this.setActiveChainId(wallet?.chain?.id);
         this.providerStatus.injectedActive = true;
+        //
+        this.providerStatus.activeProvider = 'backup';
+        this.providerStatus.injectedActive = false
+        this.providerStatus.injectedLoaded = false
+        const suiClient = new SuiClient({ url: getFullnodeUrl('devnet') });
+        console.log({a: suiClient, b: getFullnodeUrl('devnet')})
       });
     }
     runInAction(() => {
