@@ -6,9 +6,8 @@ const nextConfig = {
     includePaths: [path.join(__dirname, "styles")],
   },
   images: {
-    domains: ["res.cloudinary.com"],
     unoptimized: true,
-  },
+  }
 };
 
 module.exports = nextConfig;

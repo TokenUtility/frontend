@@ -1,13 +1,13 @@
 "use client";
 import { observer } from "mobx-react";
+import { useStores } from "@/contexts/storesContext";
 import React, { useState, useEffect } from "react";
 import Button from "@/app/components/Common/Button";
-import { useStores } from "@/contexts/storesContext";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import { useSearchParams, redirect } from "next/navigation";
 import { getCookie } from "@/utils/helpers";
-import { ConnectButton, useWallet, addressEllipsis } from "@suiet/wallet-kit";
+import { ConnectButton } from "@suiet/wallet-kit";
 
 const Login = observer(() => {
   const {

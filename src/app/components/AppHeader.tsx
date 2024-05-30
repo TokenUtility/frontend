@@ -434,29 +434,9 @@ const DrawerAppBar = observer(() => {
     isPageHome ? true : false,
   );
 
-  // const smAndUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"));
-
-  // function listenScrollEvent(e) {
-  //   if (!isPageHome) return;
-  //   if (window.scrollY > 80) {
-  //     setHeaderScrolled(false);
-  //   } else {
-  //     setHeaderScrolled(true);
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   listenScrollEvent(null);
-  //   window.addEventListener("scroll", listenScrollEvent);
-  //   return () => {
-  //     window.removeEventListener("scroll", listenScrollEvent);
-  //   };
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-
   useEffect(() => {
-    appStore.setDomain(window?.location.host);
-    appStore.setOrigin(window?.location.origin);
+    // appStore.setDomain(window?.location.host);
+    // appStore.setOrigin(window?.location.origin);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import getLibrary from "@/utils/getLibrary";
 import dynamic from "next/dynamic";
 import { SWRConfig } from "swr";
 import { fetcher } from "@/configs/fetcher";

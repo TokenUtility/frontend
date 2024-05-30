@@ -146,7 +146,7 @@ const ArenaTable = () => {
                   }}
                 >
                   <TypoC size="h5" font="bold">
-                    {row.price ? `$${row.price}` : "__"}
+                    {row.price ? `$${bnum(row.price).toFixed()}` : "__"}
                   </TypoC>
                 </TableCell>
                 <TableCell

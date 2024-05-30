@@ -4,7 +4,6 @@ import AppHeader from "@/app/components/AppHeader";
 import AppFooter from "@/app/components/AppFooter";
 import AppProviders from "@/app/components/Web3ReactManager/AppProviders";
 import Notification from "@/app/components/Notification";
-import LoadingModal from "@/app/components/Modal/Loading";
 
 export default function RootLayout({
   children,
@@ -19,7 +18,6 @@ export default function RootLayout({
           {children}
         </AppProviders>
       </div>
-      <LoadingModal />
       <AppFooter />
       <Notification />
     </>

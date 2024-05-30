@@ -9,14 +9,11 @@ import {
 import { networkConnectors } from "@/provider/networkConnectors";
 import RootStore from "@/stores/Root";
 import { BigNumber } from "@/utils/bignumber";
-import MultiCall from "@/abi/MultiCall.json";
-import IPancakePair from "@/abi/IPancakePair.json";
-import Token from "@/abi/Token.json";
 import { logClient } from "@/utils";
 import { ChainId } from "@/constants";
-import { toChecksum } from "@/utils/helpers";
-import { isAddressEqual, getCookie, setCookie } from "@/utils/helpers";
+import { isAddressEqual } from "@/utils/helpers";
 import { getFullnodeUrl, SuiClient } from '@mysten/sui.js/client';
+import { WalletContextState, SuiProvider } from "@suiet/wallet-kit";
 
 // import snackbarHelper from "@/utils/snackbarHelper";
 export interface ChainData {
@@ -41,12 +38,6 @@ export enum ContractTypes {
   Reward = "Reward",
   DonateCertificate = "DonateCertificate",
 }
-// type ChainDataMap = ObservableMap<number, ChainData>;
-export const schema = {
-  MultiCall: MultiCall.abi,
-  Token: Token,
-  PancakePair: IPancakePair.abi,
-};
 
 export interface TokenMetadata {
   address: string;
@@ -56,7 +47,6 @@ export interface TokenMetadata {
   precision?: number;
   isSupported?: boolean;
   allowance?: BigNumber;
-  balanceRatio?: BigNumber;
   chainId?: ChainId;
 }
 export interface ProviderStatus {
@@ -66,21 +56,19 @@ export interface ProviderStatus {
   active: boolean;
   injectedLoaded: boolean;
   injectedActive: boolean;
-  injectedChainId: number;
+  injectedChainId: string;
   injectedWeb3: any;
   backUpLoaded: boolean;
   backUpWeb3: any;
-  activeProvider: any;
+  activeProvider: SuiProvider;
+  activeWallet: WalletContextState;
   error: Error;
 }
 
 export default class ProviderStore {
   chainData: ChainData;
   providerStatus: ProviderStatus;
-  countFetchUserBlockchainData: number;
   initializedProvider: boolean;
-  navigator: any;
-  estimatedBlocksPerDay: number;
   rootStore: RootStore;
 
   constructor(rootStore: any) {
@@ -89,14 +77,11 @@ export default class ProviderStore {
       chainData: observable,
       providerStatus: observable,
       initializedProvider: observable,
-      countFetchUserBlockchainData: observable,
-      estimatedBlocksPerDay: observable,
       isConnect: computed,
       currentBlockNumber: computed,
       getCurrentBlockNumber: computed,
       setCurrentBlockNumber: action,
       updateChainData: action,
-      setNavigator: action,
       setAccount: action,
       setActiveChainId: action,
       // sendTransaction: action,
@@ -115,9 +100,8 @@ export default class ProviderStore {
     this.providerStatus.injectedActive = false;
     this.providerStatus.backUpLoaded = false;
     this.providerStatus.activeProvider = null;
+    this.providerStatus.activeWallet = null;
     this.initializedProvider = false;
-    this.countFetchUserBlockchainData = 0;
-    this.estimatedBlocksPerDay = 6500;
   }
 
   get currentBlockNumber(): number {
@@ -142,9 +126,6 @@ export default class ProviderStore {
     this.chainData = Object.assign({}, this.chainData, data);
   };
 
-  setNavigator(v: any) {
-    this.navigator = v;
-  }
   setAccount(account: string): void {
     const { userStore } = this.rootStore;
     const changedAccount = !isAddressEqual(
@@ -170,129 +151,6 @@ export default class ProviderStore {
       // TODO: load subgraph
     }
   };
-
-  // sendTransaction = async (
-  //   contractType: ContractTypes,
-  //   contractAddress: string,
-  //   action: string,
-  //   params: any[],
-  //   _overrides?: any,
-  //   summary?: string
-  // ): Promise<ActionResponse> => {
-  //   const { activeChainId: chainId, account } = this.providerStatus;
-  //   const { transactionStore } = this.rootStore;
-  //   const overrides = _overrides || {};
-
-  //   if (!account) {
-  //     throw new Error(ERRORS.BlockchainActionNoAccount);
-  //   }
-
-  //   if (!chainId) {
-  //     throw new Error(ERRORS.BlockchainActionNoChainId);
-  //   }
-  //   logClient("abi-" + contractType, this.getContractAbiByType(contractType));
-  //   const contract = this.getContract(contractType, contractAddress, account);
-
-  //   // if (!overrides.gasLimit) {
-  //   //   const gasEstimate = await this.estimateSafeGas(
-  //   //     contractType,
-  //   //     contractAddress,
-  //   //     action,
-  //   //     params,
-  //   //     overrides
-  //   //   );
-  //   //   if (gasEstimate?.gas) {
-  //   //     overrides.gasLimit = gasEstimate?.gas;
-  //   //   }
-  //   // }
-
-  //   const response = await sendAction({
-  //     contract,
-  //     action,
-  //     sender: account,
-  //     data: params,
-  //     overrides,
-  //   });
-
-  //   const { error, txResponse } = response;
-
-  //   if (error) {
-  //     console.warn("[Send Transaction Error", error);
-  //     if (error?.code !== 4001) {
-  //       console.debug(
-  //         "[@debug sendAction]",
-  //         JSON.stringify({
-  //           method: action,
-  //           address: contractAddress,
-  //           sender: account,
-  //           args: params,
-  //           overrides: {
-  //             value: overrides?.value?.toString(),
-  //             gasLimit: overrides?.gasLimit?.toString(),
-  //           },
-  //           error: error?.message,
-  //         })
-  //       );
-  //     }
-  //     // Sentry.captureException(error?.message);
-  //   } else if (txResponse) {
-  //     // snackbarHelper.toast({ content: summary, txHash: txResponse?.hash });
-  //     transactionStore.addTransactionRecord(account, txResponse, summary);
-  //   } else {
-  //     throw new Error(ERRORS.BlockchainActionNoResponse);
-  //   }
-
-  //   return response;
-  // };
-
-  // sendTransactionWithEstimatedGas = async (
-  //   contractType: ContractTypes,
-  //   contractAddress: string,
-  //   action: string,
-  //   params: any[],
-  //   overrides?: any,
-  //   summary?: string
-  // ): Promise<ActionResponse> => {
-  //   const safeGasEstimate: {
-  //     gas?: EtherBigNumber;
-  //     error?: Error;
-  //   } = await this.estimateSafeGas(
-  //     contractType,
-  //     contractAddress,
-  //     action,
-  //     params,
-  //     overrides
-  //   );
-
-  //   if (!EtherBigNumber.isBigNumber(safeGasEstimate?.gas)) {
-  //     let errorMessage: string = "This transaction would fail.";
-  //     if (safeGasEstimate?.error) {
-  //       errorMessage = safeGasEstimate.error?.message;
-  //     }
-  //     console.error(errorMessage);
-  //     return { error: new Error(errorMessage) } as ActionResponse;
-  //   } else {
-  //     overrides.gasLimit = safeGasEstimate.gas;
-
-  //     try {
-  //       return this.sendTransaction(
-  //         contractType,
-  //         contractAddress,
-  //         action,
-  //         params,
-  //         overrides,
-  //         summary
-  //       );
-  //     } catch (e) {
-  //       if (!e || isTxReverted(e)) {
-  //         return e as unknown as Promise<ActionResponse>;
-  //       }
-  //       return {
-  //         error: new Error("Oops, something went wrong"),
-  //       } as ActionResponse;
-  //     }
-  //   }
-  // };
 
   // handleNetworkChanged = async (networkId: string | number): Promise<void> => {
   //   const { userStore, notificationStore } = this.rootStore;
@@ -327,7 +185,6 @@ export default class ProviderStore {
     const account = params.account.address;
     const { userStore, notificationStore } = this.rootStore;
     logClient(`[Provider] Accounts changed`);
-    console.log({params})
     if (!account) {
       this.setAccount("");
     } else {
@@ -343,21 +200,21 @@ export default class ProviderStore {
     }
   };
 
-  loadProvider = async (provider: any) => {
+  loadProvider = async (wallet:WalletContextState, provider: SuiProvider) => {
     try {
-      console.log({ provider });
-      if (provider.on) {
+      if (wallet.on) {
         logClient(`[Provider] Subscribing Listeners`);
-        provider.on("chainChange", () => {console.log('chainChange')}); // For now assume network/chain ids are same thing as only rare case when they don't match
-        provider.on("accountChange", this.handleAccountsChanged);
+        wallet.on("chainChange", () => {console.log('chainChange')}); // For now assume network/chain ids are same thing as only rare case when they don't match
+        wallet.on("accountChange", this.handleAccountsChanged);
       }
 
       runInAction(() => {
         this.providerStatus.injectedLoaded = true;
         this.providerStatus.active = true;
-        this.providerStatus.injectedChainId = provider.chain.id;
+        this.providerStatus.injectedChainId = wallet.chain.id;
         this.providerStatus.activeProvider = provider;
-        this.setAccount(provider.address);
+        this.providerStatus.activeWallet = wallet;
+        this.setAccount(wallet.address);
       });
 
       logClient(`[Provider] Injected provider loaded.`);
@@ -365,20 +222,21 @@ export default class ProviderStore {
       console.error(`[Provider] Injected Error`, err);
       runInAction(() => {
         this.providerStatus.injectedLoaded = false;
-        this.providerStatus.injectedChainId = -1;
+        this.providerStatus.injectedChainId = null;
         this.setAccount("");
         this.providerStatus.active = false;
         this.providerStatus.activeProvider = null;
+        this.providerStatus.activeWallet = null;
       });
     }
   };
 
-  async loadWeb3(wallet) {
+  async loadWeb3(wallet: WalletContextState, provider: SuiProvider) {
     const { connected, chain } = wallet;
 
     if (connected) {
       logClient(`[Provider] Loading Injected Provider`);
-      await this.loadProvider(wallet);
+      await this.loadProvider(wallet, provider);
     }
 
     // If no injected provider or inject provider is wrong chain fall back to Infura
@@ -395,11 +253,12 @@ export default class ProviderStore {
         this.setActiveChainId(wallet?.chain?.id);
         this.providerStatus.injectedActive = true;
         //
-        this.providerStatus.activeProvider = 'backup';
+        this.providerStatus.activeProvider = null;
+        this.providerStatus.activeWallet = null;
         this.providerStatus.injectedActive = false
         this.providerStatus.injectedLoaded = false
-        const suiClient = new SuiClient({ url: getFullnodeUrl('devnet') });
-        console.log({a: suiClient, b: getFullnodeUrl('devnet')})
+        const suiClient = new SuiClient({ url: getFullnodeUrl('testnet') });
+        console.log({a: suiClient, b: getFullnodeUrl('testnet')})
       });
     }
     runInAction(() => {
@@ -410,65 +269,13 @@ export default class ProviderStore {
     logClient(`[Provider] Provider Active.`, this.providerStatus);
   }
 
-  getContractAbiByType = (type: ContractTypes) => {
-    return schema[type];
-  };
-
   getContractMetaData = () => {
-    // const contracts = networkConnectors.getContracts(
-    //   this.providerStatus.activeChainId
-    // );
-    const multiCall = networkConnectors
-      .getMultiAddress
-      // this.providerStatus.activeChainId
-      ();
-    const { tokens: _tokens } = networkConnectors.getAssets();
-    const tokens = { ...(_tokens || {}) };
-
+    const contracts = networkConnectors.getContracts(
+      this.providerStatus.activeChainId
+    );
     const contractMetadata = {
-      tokens: [] as TokenMetadata[],
-      multiCallContract: multiCall,
+      Deposit: contracts.DEPOSIT
     };
-    const tokensObjId: { [address: string]: 1 } = {};
-
-    Object.keys(tokens).forEach((tokenAddress) => {
-      const token = tokens[tokenAddress];
-      const { address, symbol, name, precision } = token;
-      if (tokensObjId[tokenAddress?.toLowerCase()]) {
-        return;
-      }
-      tokensObjId[tokenAddress?.toLowerCase()] = 1;
-      contractMetadata.tokens.push({
-        address: toChecksum(address),
-        symbol,
-        name,
-        decimals: token.decimals || 18,
-        precision,
-        isSupported: true,
-        allowance: new BigNumber(0),
-      });
-    });
     return contractMetadata;
   };
-
-  // fetchUserBlockchainData = async (account: string) => {
-  //   const { tokenStore, transactionStore } = this.rootStore;
-
-  //   console.debug("[Provider] fetchUserBlockchainData", {
-  //     account,
-  //   });
-  //   transactionStore.checkPendingTransactions(account);
-  //   await tokenStore.fetchBalancerTokenData(
-  //     account,
-  //     tokenStore.getTrackedTokenAddresses
-  //   );
-
-  //   // await tokenStore.fetchBalancerTokenERC721Data(
-  //   //   account,
-  //   //   tokenStore.getTrackedToken721Addresses()
-  //   // );
-  //   runInAction(() => {
-  //     this.countFetchUserBlockchainData = this.countFetchUserBlockchainData + 1;
-  //   });
-  // };
 }

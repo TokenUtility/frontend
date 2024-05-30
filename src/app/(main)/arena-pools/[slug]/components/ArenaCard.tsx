@@ -20,6 +20,8 @@ import Link from "next/link";
 import { PERCENT_DISTRIBUTION } from "@/constants";
 import { ArenaCardProps } from "@/utils/types";
 import { bnum } from "@/utils/helpers";
+import { observer } from "mobx-react";
+import { useStores } from "@/contexts/storesContext";
 
 const ButtonSelectPool = ({ type, joined, total, active, ...props }) => {
   return (
@@ -222,12 +224,15 @@ const Pooling = ({
   );
 };
 
-const ArenaCard = ({ type, arenaPool }: ArenaCardProps) => {
+const ArenaCard = observer(({ type, arenaPool }: ArenaCardProps) => {
   const { balance } = useAccountBalance();
   const [amount, setAmount] = useState("0");
   const [poolValue, setPoolValue] = useState("0");
   const [isDisabled, setIsDisabled] = useState(true);
   const [poolData, setPoolData] = useState({});
+  const {
+    root: { providerStore, arenaPoolStore },
+  } = useStores()
 
   function acceptChanged(_, value) {
     setIsDisabled(!value);
@@ -255,6 +260,15 @@ const ArenaCard = ({ type, arenaPool }: ArenaCardProps) => {
     }
     return "0";
   }
+
+  
+  // console.log({contractMetadata})
+  // const depositContractAddr = useMemo(() => {
+  //   if (!wallet.chain) return "";
+  //   return sampleDeposit.get(wallet.chain.id) ?? "";
+  // }, [wallet]);
+
+  
 
   return (
     <Box
@@ -391,11 +405,12 @@ const ArenaCard = ({ type, arenaPool }: ArenaCardProps) => {
         disabled={isDisabled}
         fullWidth={true}
         sx={{ mt: 2 }}
+        onClick={() => arenaPoolStore.deposit()}
       >
         Deposit to Join
       </Button>
     </Box>
   );
-};
+});
 
 export default ArenaCard;

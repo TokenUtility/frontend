@@ -1,6 +1,6 @@
 "use client";
 import { Container } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { Tabs, Tab, Box, Card, Divider, Button } from "@mui/material";
 import { a11yProps, CustomTabPanel } from "@/app/components/Common/Tabs";
 import TypoC from "@/app/components/Common/Typo";
@@ -16,8 +16,19 @@ const FlowXWidget = dynamic(() => import("@/app/components/FlowxWidget"), {
   ssr: false,
 });
 import { PoolType } from "@/utils/types";
-import { useWallet } from "@suiet/wallet-kit";
 import { amountFormat } from "@/utils/helpers";
+import { observer } from "mobx-react";
+import { useStores } from "@/contexts/storesContext";
+
+
+const sampleDeposit = new Map([
+  [
+    "sui:testnet",
+    "0x1fd3e7a7ac71377e6e6493be98e1579aa5228b5ad3bbe699230174a25964c1e3::arena::deposit",
+  ],
+]);
+
+
 const TAB_LIST = ["active", "ended"];
 
 const InfoMarketRow = ({ title, value, children }) => {
@@ -128,15 +139,22 @@ const BoxInfoLink = ({ data }) => {
   );
 };
 
-const AreaPools = ({ params }: { params: { slug: string } }) => {
-  const wallet = useWallet();
-  const { chain } = wallet;
+const AreaPools = observer(({ params }: { params: { slug: string } }) => {
   const [value, setValue] = React.useState(0);
+  const {
+    root: { providerStore },
+  } = useStores()
+
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
     // window.history.replaceState(null, "", `/arena-pools#${TAB_LIST[newValue]}`);
   };
-  const { arenaPool, isError, isLoading } = useArenaPool(params.slug, chain.id);
+  const { arenaPool, isError, isLoading } = useArenaPool(params.slug, providerStore.providerStatus.activeChainId);
+
+  // if(arenaPool.address) {
+  //   console.log({activeProvider: providerStore.providerStatus.activeProvider})
+  //   providerStore.providerStatus.activeProvider.getCoin
+  // }
   const {
     symbol,
     network,
@@ -381,6 +399,6 @@ const AreaPools = ({ params }: { params: { slug: string } }) => {
       </Container>
     </main>
   );
-};
+});
 
 export default AreaPools;

@@ -1,36 +1,17 @@
-import { getAddress } from "@ethersproject/address";
+
 import { ChainId } from "@/constants";
 import { networkConnectors } from "@/provider/networkConnectors";
 import { getNetworkConfigs } from "@/provider/networks";
-import { EtherKey } from "@/stores/Token";
-import { EtherBigNumber, toEtherBigNumber } from "@/utils/bignumber";
-import { isAddressEqual } from "@/utils/helpers";
 import dayjs from "dayjs";
-// returns the checksummed address if the address is valid, otherwise returns false
-export function isAddress(value: any): string | false {
-  try {
-    return getAddress(value?.toLowerCase());
-  } catch {
-    return false;
-  }
-}
 
-export function checkStringIsAddress(_str: string): string | false {
-  const str = _str?.toString();
-  if (!str || !/^0x/.test(str) || str.length !== 42) {
-    return false;
-  }
-  return isAddress(str.toString());
-}
 
-// shorten the checksummed version of the input address to have 0x + 4 characters at start and end
 export function shortenAddress(address: string, chars = 4): string {
   if (!address) {
     return "";
   }
-  const parsed = isAddress(address);
+  const parsed = address;
   if (!parsed) {
-    throw Error(`Invalid 'address' parameter '${address}'.`);
+    // throw Error(`Invalid 'address' parameter '${address}'.`);
     return "";
   }
   return `${parsed.substring(0, chars + 2)}...${parsed.substring(42 - chars)}`;
@@ -78,28 +59,6 @@ export function escapeRegExp(string: string): string {
 // This alphabet uses `A-Za-z0-9_-` symbols. A genetic algorithm helped
 // optimize the gzip compression for this alphabet.
 
-// add 10%
-export function calculateGasMargin(
-  _value: string | EtherBigNumber,
-): EtherBigNumber {
-  let value = _value;
-  if (typeof value === "string") {
-    value = toEtherBigNumber(value);
-  }
-  return value
-    .mul(EtherBigNumber.from(10000).add(EtherBigNumber.from(1000)))
-    .div(EtherBigNumber.from(10000));
-}
-
-export function toChecksum(address) {
-  try {
-    return isAddressEqual(address, EtherKey)
-      ? address
-      : getAddress(address?.toLowerCase());
-  } catch (e) {
-    return "";
-  }
-}
 
 export function logClient(...props) {
   if (typeof window !== "undefined") {

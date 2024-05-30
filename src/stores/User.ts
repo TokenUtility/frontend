@@ -63,7 +63,7 @@ export default class UserStore {
       const nonce = await userStore.getUserNonce(address);
       const message = `${address}-${nonce}`;
       const signatureRes =
-        await providerStore.providerStatus.activeProvider.signPersonalMessage(
+        await providerStore.providerStatus.activeWallet.signPersonalMessage(
           {message: new TextEncoder().encode(message)},
         );
       const baseUrl = networkConnectors.getAPIUrl();
