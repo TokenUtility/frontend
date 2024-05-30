@@ -1,23 +1,35 @@
 "use client";
 import { Container } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { Tabs, Tab, Box, Card, Divider, Button } from "@mui/material";
 import { a11yProps, CustomTabPanel } from "@/app/components/Common/Tabs";
 import TypoC from "@/app/components/Common/Typo";
 import CardContent from "@/app/components/Common/CardContent";
 import useArenaPool from "@/hooks/useArenaPool";
-import ChainIcon from '@/app/components/Common/ChainIcon';
+import ChainIcon from "@/app/components/Common/ChainIcon";
 import Link from "next/link";
 import ArenaCard from "@/app/(main)/arena-pools/[slug]/components/ArenaCard";
 import BoxEditor from "@/app/(main)/arena-pools/[slug]/components/BoxEditor";
 import dynamic from "next/dynamic";
-import { mapSymbolImageToken } from '@/configs'
-const FlowXWidget = dynamic(() => import("@/app/components/FlowxWidget"), { ssr: false });
+import { mapSymbolImageToken } from "@/configs";
+const FlowXWidget = dynamic(() => import("@/app/components/FlowxWidget"), {
+  ssr: false,
+});
 import { PoolType } from "@/utils/types";
+import { amountFormat } from "@/utils/helpers";
+import { observer } from "mobx-react";
+import { useStores } from "@/contexts/storesContext";
+
+
+const sampleDeposit = new Map([
+  [
+    "sui:testnet",
+    "0x1fd3e7a7ac71377e6e6493be98e1579aa5228b5ad3bbe699230174a25964c1e3::arena::deposit",
+  ],
+]);
+
 
 const TAB_LIST = ["active", "ended"];
-
-
 
 const InfoMarketRow = ({ title, value, children }) => {
   if (!value) {
@@ -49,10 +61,10 @@ const BoxInfoMarket = ({ data }) => {
         {liquidity}
       </InfoMarketRow>
       <InfoMarketRow title={"Marketcap"} value={marketCap}>
-        {marketCap}
+        {amountFormat(marketCap, 3)}
       </InfoMarketRow>
       <InfoMarketRow title={"TotalSupply"} value={totalSupply}>
-        {totalSupply}
+        {amountFormat(totalSupply, 3)}
       </InfoMarketRow>
     </Box>
   );
@@ -127,15 +139,24 @@ const BoxInfoLink = ({ data }) => {
   );
 };
 
-const AreaPools = ({ params }: { params: { slug: string } }) => {
+const AreaPools = observer(({ params }: { params: { slug: string } }) => {
   const [value, setValue] = React.useState(0);
+  const {
+    root: { providerStore },
+  } = useStores()
+
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
     // window.history.replaceState(null, "", `/arena-pools#${TAB_LIST[newValue]}`);
   };
-  const { arenaPool, isError, isLoading } = useArenaPool(params.slug);
+  const { arenaPool, isError, isLoading } = useArenaPool(params.slug, providerStore.providerStatus.activeChainId);
+
+  // if(arenaPool.address) {
+  //   console.log({activeProvider: providerStore.providerStatus.activeProvider})
+  //   providerStore.providerStatus.activeProvider.getCoin
+  // }
   const {
-    ticker,
+    symbol,
     network,
     price,
     liquidity,
@@ -215,7 +236,7 @@ const AreaPools = ({ params }: { params: { slug: string } }) => {
                       </Box>
                       <BoxInfoMarket
                         data={{
-                          ticker,
+                          ticker: symbol,
                           network,
                           price,
                           liquidity,
@@ -279,16 +300,16 @@ const AreaPools = ({ params }: { params: { slug: string } }) => {
               </Card>
             </Box>
             <Box
-            sx={{
-              width: "350px",
-              flexShrink: 0,
-              boxShadow: "0 2px 18px 0 rgba(0, 0, 0, 0.22)",
-              borderRadius: "22px",
-              overflow: "hidden",
-            }}
-          >
-            <FlowXWidget />
-          </Box>
+              sx={{
+                width: "350px",
+                flexShrink: 0,
+                boxShadow: "0 2px 18px 0 rgba(0, 0, 0, 0.22)",
+                borderRadius: "22px",
+                overflow: "hidden",
+              }}
+            >
+              <FlowXWidget id="detail" />
+            </Box>
           </Box>
         )}
 
@@ -350,12 +371,24 @@ const AreaPools = ({ params }: { params: { slug: string } }) => {
             sx={{
               display: "grid",
               gridTemplateColumns: "repeat(auto-fit, minmax(450px, 1fr))",
-              gap: {xs: '16px', xl: '24px'},
+              gap: { xs: "16px", xl: "24px" },
             }}
           >
-            <ArenaCard type={PoolType.x2} arenaPool={arenaPool} />
-            <ArenaCard type={PoolType.x10} arenaPool={arenaPool}/>
-            <ArenaCard type={PoolType.x100} arenaPool={arenaPool}/>
+            <ArenaCard
+              type={PoolType.x2}
+              arenaPool={arenaPool}
+              isReady={true}
+            />
+            <ArenaCard
+              type={PoolType.x10}
+              arenaPool={arenaPool}
+              isReady={false}
+            />
+            <ArenaCard
+              type={PoolType.x100}
+              arenaPool={arenaPool}
+              isReady={false}
+            />
           </Box>
         </CustomTabPanel>
         <CustomTabPanel
@@ -366,6 +399,6 @@ const AreaPools = ({ params }: { params: { slug: string } }) => {
       </Container>
     </main>
   );
-};
+});
 
 export default AreaPools;

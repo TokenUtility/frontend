@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import getLibrary from "@/utils/getLibrary";
 import dynamic from "next/dynamic";
 import { SWRConfig } from "swr";
 import { fetcher } from "@/configs/fetcher";
@@ -10,14 +9,14 @@ import { observer } from "mobx-react";
 import { useStores } from "@/contexts/storesContext";
 import PreLoader from "@/app/components/PreLoader";
 import styled from "@emotion/styled";
-import {WalletProvider} from '@suiet/wallet-kit';
-import '@suiet/wallet-kit/style.css';
+import { WalletProvider, SuietWallet, SuiWallet } from "@suiet/wallet-kit";
+import "@suiet/wallet-kit/style.css";
 
 const Web3ReactManager = dynamic(
   () => {
     return import("@/app/components/Web3ReactManager");
   },
-  { ssr: false }
+  { ssr: false },
 );
 
 const MessageWrapper = styled.div<{ hidden?: boolean }>`
@@ -49,11 +48,10 @@ const AppProviders = observer(({ children }) => {
     }
   }, []);
 
-
   return (
-      <WalletProvider>
+    <WalletProvider defaultWallets={[SuietWallet, SuiWallet]}>
       <MessageWrapper
-        hidden={!showLoader &&  providerStore.providerStatus.active }
+        hidden={!showLoader || providerStore.providerStatus.active}
       >
         <PreLoader />
       </MessageWrapper>
@@ -81,12 +79,12 @@ const AppProviders = observer(({ children }) => {
         }}
       >
         <ApolloProvider
-          client={createClient(providerStore.providerStatus.activeChainId)}
+          client={createClient(process.env.NEXT_PUBLIC_SUPPORTED_NETWORK_ID)}
         >
           {children}
         </ApolloProvider>
       </SWRConfig>
-      </WalletProvider>
+    </WalletProvider>
   );
 });
 

@@ -29,21 +29,23 @@ export const Dots = styled.span`
 const StyledDots = styled(Dots)`
   font-size: 1.35em;
   letter-spacing: 3px;
-  color: rgba(0,0,0,0.87);
+  color: rgba(0, 0, 0, 0.87);
 `;
 
 const PreLoader = () => {
-  return <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-  <Image
-    src="/images/logo-mobile.svg"
-    priority={true}
-    width={70}
-    height={70}
-    alt="logo"
-    style={{paddingBottom: '10px'}}
-  />
-  <StyledDots>Loading</StyledDots>
-</Box>;
+  return (
+    <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
+      <Image
+        src="/images/logo-mobile.svg"
+        priority={true}
+        width={70}
+        height={70}
+        alt="logo"
+        style={{ paddingBottom: "10px" }}
+      />
+      <StyledDots>Loading</StyledDots>
+    </Box>
+  );
 };
 
 export default PreLoader;

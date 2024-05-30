@@ -3,10 +3,10 @@
 // @import "@fontsource/roboto/500.css";
 // @import "@fontsource/roboto/700.css";
 // Supports weights 300-700
-@import '@fontsource-variable/comfortaa';
+@import "@fontsource-variable/comfortaa";
 
 * {
-  font-family: 'Comfortaa Variable', Roboto, Arial;
+  font-family: "Comfortaa Variable", Roboto, Arial;
 }
 
 :root {
@@ -34,10 +34,10 @@ body {
   &.MuiToolbar-root {
     padding-left: 0;
     padding-right: 0;
-    padding-top: 16px;
+    padding-top: 12px;
     padding-bottom: 10px;
     @media screen and (min-width: 600px) {
-      padding-top: 28px;
+      padding-top: 12px;
       padding-bottom: 0;
     }
   }
@@ -157,7 +157,9 @@ a {
 
 .header-position-start {
   .network-card {
-    background-color: rgb(0 0 0 / 90%);
+    border: 1px solid #ededed;
+    font-size: 14px;
+    font-weight: bold;
   }
   .account-element span {
     color: #000;
@@ -193,7 +195,6 @@ a {
   }
 }
 
-
 .capitalize {
   text-transform: capitalize;
 }
@@ -220,7 +221,8 @@ a {
   z-index: 9999999 !important;
 }
 
-ul, li {
+ul,
+li {
   padding: 0;
   margin: 0;
 }
@@ -229,7 +231,7 @@ ul, li {
   list-style: none;
   opacity: 0.8;
   li {
-    padding: 7px 0 7px
+    padding: 7px 0 7px;
   }
 }
 
@@ -250,16 +252,34 @@ ul, li {
     margin-top: 10px;
   }
   @media screen and (min-width: 1536px) {
-    font-size: 22px;
     margin-top: 12px;
   }
   span {
-    font-weight: 700
+    font-weight: 700;
   }
 }
 
 .share-link-input {
   .Mui-disabled {
-    background-color: #f6f6f6
+    background-color: #f6f6f6;
   }
+}
+
+.banner-img {
+  height: 120px;
+  width: auto;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  @media screen and (min-width: 600px) {
+    height: 95%;
+    top: 0;
+    bottom: "unset";
+  }
+}
+.price--down {
+  color: #ee2737;
+}
+.price--up {
+  color: #55c200;
 }

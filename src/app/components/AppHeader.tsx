@@ -39,7 +39,7 @@ const Wallet = dynamic(
   () => {
     return import("@/app/components/Wallet");
   },
-  { ssr: false }
+  { ssr: false },
 );
 
 const ButtonLink = styled(Button)(({ theme }) => ({
@@ -55,17 +55,17 @@ const ButtonLink = styled(Button)(({ theme }) => ({
   },
   "&.active": {
     borderColor: "#7645d9",
-  }
+  },
 }));
 
 const navItems = [
   {
-    link: "/#arena-pools",
+    link: "/arena-pools",
     text: "Arena Pools",
     target: "",
   },
   {
-    link: "/#revenue-sharing",
+    link: "/profile#revenue-sharing",
     text: "Revenue Sharing",
     target: "",
   },
@@ -227,9 +227,7 @@ const MenuMobile = observer(() => {
             <Box sx={{ p: 2 }}>
               <List>
                 {navItems.map((item) => (
-                  <ListItem
-                    key={item.link}
-                  >
+                  <ListItem key={item.link}>
                     <Link
                       href={item.link}
                       style={{
@@ -277,14 +275,17 @@ const ProfileButton = observer(() => {
     root: { providerStore, userStore },
   } = useStores();
   const { disconnect, connected } = useWallet();
-  // const handleAuth = useCheckAuth();
-  const isAuth = connected; // providerStore.isConnect && userStore.accessToken;
+  const handleAuth = useCheckAuth();
+  const isAuth = connected && userStore.accessToken;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const { handleLoginWallet } = userStore
+  const [loading, setLoading] = useState<boolean>(false);
+
   const open = Boolean(anchorEl);
   function handleClick(event: MouseEvent<HTMLButtonElement>) {
-    // if (!handleAuth({ onlyCheck: false })) {
-    //   return;
-    // }
+    if (!handleAuth({ onlyCheck: false })) {
+      return;
+    }
     if (anchorEl !== event.currentTarget) {
       setAnchorEl(event.currentTarget);
     }
@@ -306,6 +307,30 @@ const ProfileButton = observer(() => {
     }
   }
 
+
+  async function loginWithWallet() {
+    setLoading(true);
+    handleLoginWallet()
+      .catch(() => {})
+      .finally(() => {
+        setLoading(false);
+      });
+  }
+  if(!providerStore.providerStatus.account) {
+    return
+  }
+  if (!isAuth) {
+    return <Button
+    variant="contained"
+    color="primary"
+    sx={{ fontWeight: "bold" }}
+    onClick={loginWithWallet}
+    loading={loading}
+  >
+    Login
+  </Button>
+  }
+
   return (
     <>
       <Button
@@ -319,8 +344,8 @@ const ProfileButton = observer(() => {
           display: { xs: !isAuth && "none" },
           width: { xs: "44px", md: "unset" },
           height: "44px",
-          minWidth: userStore.profile?.avatar ? "44px" : "54px",
-          padding: userStore.profile?.avatar ? 0 : "0 12px",
+          minWidth:  "54px",
+          padding: "0 12px",
           overflow: "hidden",
         }}
         className="cursor-pointer"
@@ -333,18 +358,7 @@ const ProfileButton = observer(() => {
       >
         <ScreenMedia>
           {({ xsOnly }) =>
-            isAuth && userStore.profile?.avatar ? (
-              <Box sx={{ display: "flex" }}>
-                <Image
-                  src={userStore.profile?.avatar}
-                  width={44}
-                  height={44}
-                  alt="avatar"
-                />
-              </Box>
-            ) : (
-              <ProfileIcon size={xsOnly ? "24px" : "30px"} />
-            )
+           <ProfileIcon size={xsOnly ? "24px" : "30px"} />
           }
         </ScreenMedia>
       </Button>
@@ -417,69 +431,50 @@ const DrawerAppBar = observer(() => {
   const pathname = usePathname();
   const isPageHome = pathname === "/";
   const [headerPositionStart, setHeaderScrolled] = useState(
-    isPageHome ? true : false
+    isPageHome ? true : false,
   );
 
-  // const smAndUp = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"));
-
-  // function listenScrollEvent(e) {
-  //   if (!isPageHome) return;
-  //   if (window.scrollY > 80) {
-  //     setHeaderScrolled(false);
-  //   } else {
-  //     setHeaderScrolled(true);
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   listenScrollEvent(null);
-  //   window.addEventListener("scroll", listenScrollEvent);
-  //   return () => {
-  //     window.removeEventListener("scroll", listenScrollEvent);
-  //   };
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-
   useEffect(() => {
-    appStore.setDomain(window?.location.host);
-    appStore.setOrigin(window?.location.origin);
+    // appStore.setDomain(window?.location.host);
+    // appStore.setOrigin(window?.location.origin);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // useEffect(() => {
-  //   try {
-  //     const authData = getCookie("auth_data")
-  //       ? JSON.parse(getCookie("auth_data"))
-  //       : "";
-  //     const { accessToken } = authData;
-  //     if (
-  //       accessToken &&
-  //       !userStore.accessToken &&
-  //       providerStore.providerStatus.injectedActive
-  //     ) {
-  //       userStore.reLoginByAccessToken(accessToken);
-  //     }
-  //   } catch (e) {
-  //     console.error("Error reLoginByAccessToken: ", e);
-  //     // do nothing
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [providerStore.providerStatus.injectedActive]);
+  useEffect(() => {
+    try {
+      const authData = getCookie("auth_data")
+        ? JSON.parse(getCookie("auth_data"))
+        : "";
+      const { accessToken } = authData;
+      if (
+        accessToken &&
+        !userStore.accessToken &&
+        providerStore.providerStatus.injectedActive
+      ) {
+        userStore.reLoginByAccessToken(accessToken);
+      }
+    } catch (e) {
+      console.error("Error reLoginByAccessToken: ", e);
+      // do nothing
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [providerStore.providerStatus.injectedActive]);
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex",  }}>
       <AppBar
         component="nav"
         sx={{
-          backgroundColor: '#fff',
+          backgroundColor: "#fff",
           transitionDuration: "200ms",
+          boxShadow: '0px 3px 10px rgba(0,0,0,0.3)'
         }}
         className={
           headerPositionStart && isPageHome ? "header-position-start" : ""
         }
       >
         <div id="app-header-content" />
-        <Container maxWidth="xxl" sx={{background: "#fff"}}>
+        <Container maxWidth="xxl" sx={{ background: "#fff" }}>
           <Toolbar className="c-toolbar">
             <Box
               sx={{
@@ -516,13 +511,9 @@ const DrawerAppBar = observer(() => {
                 <SearchMobile />
                 <Box sx={{ display: { xs: "none", lg: "block" } }}>
                   {navItems.map((item) => (
-                    <Link
-                      key={item.link}
-                      href={item.link}
-                      target={item.target}
-                    >
+                    <Link key={item.link} href={item.link} target={item.target}>
                       <ButtonLink
-                        sx={{ mx: 1.5, fontWeight: 'bold' }}
+                        sx={{ mx: 1.5, fontWeight: "bold" }}
                         variant="text"
                         className={
                           (pathname === item.link ? "active" : "") +

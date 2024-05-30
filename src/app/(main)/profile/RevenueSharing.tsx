@@ -60,7 +60,7 @@ const LeftSideBar = () => {
               {listToken.map((token, index) => {
                 return (
                   <TableRow key={index}>
-                    <TableCell component="th" scope="row" sx={{py: 0.6}}>
+                    <TableCell component="th" scope="row" sx={{ py: 0.6 }}>
                       {" "}
                       <Box
                         sx={{ display: "flex", alignItems: "center", gap: 2 }}
@@ -74,7 +74,7 @@ const LeftSideBar = () => {
                         <TypoC font="bold">{token.name}</TypoC>
                       </Box>
                     </TableCell>
-                    <TableCell component="th" scope="row" sx={{py: 0.6}}>
+                    <TableCell component="th" scope="row" sx={{ py: 0.6 }}>
                       <Box>
                         <TypoC font="bold">+ 120 Sui</TypoC>
                         <TypoC font="bold" size="tiny-small" color="gray">
@@ -82,7 +82,7 @@ const LeftSideBar = () => {
                         </TypoC>
                       </Box>
                     </TableCell>
-                    <TableCell component="th" scope="row" sx={{py: 0.6}}>
+                    <TableCell component="th" scope="row" sx={{ py: 0.6 }}>
                       <TypoC color="primary" font="bold" size="title-small">
                         <Link href={"#"}>Claim Now</Link>
                       </TypoC>
@@ -98,6 +98,86 @@ const LeftSideBar = () => {
   );
 };
 
+export const RevenueSharingInfo = () => {
+  return (
+    <Box
+      sx={{
+        borderRadius: "10px",
+        boxShadow: "0 2px 18px 0 rgba(0, 0, 0, 0.22)",
+        px: 3,
+        py: 3,
+        mt: 3,
+        display: "flex",
+        gap: 3,
+      }}
+    >
+      <Box>
+        <TypoC size="h5" font="bold">
+          Invite a friend to get Revenue Sharing
+        </TypoC>
+        <Box sx={{ display: "flex", gap: 2, mt: 2 }}>
+          <UserIcon size="22px" color="#000" />
+          <Box>
+            <TypoC color="black">Normal User</TypoC>
+            <TypoC size="xl" sx={{ mt: 1 }} lineHeight={1.1}>
+              10%
+            </TypoC>
+            <TypoC size="small">Revenue Sharing</TypoC>
+          </Box>
+        </Box>
+      </Box>
+      <Divider
+        color="#d8d8d8"
+        orientation="vertical"
+        sx={{ height: "unset" }}
+      />
+      <Box sx={{ flex: 1 }}>
+        <TypoC size="h5" font="bold">
+          Whitelist your Address to Upgrade from normal user to:
+        </TypoC>
+        <Box
+          sx={{
+            mt: 2,
+            display: "flex",
+            gap: 1,
+            justifyContent: "space-between",
+          }}
+        >
+          <Box sx={{ display: "flex", gap: 4 }}>
+            <Box sx={{ display: "flex", gap: 2 }}>
+              <UserIcon size="22px" color="#7645d9" />
+              <Box>
+                <TypoC color="primary">Strategic partner</TypoC>
+                <TypoC size="xl" sx={{ mt: 1 }} lineHeight={1.1}>
+                  50%
+                </TypoC>
+                <TypoC size="small">Revenue Sharing</TypoC>
+              </Box>
+            </Box>
+            <Box sx={{ display: "flex", gap: 2 }}>
+              <UserIcon size="22px" color="#f39c0b" />
+              <Box>
+                <TypoC color="orange">Early supporter</TypoC>
+                <TypoC size="xl" sx={{ mt: 1 }} lineHeight={1.1}>
+                  70%
+                </TypoC>
+                <TypoC size="small">Revenue Sharing</TypoC>
+              </Box>
+            </Box>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "flex-end",
+            }}
+          >
+            <Link href="/profile#revenue-sharing">Check it out</Link>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
+  );
+};
 
 const FormLinkRef = () => {
   const [isCopied, setCopied] = useCopyClipboard();
@@ -118,7 +198,7 @@ const FormLinkRef = () => {
       autoComplete="off"
     >
       <Box sx={{ display: "flex", gap: 2 }}>
-        <Box sx={{ flex: 1 }}  className="share-link-input">
+        <Box sx={{ flex: 1 }} className="share-link-input">
           <TypoC font="bold">Revenue Sharing Link</TypoC>
           {/* @ts-ignore */}
           <TextValidator
@@ -130,7 +210,13 @@ const FormLinkRef = () => {
             startAdornment={process.env.NEXT_PUBLIC_SITE_URL + "/"}
             endAdornment={
               <Tooltip title={isCopied ? "Copied" : "Copy"}>
-                <IconButton onClick={() => setCopied(`${process.env.NEXT_PUBLIC_SITE_URL}\\${revenueSharingLink}`)}>
+                <IconButton
+                  onClick={() =>
+                    setCopied(
+                      `${process.env.NEXT_PUBLIC_SITE_URL}\\${revenueSharingLink}`,
+                    )
+                  }
+                >
                   <ContentCopyOutlinedIcon style={{ color: "#000" }} />
                 </IconButton>
               </Tooltip>
@@ -151,7 +237,7 @@ const FormLinkRef = () => {
             }}
           >
             <Box sx={{ flex: 1 }}>
-               {/* @ts-ignore */}
+              {/* @ts-ignore */}
               <TextValidator
                 id="shareLink"
                 onChange={handleShareLinkChange}
@@ -185,13 +271,13 @@ const FormLinkRef = () => {
 
 const RevenueSharing = () => {
   return (
-    <Box sx={{ display: "flex", gap: {xs: 2, xl: 3} }}>
+    <Box sx={{ display: "flex", gap: { xs: 2, xl: 3 } }}>
       <Box
         sx={{
           flex: 1,
           display: "flex",
           flexDirection: "column",
-          gap: {xs: 2, xl: 3},
+          gap: { xs: 2, xl: 3 },
           overflow: "hidden",
         }}
       >

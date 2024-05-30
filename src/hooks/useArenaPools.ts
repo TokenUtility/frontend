@@ -19,8 +19,7 @@ interface KeyProps extends FilterOptionProps {
 }
 
 const getKey = ({ chain, pageIndex, previousPageData }: KeyProps) => {
-  const baseUrl = networkConnectors.getAPIUrl(chain);
-
+  const baseUrl = networkConnectors.getAPICmsUrl(chain);
   if (!baseUrl) return null;
 
   if (pageIndex && !previousPageData?.docs) {
@@ -40,7 +39,7 @@ const getKey = ({ chain, pageIndex, previousPageData }: KeyProps) => {
 };
 
 const useArenaPools = (
-  filterOptions = {}
+  filterOptions = {},
 ): {
   data: any[];
   arenaPools: ArenaPoolDataBackend[];
@@ -62,7 +61,7 @@ const useArenaPools = (
       skip
         ? null
         : (pageIndex, previousPageData) =>
-            getKey({ pageIndex, previousPageData, ...filterOptions })
+            getKey({ pageIndex, previousPageData, ...filterOptions }),
     );
 
   const arenaPools: { docs: any[]; totalDocs: number }[] = data as unknown as {

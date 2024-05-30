@@ -22,6 +22,6 @@ const ChainIcon = ({ size = 46, src, alt, disabledResponsive = false }) => {
       }}
     </ScreenMedia>
   );
-}
+};
 
-export default ChainIcon
+export default ChainIcon;

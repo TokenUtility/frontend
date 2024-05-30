@@ -8,9 +8,8 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Box
+  Box,
 } from "@mui/material";
-
 
 const styleTableCellHead = {
   fontSize: { xs: "16px", lg: "16px", xl: "18px" },
@@ -161,7 +160,9 @@ const MyRevenueSharing = () => {
                       }}
                     >
                       <TypoC font="bold">{row.commissionEarned}</TypoC>
-                      <TypoC color="gray" size="tiny-small" >{row.commissionEarnedUSD}</TypoC>
+                      <TypoC color="gray" size="tiny-small">
+                        {row.commissionEarnedUSD}
+                      </TypoC>
                     </TableCell>
                   </TableRow>
                 ));

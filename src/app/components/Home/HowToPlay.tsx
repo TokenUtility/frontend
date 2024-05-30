@@ -40,16 +40,16 @@ export function InfoItem(props: { data: InfoProps }) {
       className="info-item"
     >
       <Box sx={{ mt: { xs: 1, sm: 0 } }}>
-        <TypoC
-          size="h4"
-          font="medium"
-          typoProps={{ className: "info-title" }}
-        >
+        <TypoC size="h4" font="medium" typoProps={{ className: "info-title" }}>
           {title}
         </TypoC>
         <ul className="how-works__list-item">
           {descList &&
-            descList.map((item, index) => <li key={index}><TypoC size="h4">{item}</TypoC></li>)}
+            descList.map((item, index) => (
+              <li key={index}>
+                <TypoC size="h4">{item}</TypoC>
+              </li>
+            ))}
         </ul>
       </Box>
     </Box>
@@ -83,36 +83,36 @@ export default function HowToPlay() {
   return (
     <Card sx={{ backgroundColor: "#eeeeff" }}>
       <Box
-      sx={{
-        py: { xs: 4, lg: 5, md: 6 },
-        px: { xs: 2, md: 3 },
-        display: 'flex',
-      }}
-    >
-      <Image
-        src="images/how-to-play.png"
-        width={292}
-        height={218}
-        alt="how-to-play"
-      />
-      <Box sx={{pl: { xs: 4, md: 14 }}}>
-        <TypoC size="h2" font="bold">
-          How to Play
-        </TypoC>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            flexDirection: { xs: "column", md: "row" },
-            alignItems: "flex-start",
-            pt: { sm: 1 },
-            gap: { xs: 4, xl: 6}
-          }}
-        >
-          <InfoSection itemProps={{ sx: { pt: 16 } }}></InfoSection>
+        sx={{
+          py: { xs: 4, lg: 5, md: 6 },
+          px: { xs: 2, md: 3 },
+          display: "flex",
+        }}
+      >
+        <Image
+          src="images/how-to-play.png"
+          width={292}
+          height={218}
+          alt="how-to-play"
+        />
+        <Box sx={{ pl: { xs: 4, md: 14 } }}>
+          <TypoC size="h2" font="bold">
+            How to Play
+          </TypoC>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              flexDirection: { xs: "column", md: "row" },
+              alignItems: "flex-start",
+              pt: { sm: 1 },
+              gap: { xs: 4, xl: 6 },
+            }}
+          >
+            <InfoSection itemProps={{ sx: { pt: 16 } }}></InfoSection>
+          </Box>
         </Box>
       </Box>
-    </Box>
     </Card>
   );
 }

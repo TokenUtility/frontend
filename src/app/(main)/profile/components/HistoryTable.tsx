@@ -21,7 +21,11 @@ import { useWallet } from "@suiet/wallet-kit";
 import useArenaPools from "@/hooks/useArenaPools";
 import ArenaImageBox from "@/app/components/Common/ArenaImageBox";
 import { mapSymbolImageToken } from "@/configs";
-import { HISTORY_TYPE, HISTORY_STATUS_COLOR, HISTORY_STATUS } from "@/constants";
+import {
+  HISTORY_TYPE,
+  HISTORY_STATUS_COLOR,
+  HISTORY_STATUS,
+} from "@/constants";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { useGetEtherscanLink } from "@/hooks/useEtherscanLink";
 
@@ -124,7 +128,7 @@ const ArenaTable = () => {
                   scope="row"
                   sx={{
                     ...styleTableCell,
-                    textTransform: 'capitalize'
+                    textTransform: "capitalize",
                   }}
                 >
                   {row.type?.toLocaleLowerCase()}
@@ -145,8 +149,13 @@ const ArenaTable = () => {
                   }}
                 >
                   <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <TypoC size="h5" font="bold" color="primary" sx={{ mr: 1.5 }}>
-                      <span >{row.amount || "__"}</span> &nbsp;
+                    <TypoC
+                      size="h5"
+                      font="bold"
+                      color="primary"
+                      sx={{ mr: 1.5 }}
+                    >
+                      <span>{row.amount || "__"}</span> &nbsp;
                       {row.tokenSymbol || "__"}
                     </TypoC>
 
@@ -177,14 +186,21 @@ const ArenaTable = () => {
                     ...styleTableCell,
                   }}
                 >
-                  <Box sx={{display: 'flex', alignItems: 'center', textTransform: 'capitalize'}}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      textTransform: "capitalize",
+                    }}
+                  >
                     <Box
                       sx={{
                         width: "8px",
                         height: "8px",
                         borderRadius: "999px",
-                        backgroundColor: HISTORY_STATUS_COLOR[row.status] || '#aaa',
-                        marginRight: '16px'
+                        backgroundColor:
+                          HISTORY_STATUS_COLOR[row.status] || "#aaa",
+                        marginRight: "16px",
                       }}
                     />
                     {row.status?.toLocaleLowerCase()}

@@ -42,9 +42,7 @@ export const NETWORKS_CONFIG: { [chainId in ChainId]?: NetworkInterface } = {
       symbol: "SUI",
       decimals: 18,
     },
-    rpcUrls: [
-      "https://rpc-mainnet.suiscan.xyz:443",
-    ],
+    rpcUrls: ["https://rpc-mainnet.suiscan.xyz:443"],
     blockExplorer: {
       name: "SuiScan",
       url: "https://suiscan.xyz/",
@@ -64,9 +62,7 @@ export const NETWORKS_CONFIG: { [chainId in ChainId]?: NetworkInterface } = {
       symbol: "SUI",
       decimals: 18,
     },
-    rpcUrls: [
-      "https://rpc-testnet.suiscan.xyz:443",
-    ],
+    rpcUrls: ["https://rpc-testnet.suiscan.xyz:443"],
     blockExplorer: {
       name: "SuiScan",
       url: "https://suiscan.xyz/testnet/home",
@@ -101,7 +97,7 @@ export const NETWORKS_CONFIG: { [chainId in ChainId]?: NetworkInterface } = {
 };
 
 export const getNetworkConfigs = (
-  chainId: string | number = undefined
+  chainId: string | number = undefined,
 ): NetworkInterface | undefined => {
   const cid = chainId ?? networkConnectors.getCurrentChainId();
   return cid ? NETWORKS_CONFIG[cid] : undefined;

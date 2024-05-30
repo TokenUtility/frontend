@@ -1,4 +1,3 @@
-import { BigNumber as EtherBigNumber } from "@ethersproject/bignumber";
 import { BigNumber } from "bignumber.js";
 
 BigNumber.config({
@@ -7,8 +6,5 @@ BigNumber.config({
   DECIMAL_PLACES: 18,
 });
 
-const toEtherBigNumber = (value: any) => {
-  return EtherBigNumber.from(value);
-};
 
-export { BigNumber, EtherBigNumber, toEtherBigNumber };
+export { BigNumber };

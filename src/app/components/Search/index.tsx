@@ -39,7 +39,7 @@ const Search = styled("div")(({ theme }) => ({
   },
   [theme.breakpoints.up("lg")]: {
     fontSize: "16px",
-    width: "340px",
+    width: "300px",
   },
   [theme.breakpoints.up("xl")]: {
     width: "400px",

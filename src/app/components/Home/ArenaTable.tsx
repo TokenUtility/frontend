@@ -21,6 +21,7 @@ import useArenaPools from "@/hooks/useArenaPools";
 import ArenaImageBox from "@/app/components/Common/ArenaImageBox";
 import { mapSymbolImageToken } from "@/configs";
 import { PoolType } from "@/utils/types";
+import { amountFormat, bnum } from "@/utils/helpers";
 
 const styleTableCellHead = {
   fontSize: { xs: "16px", lg: "16px", xl: "18px" },
@@ -63,7 +64,7 @@ const ArenaTable = () => {
             <TableCell sx={styleTableCellHead}>Tokens</TableCell>
             <TableCell sx={styleTableCellHead}>Price</TableCell>
             <TableCell sx={styleTableCellHead}>24h Change</TableCell>
-            <TableCell sx={styleTableCellHead}>7D Change</TableCell>
+            {/* <TableCell sx={styleTableCellHead}>7D Change</TableCell> */}
             <TableCell sx={styleTableCellHead}>
               <ArenaImageBox type={PoolType.x2} sizeImage={76}>
                 Arena Pool
@@ -111,28 +112,33 @@ const ArenaTable = () => {
                     ...styleTableCell,
                   }}
                 >
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
-                    {mapSymbolImageToken[row.symbol] ? (
-                      <ChainIcon
-                        src={mapSymbolImageToken[row.symbol]}
-                        alt="sui-logo"
-                        size={45}
-                      />
-                    ) : (
-                      <Box
-                        sx={{
-                          background: "#eee",
-                          width: "38px",
-                          height: "38px",
-                          borderRadius: "9999px",
-                        }}
-                      ></Box>
-                    )}
+                  <Link
+                    href={`/arena-pools/${row.cgkId}`}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      {mapSymbolImageToken[row.symbol] ? (
+                        <ChainIcon
+                          src={mapSymbolImageToken[row.symbol]}
+                          alt="sui-logo"
+                          size={45}
+                        />
+                      ) : (
+                        <Box
+                          sx={{
+                            background: "#eee",
+                            width: "38px",
+                            height: "38px",
+                            borderRadius: "9999px",
+                          }}
+                        ></Box>
+                      )}
 
-                    <TypoC size="h5" font="bold" sx={{ ml: 1.5 }}>
-                      {row.name || "__"}
-                    </TypoC>
-                  </Box>
+                      <TypoC size="h5" font="bold" sx={{ ml: 1.5 }}>
+                        {row.name || "__"}
+                      </TypoC>
+                    </Box>
+                  </Link>
                 </TableCell>
                 <TableCell
                   sx={{
@@ -140,7 +146,7 @@ const ArenaTable = () => {
                   }}
                 >
                   <TypoC size="h5" font="bold">
-                    {row.price ? `$${row.price}` : "__"}
+                    {row.price ? `$${bnum(row.price).toFixed()}` : "__"}
                   </TypoC>
                 </TableCell>
                 <TableCell
@@ -148,19 +154,30 @@ const ArenaTable = () => {
                     ...styleTableCell,
                     textAlign: "center",
                   }}
+                  className={
+                    bnum(row.price24hChange).isLessThan(0)
+                      ? "price--down"
+                      : "price--up"
+                  }
                 >
-                  {row.dayChange || "__"}
+                  <TypoC size="h5" font="bold">
+                    {row.price24hChange
+                      ? `${amountFormat(row.price24hChange, 2)}%`
+                      : "__"}
+                  </TypoC>
                 </TableCell>
-                <TableCell
+                {/* <TableCell
                   sx={{
                     ...styleTableCell,
                     textAlign: "center",
                   }}
                 >
-                  {row.weekChange || "__"}
-                </TableCell>
+                  <TypoC size="h5" font="bold">
+                    {row.price7dChange ? `$${row.price7dChange}` : "__"}
+                  </TypoC>
+                </TableCell> */}
                 <TableCell sx={styleTableCell}>
-                  <Link href={`/arena-pools/${row.id}`}>
+                  <Link href={`/arena-pools/${row.cgkId}`}>
                     <Button
                       variant="contained"
                       color="inherit"
@@ -174,7 +191,7 @@ const ArenaTable = () => {
                   </Link>
                 </TableCell>
                 <TableCell sx={styleTableCell}>
-                  <Link href={`/arena-pools/${row.id}`}>
+                  <Link href={`/arena-pools/${row.cgkId}`}>
                     <Button
                       variant="contained"
                       color="inherit"
@@ -188,7 +205,7 @@ const ArenaTable = () => {
                   </Link>
                 </TableCell>
                 <TableCell sx={styleTableCell}>
-                  <Link href={`/arena-pools/${row.id}`}>
+                  <Link href={`/arena-pools/${row.cgkId}`}>
                     <Button
                       variant="contained"
                       color="inherit"

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect} from "react";
+import React, { useEffect } from "react";
 import { Tabs, Tab, Box, Container } from "@mui/material";
 import { a11yProps, CustomTabPanel } from "@/app/components/Common/Tabs";
 import dynamic from "next/dynamic";
@@ -10,29 +10,28 @@ const ActiveArena = dynamic(
   () => {
     return import("./ActiveArena");
   },
-  { ssr: false }
+  { ssr: false },
 );
 
 const WinArena = dynamic(
   () => {
     return import("./WinArena");
   },
-  { ssr: false }
+  { ssr: false },
 );
 
 const History = dynamic(
   () => {
     return import("./History");
   },
-  { ssr: false }
+  { ssr: false },
 );
-
 
 const RevenueSharing = dynamic(
   () => {
     return import("./RevenueSharing");
   },
-  { ssr: false }
+  { ssr: false },
 );
 
 function createData(donationName: string, date: string, claimed: boolean) {
@@ -47,8 +46,8 @@ const nftRows = Array.from({ length: 4 }, (_, i) =>
   createData(
     "Donated for Name of donation project 1",
     "01/23/2022, 12:58 AM",
-    i === 0 ? true : false
-  )
+    i === 0 ? true : false,
+  ),
 );
 
 const TAB_LIST = [
@@ -107,14 +106,11 @@ const TabBox = () => {
             variant="scrollable"
           >
             <Tab
-              sx={{ p:0,mx: 2 }}
+              sx={{ p: 0, mx: 2 }}
               label={
                 <Box sx={{ display: "flex" }}>
                   <TypoC size="title-tab">Active Arena Pools</TypoC>
-                  <Chip
-                    sx={{ ml: 2, height: "25px" }}
-                    label={3}
-                  />
+                  <Chip sx={{ ml: 2, height: "25px" }} label={3} />
                 </Box>
               }
               {...a11yProps(0, "profile-page")}
@@ -124,10 +120,7 @@ const TabBox = () => {
               label={
                 <Box sx={{ display: "flex" }}>
                   <TypoC size="title-tab">Win Arena Pools</TypoC>
-                  <Chip
-                    sx={{ ml: 2, height: "25px" }}
-                    label={3}
-                  />
+                  <Chip sx={{ ml: 2, height: "25px" }} label={3} />
                 </Box>
               }
               {...a11yProps(1, "profile-page")}

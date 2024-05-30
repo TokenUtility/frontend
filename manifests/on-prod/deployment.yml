@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: ext
+  name: tu-frontend
+spec:
+  selector:
+    matchLabels:
+      app: tu-frontend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tu-frontend
+        env: ext
+        checks: passed
+    spec:
+      serviceAccountName: tu-pod
+      imagePullSecrets:
+        - name: regcred
+      nodeSelector:
+        group: workernode
+      containers:
+        - name: tu-frontend
+          image: pod-image-name
+          imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: tu-frontend-credentials
+          ports:
+            - containerPort: 3000
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "500Mi"
+            requests:
+              cpu: "200m"
+              memory: "300Mi"

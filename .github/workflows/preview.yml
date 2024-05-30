@@ -1,0 +1,71 @@
+name: Deploy application
+
+on:
+  push:
+    branches: [preview]
+
+env:
+  HARBOR_REPOSITORY_URL: harbor.wanakafarm.dev # set this to your Harbor url
+  HARBOR_PROJECT_NAME: prod
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  deploy:
+    name: Deploy EKS
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Log in to Harbor
+        id: login-harbor
+        run: |
+          echo ${{ secrets.HARBOR_PASSWORD }} | docker login -u ${{ secrets.HARBOR_USER }} --password-stdin ${{ env.HARBOR_REPOSITORY_URL }}
+
+      - name: Build, tag, and push image to Harbor
+        id: build-image
+        env:
+          REPOSITORY: ${{ github.repository }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          # Build a docker container and
+          # push it to Harbor
+          HARBOR_REGISTRY="$(tr '[:upper:]' '[:lower:]' <<< $REPOSITORY)"
+          docker build -t $HARBOR_REPOSITORY_URL/$HARBOR_PROJECT_NAME/$HARBOR_REGISTRY:$IMAGE_TAG ./
+          docker push $HARBOR_REPOSITORY_URL/$HARBOR_PROJECT_NAME/$HARBOR_REGISTRY:$IMAGE_TAG
+          echo "::set-output name=image::$HARBOR_REPOSITORY_URL/$HARBOR_PROJECT_NAME/$HARBOR_REGISTRY:$IMAGE_TAG"
+
+      - name: Copy manifest content recursively to remote
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: manifests/on-prod
+          remote: /opt/wanakafarm/manifests/${{ github.sha }}
+          host: ${{ secrets.SSH_HOST_PROD }}
+          username: ${{ secrets.SSH_USER_PROD }}
+          password: ${{ secrets.SSH_PASS_PROD }}
+          port: ${{ secrets.SSH_PORT_PROD }}
+
+      - name: Deploy application
+        uses: appleboy/ssh-action@master
+        env:
+          K8S_YAML_DIR: /opt/wanakafarm/manifests/${{ github.sha }}
+          IMAGE_NAME: ${{ steps.build-image.outputs.image }}
+        with:
+          host: ${{ secrets.SSH_HOST_PROD }}
+          username: ${{ secrets.SSH_USER_PROD }}
+          password: ${{ secrets.SSH_PASS_PROD }}
+          port: ${{ secrets.SSH_PORT_PROD }}
+          envs: K8S_YAML_DIR,IMAGE_NAME
+          script: |
+            cd $K8S_YAML_DIR
+            echo "dir: $K8S_YAML_DIR image: $IMAGE_NAME"
+            curl -s -o kustomize --location https://github.com/kubernetes-sigs/kustomize/releases/download/v3.2.0/kustomize_3.2.0_linux_amd64
+            chmod u+x ./kustomize
+            ./kustomize edit set image pod-image-name=$IMAGE_NAME
+            ./kustomize build . | kubectl apply -f -
+            rm -rf $K8S_YAML_DIR

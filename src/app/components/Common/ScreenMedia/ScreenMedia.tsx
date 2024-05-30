@@ -19,18 +19,16 @@ export default function ScreenMedia(props: ScreenMediaProps) {
   // const lgOnly = useMediaQuery((theme: Theme) => theme.breakpoints.only("lg"));
   // const xlOnly = useMediaQuery((theme: Theme) => theme.breakpoints.only("xl"));
 
-  return (
-    props.children({
-      xsAndUp,
-      smAndUp,
-      // mdAndUp,
-      // lgAndUp,
-      xlAndUp,
-      xsOnly,
-      // smOnly,
-      // mdOnly,
-      // lgOnly,
-      // xlOnly,
-    })
-  );
+  return props.children({
+    xsAndUp,
+    smAndUp,
+    // mdAndUp,
+    // lgAndUp,
+    xlAndUp,
+    xsOnly,
+    // smOnly,
+    // mdOnly,
+    // lgOnly,
+    // xlOnly,
+  });
 }

@@ -51,11 +51,11 @@ const components: Components<Omit<Theme, "components">> = {
         boxShadow: "unset",
         textTransform: "unset",
         lineHeight: 1.3,
-        fontWeight: 'bold'
+        fontWeight: "bold",
       },
       sizeSmall: {
         borderRadius: "7px",
-        padding: '6px 14px',
+        padding: "6px 14px",
       },
       sizeMedium: {
         textTransform: "unset",
@@ -115,7 +115,7 @@ const components: Components<Omit<Theme, "components">> = {
           boxShadow: "none",
           backgroundColor: "rgba(0,0,0,0.08)",
         },
-      }
+      },
     },
   },
   MuiLinearProgress: {
@@ -158,8 +158,8 @@ const components: Components<Omit<Theme, "components">> = {
           fontSize: "16px",
           color: "#000",
           fontWeight: "bold",
-          '.MuiFilledInput-input': {
-            paddingLeft: '0 !important'
+          ".MuiFilledInput-input": {
+            paddingLeft: "0 !important",
           },
           "@media screen and (min-width: 900px)": {
             fontSize: "18px",
@@ -181,8 +181,8 @@ const components: Components<Omit<Theme, "components">> = {
         padding: "16px 16px 16px 20px",
         fontSize: "16px",
         color: "#000",
-        fontWeight: 'bold',
-        minHeight: '40px !important',
+        fontWeight: "bold",
+        minHeight: "40px !important",
         display: "flex",
         alignItems: "center",
         "@media screen and (min-width: 900px)": {

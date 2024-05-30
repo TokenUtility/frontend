@@ -20,9 +20,9 @@ const ArenaImageBox = ({
         width={sizeImage}
         alt="img"
       />
-      <span style={{ color: "#7645d9", fontWeight: 'bold' }}>{children}</span>
+      <span style={{ color: "#7645d9", fontWeight: "bold" }}>{children}</span>
     </Box>
   );
 };
 
-export default ArenaImageBox
+export default ArenaImageBox;

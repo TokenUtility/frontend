@@ -17,8 +17,11 @@ import { useAccountBalance } from "@suiet/wallet-kit";
 import ProgressRaised from "@/app/components/Common/ProgressRaised";
 import InfoIcon from "@mui/icons-material/InfoOutlined";
 import Link from "next/link";
-import { PERCENT_DISTRIBUTION } from '@/constants'
-import { ArenaCardProps }  from '@/utils/types'
+import { PERCENT_DISTRIBUTION } from "@/constants";
+import { ArenaCardProps } from "@/utils/types";
+import { bnum } from "@/utils/helpers";
+import { observer } from "mobx-react";
+import { useStores } from "@/contexts/storesContext";
 
 const ButtonSelectPool = ({ type, joined, total, active, ...props }) => {
   return (
@@ -40,7 +43,7 @@ const ButtonSelectPool = ({ type, joined, total, active, ...props }) => {
           color: "#fff",
         },
         py: 0.7,
-        px: 1
+        px: 1,
       }}
       {...props}
     >
@@ -55,7 +58,9 @@ const ButtonSelectPool = ({ type, joined, total, active, ...props }) => {
           size="18px"
           color={active ? "#fff" : "rgba(118, 69, 217, 1)"}
         />
-        <TypoC size="small" font="bold">&nbsp;{joined}/{total}</TypoC>
+        <TypoC size="small" font="bold">
+          &nbsp;{joined}/{total}
+        </TypoC>
       </Box>
     </Button>
   );
@@ -78,42 +83,71 @@ const StartTextProcess = () => {
   );
 };
 
-const EndTextProcess = () => {
+const EndTextProcess = ({ raised, goal, ticker, ...props }) => {
   return (
     <Box sx={{ display: "flex", alignItems: "center" }}>
-      10.000 / <span style={{ color: "rgba(0, 0, 0, 0.22)" }}>20.000 SCB</span>
+      {raised}/
+      <span style={{ color: "rgba(0, 0, 0, 0.22)" }}>
+        {goal} {ticker}
+      </span>
     </Box>
   );
 };
 
-const Pooling = ({ amount, setAmount }) => {
+const Pooling = ({
+  poolType,
+  amount,
+  setAmount,
+  setPoolValue,
+  poolData,
+  setPoolData,
+  ticker,
+  price = 0,
+}) => {
   const [poolSelected, setPoolSelected] = useState(0);
 
   function handleAmountChange(event: ChangeEvent<HTMLInputElement>) {
     setAmount(event.target.value);
     setPoolSelected(0);
   }
+
   function handleSubmit(e) {
     try {
       e.preventDefault();
       // buttonActionHandler(buttonState);
     } catch {}
   }
+
   function handleSelectPool(index: number) {
-    setPoolSelected(index);
+    let poolValue = 0;
     switch (index) {
       case 1:
-        setAmount(10);
+        poolValue = 10;
         break;
       case 2:
-        setAmount(100);
+        poolValue = 100;
         break;
       case 3:
-        setAmount(500);
+        poolValue = 500;
         break;
       default:
         break;
     }
+    setPoolSelected(index);
+    setPoolValue(poolValue);
+    setAmount(bnum(poolValue).dividedBy(price).toFixed(2, 2));
+
+    let dataOfType = poolData[poolType] ?? {};
+    let updatePool = { poolValue };
+    updatePool["key_" + poolValue] = {};
+
+    let dataUpdate = {};
+    dataUpdate[poolType] = { ...dataOfType, ...updatePool };
+
+    setPoolData((x) => ({
+      ...x,
+      ...dataUpdate,
+    }));
   }
 
   return (
@@ -122,25 +156,25 @@ const Pooling = ({ amount, setAmount }) => {
         Pooling
       </TypoC>
       <Box sx={{ mt: 2 }}>
-        <Box sx={{ display: "flex", gap: {sm: 1, xl: 2} }}>
+        <Box sx={{ display: "flex", gap: { sm: 1, xl: 2 } }}>
           <ButtonSelectPool
             type="10"
-            joined={1}
-            total={2}
+            joined={poolData["10"]?.joined ?? 0}
+            total={poolType}
             active={poolSelected === 1}
             onClick={() => handleSelectPool(1)}
           />
           <ButtonSelectPool
             type="100"
-            joined={0}
-            total={10}
+            joined={poolData["100"]?.joined ?? 0}
+            total={poolType}
             active={poolSelected === 2}
             onClick={() => handleSelectPool(2)}
           />
           <ButtonSelectPool
             type="500"
-            joined={0}
-            total={100}
+            joined={poolData["500"]?.joined ?? 0}
+            total={poolType}
             active={poolSelected === 3}
             onClick={() => handleSelectPool(3)}
           />
@@ -174,24 +208,6 @@ const Pooling = ({ amount, setAmount }) => {
               <Typography sx={{ fontWeight: "bold", fontSize: "18px" }}>
                 USDT
               </Typography>
-              {/* <Button
-                size="small"
-                variant="contained"
-                disableElevation={true}
-                sx={{
-                  borderRadius: "10px",
-                  backgroundColor: "rgba(33, 193, 134, 0.19)",
-                  padding: "4px 8px",
-                  minWidth: "unset",
-                  color: "#21c186",
-                  "&:hover": {
-                    backgroundColor: "rgba(33, 193, 134, 0.30)",
-                  },
-                }}
-                onClick={onMaxAmount}
-              >
-                Max
-              </Button> */}
             </Box>
           }
           FormHelperTextProps={{ sx: { mt: 1 } }}
@@ -208,12 +224,51 @@ const Pooling = ({ amount, setAmount }) => {
   );
 };
 
-
-
-
-const ArenaCard = ({type, arenaPool}: ArenaCardProps) => {
+const ArenaCard = observer(({ type, arenaPool }: ArenaCardProps) => {
   const { balance } = useAccountBalance();
-  const [amount, setAmount] = useState('0');
+  const [amount, setAmount] = useState("0");
+  const [poolValue, setPoolValue] = useState("0");
+  const [isDisabled, setIsDisabled] = useState(true);
+  const [poolData, setPoolData] = useState({});
+  const {
+    root: { providerStore, arenaPoolStore },
+  } = useStores()
+
+  function acceptChanged(_, value) {
+    setIsDisabled(!value);
+  }
+
+  const FIXED_PRICE = 1.03;
+  const priceOfToken = arenaPool?.price || FIXED_PRICE;
+
+  function getStartValue() {
+    const dataOfType = poolData[type];
+    if (!dataOfType) {
+      return "0";
+    }
+    const key = "key_" + dataOfType?.poolValue;
+    const poolValue = dataOfType[key];
+    console.log("getStartValue", dataOfType, key);
+    console.log("getStartValue", poolValue);
+    return "0";
+  }
+
+  function getEndValue() {
+    const dataOfType = poolData[type];
+    if (!dataOfType) {
+      return "0";
+    }
+    return "0";
+  }
+
+  
+  // console.log({contractMetadata})
+  // const depositContractAddr = useMemo(() => {
+  //   if (!wallet.chain) return "";
+  //   return sampleDeposit.get(wallet.chain.id) ?? "";
+  // }, [wallet]);
+
+  
 
   return (
     <Box
@@ -243,7 +298,7 @@ const ArenaCard = ({type, arenaPool}: ArenaCardProps) => {
             pl: 3,
             pr: 1,
             py: 1,
-            fontWeight: 'bold'
+            fontWeight: "bold",
           }}
         >
           {type} &nbsp;
@@ -251,42 +306,78 @@ const ArenaCard = ({type, arenaPool}: ArenaCardProps) => {
         </Box>
       </Box>
       <TypoC size="h5" font="bold" sx={{ mt: 1 }}>
-        {arenaPool?.name || '__'} - X{type} Arena Pool #1
+        {arenaPool?.name || "__"} - X{type} Arena Pool #1
       </TypoC>
       <TypoC color="gray" sx={{ mt: 0.5 }}>
         Ends in: <span style={{ color: "#000" }}>1d:4h:15m:15s</span>
       </TypoC>
       <Box
-        sx={{ borderRadius: "22px", border: "solid 1px #ededed", px: 3, py: 1.5, mt: 1 }}
+        sx={{
+          borderRadius: "22px",
+          border: "solid 1px #ededed",
+          px: 3,
+          py: 1.5,
+          mt: 1,
+        }}
       >
         <TypoC>
-          <span style={{ color: "#7645d9" }}>Deposit</span> {arenaPool?.symbol || '__'} to join{" "}
+          <span style={{ color: "#7645d9" }}>Deposit</span>{" "}
+          {arenaPool?.symbol || "__"} to join{" "}
           <span style={{ color: "#7645d9" }}>X{type}</span> Arena Pool. <br />
           You will have a chance to{" "}
           <span style={{ color: "#7645d9" }}>X{type}</span> your token.
         </TypoC>
       </Box>
-      <Pooling amount={amount} setAmount={setAmount} />
+      <Pooling
+        poolType={type}
+        amount={amount}
+        setAmount={setAmount}
+        setPoolValue={setPoolValue}
+        poolData={poolData}
+        setPoolData={setPoolData}
+        ticker={arenaPool?.symbol}
+        price={priceOfToken}
+      />
       <TypoC size="h5" sx={{ textAlign: "right", mt: 1 }}>
-        Your balance: {amountFormat(fromMIST(balance as unknown as number))} SUI
+        Your balance: {amountFormat(fromMIST(balance as unknown as number))}{" "}
+        {arenaPool?.symbol}
       </TypoC>
       <ProgressRaised
         sx={{ mt: 2 }}
-        startValue={'10000' || "0"}
-        endValue={"20000"}
-        endText={<EndTextProcess />}
+        startValue={getStartValue()}
+        endValue={getEndValue()}
+        endText={
+          <EndTextProcess
+            raised={getStartValue()}
+            goal={getEndValue()}
+            ticker={arenaPool?.symbol}
+          />
+        }
         startText={<StartTextProcess />}
         prefix=""
       />
       <Box
-        sx={{ borderRadius: "22px", border: "solid 1px #ededed", px: 2, py: 1.5, mt: 2 }}
+        sx={{
+          borderRadius: "22px",
+          border: "solid 1px #ededed",
+          px: 2,
+          py: 1.5,
+          mt: 2,
+        }}
       >
         <Box className="summary-list">
           SUMMARY
           <ul>
             <li>
-              You deposit <span>{amount}&nbsp; {arenaPool?.symbol || '__'}</span> to join{" "}
-              <span>{arenaPool?.name || '__'} - X{type} Arena Pool #1 - ticket: ${amount}</span>
+              You deposit{" "}
+              <span>
+                {amount}&nbsp; {arenaPool?.symbol || "__"}
+              </span>{" "}
+              to join{" "}
+              <span>
+                {arenaPool?.name || "__"} - X{type} Arena Pool #1 - ticket: $
+                {poolValue}
+              </span>
             </li>
 
             <li>
@@ -300,22 +391,26 @@ const ArenaCard = ({type, arenaPool}: ArenaCardProps) => {
           </ul>
         </Box>
       </Box>
-      <Box sx={{ mt: 2, color: "#6f6f70", fontWeight: 'bold' }}>
-        <Checkbox /> I have read and accept the{" "}
-        <Link href="#">Term of Service</Link>
+      <Box sx={{ mt: 2, color: "#6f6f70", fontWeight: "bold" }}>
+        <Checkbox
+          disabled={bnum(amount).isGreaterThan(0)}
+          onChange={acceptChanged}
+        />{" "}
+        I have read and accept the <Link href="#">Term of Service</Link>
       </Box>
       <Button
         variant="contained"
         color="primary"
         size="medium"
-        disabled={true}
+        disabled={isDisabled}
         fullWidth={true}
         sx={{ mt: 2 }}
+        onClick={() => arenaPoolStore.deposit()}
       >
         Deposit to Join
       </Button>
     </Box>
   );
-};
+});
 
 export default ArenaCard;
