@@ -192,6 +192,7 @@ export default class ProviderStore {
       this.setAccount(account);
       // blockchainFetchStore.blockchainFetch(true);
     }
+
     if (userStore?.profile?.address) {
       userStore.handleLogout();
       notificationStore.showErrorNotification(

@@ -18,7 +18,7 @@ export const withComingSoon: MiddlewareFactory = (next) => {
         process.env.NEXT_PUBLIC_SHOW_COMING_SOON === "1";
       let response;
       // If in maintenance mode, point the url pathname to the maintenance page
-      if (isInMaintenanceMode && request.nextUrl.pathname !== "/coming-soon") {
+      if (isInMaintenanceMode && request.nextUrl.pathname !== "/coming-soon" && request.nextUrl.pathname !== '/') {
         request.nextUrl.pathname = `/coming-soon`;
         // redirect to the url
         response = NextResponse.redirect(request.nextUrl);
