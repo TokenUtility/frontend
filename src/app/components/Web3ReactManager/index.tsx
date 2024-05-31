@@ -32,9 +32,10 @@ const Web3Manager = observer(() => {
       !accessToken
     ) {
       logging.current = true;
-      userStore.handleLoginWallet().finally(() => {
-        logging.current = false;
-      });
+      console.log({accessToken})
+      // userStore.handleLoginWallet().finally(() => {
+      //   logging.current = false;
+      // });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [wallet]);

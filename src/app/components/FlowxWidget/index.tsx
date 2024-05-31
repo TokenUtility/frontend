@@ -10,10 +10,10 @@ const FlowXWidget = ({ id }: { id: string }) => {
       console.error("FlowXInitial");
       return;
     }
-    // const root = window.FlowXInitial(ref.current);
-    // return () => {
-    //   root.unmount();
-    // };
+    const root = window.FlowXInitial(ref.current);
+    return () => {
+      root.unmount();
+    };
   }, [id]);
 
   return (

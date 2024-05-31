@@ -223,15 +223,18 @@ const ArenaTable = () => {
           })()}
         </TableBody>
       </Table>
-      <Button
-        variant="contained"
-        color="inherit"
-        size="large"
-        sx={{ display: "flex", alignItems: "center", color: "#000", mt: 2 }}
-        fullWidth={true}
-      >
-        View All Arena Pools <EastRoundedIcon sx={{ mr: 2 }}></EastRoundedIcon>
-      </Button>
+      <Link href="/arena-pools">
+        <Button
+          variant="contained"
+          color="inherit"
+          size="large"
+          sx={{ display: "flex", alignItems: "center", color: "#000", mt: 2 }}
+          fullWidth={true}
+        >
+          View All Arena Pools{" "}
+          <EastRoundedIcon sx={{ mr: 2 }}></EastRoundedIcon>
+        </Button>
+      </Link>
     </TableContainer>
   );
 };

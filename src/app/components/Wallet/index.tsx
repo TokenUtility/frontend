@@ -88,8 +88,8 @@ const TestnetWrapper = styled.div`
 
 const NetworkCard = styled(YellowCard)`
   width: fit-content;
-  border-radius: 4px;
-  padding: 10px 12px;
+  border-radius: 10px;
+  padding: 10px 8px;
   height: 100%;
 `;
 
