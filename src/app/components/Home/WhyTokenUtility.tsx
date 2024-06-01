@@ -44,7 +44,7 @@ const WhyTokenUtility = () => {
     <Card sx={{ textAlign: "center" }}>
       <CardContent sx={{ backgroundColor: "#6f3ecf", color: "#fff" }}>
         <TypoC font="bold" size="h2">
-          Why Token Utility
+        Our Services
         </TypoC>
         <Box
           sx={{
