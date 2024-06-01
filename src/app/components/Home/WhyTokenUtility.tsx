@@ -52,7 +52,6 @@ const WhyTokenUtility = () => {
             justifyContent: "space-between",
             pt: 4,
             gap: { xs: 2, lg: 4, xl: 4 },
-            px: { xs: 2, xl: 4 },
             pb: 2,
           }}
         >
@@ -63,7 +62,7 @@ const WhyTokenUtility = () => {
               </TypoC>
               <Box sx={{ mt: 2 }}>
                 {desc.map((text, index) => (
-                  <TypoC key={index} size="h5">
+                  <TypoC key={index}>
                     {text}
                   </TypoC>
                 ))}

@@ -45,14 +45,14 @@ export function InfoItem(props: { data: InfoProps }) {
       className="info-item"
     >
       <Box sx={{ mt: { xs: 1, sm: 0 } }}>
-        <TypoC size="h4" font="medium" typoProps={{ className: "info-title" }}>
+        <TypoC font="medium" typoProps={{ className: "info-title" }}>
           {title}
         </TypoC>
         <ul className="how-works__list-item">
           {descList &&
             descList.map((item, index) => (
               <li key={index}>
-                <TypoC size="h4">{item}</TypoC>
+                <TypoC>{item}</TypoC>
               </li>
             ))}
         </ul>
@@ -100,7 +100,7 @@ export default function HowToPlay() {
           height={218}
           alt="how-to-play"
         />
-        <Box sx={{ pl: { xs: 4, md: 14 } }}>
+        <Box sx={{ pl: { xs: 4, lg: 4,xl: 8 } }}>
           <TypoC size="h2" font="bold">
             Why us
           </TypoC>
@@ -111,7 +111,7 @@ export default function HowToPlay() {
               flexDirection: { xs: "column", md: "row" },
               alignItems: "flex-start",
               pt: { sm: 1 },
-              gap: { xs: 2, xl: 2 },
+              gap: { xs: 1, lg: 1, xl: 2 },
             }}
           >
             <InfoSection itemProps={{ sx: { pt: 16 } }}></InfoSection>
