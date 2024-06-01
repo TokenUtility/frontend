@@ -6,7 +6,7 @@ import Script from "next/script";
 export const metadata: Metadata = {
   title: "Token Utility",
   description:
-    "Token Utility is an innovative protocol that enables utilities for all tokens.",
+    "Token Utility is an innovative protocol that enables utilities for all tokens in the SUI network.",
   metadataBase: new URL("https://www.tokenutility.io/"),
   viewport: "width=device-width, initial-scale=1",
   openGraph: {
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     url: "https://tokenutility.io/",
     title: "Token Utility",
     description:
-      "Token Utility is an innovative protocol that enables utilities for all tokens.",
+      "Token Utility is an innovative protocol that enables utilities for all tokens in the SUI network.",
     siteName: "Token Utility",
     images: [
       {

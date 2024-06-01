@@ -25,8 +25,7 @@ const Banner = () => {
         }}
       >
         <TypoC font="bold" size="h1" color="white" lineHeight={1.4}>
-          Token Utility is an innovative protocol that enables utilities for all
-          tokens.
+        Token Utility is an innovative protocol that enables utilities for all tokens in the SUI network.
         </TypoC>
         <Box
           sx={{
@@ -36,8 +35,7 @@ const Banner = () => {
           }}
         >
           <TypoC font="bold" size="h4" sx={{ mt: 1 }}>
-            Token holders can make at 2x, 10x, 100x fairness, transparency and
-            fully on chain
+          Revolutionizing Token Engagement and Utility
           </TypoC>
           <Button
             variant="outlined"
@@ -55,7 +53,7 @@ const Banner = () => {
           </Button>
           <Box sx={{ display: "flex", alignItems: "center", mt: 3 }}>
             <TypoC font="bold" size="h4" sx={{ mr: 2 }}>
-              Build on Sui
+            Build on Sui network 
             </TypoC>
             <ChainIcon src={SUILogo} alt="sui-logo" />
           </Box>

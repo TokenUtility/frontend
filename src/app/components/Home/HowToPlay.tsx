@@ -12,18 +12,23 @@ interface InfoProps {
 
 export const infoList: InfoProps[] = [
   {
-    title: "1. Select arena pool that you holding tokens",
+    title: "1. Support 10+ tokens on the SUI network and more",
   },
   {
-    title: "2. Select type of arena",
-    descList: [
-      "2X: make 2x fast",
-      "10x make bigger money",
-      "100x make biggest money",
-    ],
+    title:
+      "2. Earn passive income through revenue sharing and the Pool Together service.",
   },
   {
-    title: "3. Claim if you're a winner",
+    title:
+      "3. The first platform that allows you to mint a personalized NFT PFP based on your token holdings. You can use it to show off with your friends that you are a premium holder or elite holder of $SUI",
+  },
+  {
+    title:
+      "4. You don't lose anything if you join and don't win, but if you do win, you get a big prize.",
+  },
+  {
+    title:
+      "5. The results are verified by SUI VRF. It's transparent and fully on-chain.",
   },
 ];
 
@@ -97,7 +102,7 @@ export default function HowToPlay() {
         />
         <Box sx={{ pl: { xs: 4, md: 14 } }}>
           <TypoC size="h2" font="bold">
-            How to Play
+            Why us
           </TypoC>
           <Box
             sx={{
@@ -106,7 +111,7 @@ export default function HowToPlay() {
               flexDirection: { xs: "column", md: "row" },
               alignItems: "flex-start",
               pt: { sm: 1 },
-              gap: { xs: 4, xl: 6 },
+              gap: { xs: 2, xl: 2 },
             }}
           >
             <InfoSection itemProps={{ sx: { pt: 16 } }}></InfoSection>

@@ -5,20 +5,37 @@ import { title } from "process";
 
 const DataInfos = [
   {
-    title: "Provide Utilities of token",
-    desc: "We research carefully and provide detail utilities of tokens, it helps our users have more insight before investing",
+    title: "1. Utilities of token",
+    desc: [
+      "We research carefully and provide detail utilities of tokens, it helps our users have more insight before investing",
+    ],
   },
   {
-    title: "Arena pool",
-    desc: "This is an innovative way to makes 2x , 10x, 100x fairness, transparency and fully on chain",
+    title: "2. Pools",
+    desc: [
+      "We create different kind of pools for user to engage and make money",
+      "- Arena pool: A fair, transparent, on-chain place where users can multiply their token holdings (x2, x10, x100) by becoming winners. The result is verified by SUI VRF.",
+      "- Pool together: A no-loss lottery where users have a chance to win big prizes.",
+    ],
   },
   {
-    title: "Swap",
-    desc: "We integrate with other DEX aggregators without fee to bring the best rate to our users",
+    title: "3. Proof of holding",
+    desc: [
+      "- Custom NFT PFPs featuring your own avatar and username.",
+      "- On-chain proof of loyalty, premium, or elite holder status based on token holdings for the projects you love",
+    ],
   },
   {
-    title: "User profile",
-    desc: "We provide a tool to help our user manage their portfolio, their arena and revenue sharing.",
+    title: "4. Swap",
+    desc: [
+      "- Integration with various AMM and DEX aggregators to provide the best user experience.",
+    ],
+  },
+  {
+    title: "5. Revenue Sharing",
+    desc: [
+      "- The sharing range is between 10%-70%, depending on your role: normal users get 10%, strategic partners get 50%, and early supporters get 70%.",
+    ],
   },
 ];
 
@@ -34,7 +51,7 @@ const WhyTokenUtility = () => {
             display: "flex",
             justifyContent: "space-between",
             pt: 4,
-            gap: { xs: 3, lg: 6, xl: 8 },
+            gap: { xs: 2, lg: 4, xl: 4 },
             px: { xs: 2, xl: 4 },
             pb: 2,
           }}
@@ -44,9 +61,13 @@ const WhyTokenUtility = () => {
               <TypoC size="h5" font="bold">
                 {title}
               </TypoC>
-              <TypoC sx={{ mt: 2 }} size="h5">
-                {desc}
-              </TypoC>
+              <Box sx={{ mt: 2 }}>
+                {desc.map((text, index) => (
+                  <TypoC key={index} size="h5">
+                    {text}
+                  </TypoC>
+                ))}
+              </Box>
             </Box>
           ))}
         </Box>
