@@ -16,18 +16,21 @@ export const TransferLinkAddress = (props: TransferLinkAddressProps) => {
   useEffect(() => {
     setHref(getEtherscanLink(props.address || "", type));
   }, [props, type, getEtherscanLink]);
+
+
   if (!props.address) {
     return null;
   }
+  console.log({shortenTransactionHash: shortenTransactionHash(props.address)})
   return (
     <a
       href={href}
       target="_blank"
-      style={{ color: "#fff", display: "flex", alignItems: "center" }}
+      style={{  display: "flex", alignItems: "center" }}
     >
       {shorten(props.address || "")}
       <OpenInNewIcon
-        style={{ color: "#b3e615", marginLeft: "6px" }}
+        style={{ color: "#7645d9", marginLeft: "6px" }}
         fontSize="small"
       />
     </a>

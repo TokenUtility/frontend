@@ -248,8 +248,6 @@ const ArenaCard = observer(({ type, arenaPool }: ArenaCardProps) => {
     }
     const key = "key_" + dataOfType?.poolValue;
     const poolValue = dataOfType[key];
-    console.log("getStartValue", dataOfType, key);
-    console.log("getStartValue", poolValue);
     return "0";
   }
 

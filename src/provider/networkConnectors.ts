@@ -15,6 +15,8 @@ const defaultChainId = String(
   process.env.NEXT_PUBLIC_SUPPORTED_NETWORK_ID || supportedChains[0],
 );
 
+
+
 class NetworkConnectorsClass {
   public currentChainId: string;
 
@@ -27,6 +29,7 @@ class NetworkConnectorsClass {
   }
 
   public getCurrentChainId(): string {
+    console.log({currentChainId: this.currentChainId})
     return this.currentChainId;
   }
 

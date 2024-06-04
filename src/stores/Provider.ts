@@ -13,7 +13,7 @@ import { logClient } from "@/utils";
 import { ChainId } from "@/constants";
 import { isAddressEqual } from "@/utils/helpers";
 import { getFullnodeUrl, SuiClient } from '@mysten/sui.js/client';
-import { WalletContextState, SuiProvider } from "@suiet/wallet-kit";
+import { WalletContextState } from "@suiet/wallet-kit";
 
 // import snackbarHelper from "@/utils/snackbarHelper";
 export interface ChainData {
@@ -60,7 +60,7 @@ export interface ProviderStatus {
   injectedWeb3: any;
   backUpLoaded: boolean;
   backUpWeb3: any;
-  activeProvider: SuiProvider;
+  activeProvider: SuiClient;
   activeWallet: WalletContextState;
   error: Error;
 }
@@ -201,7 +201,7 @@ export default class ProviderStore {
     }
   };
 
-  loadProvider = async (wallet:WalletContextState, provider: SuiProvider) => {
+  loadProvider = async (wallet:WalletContextState, provider: SuiClient) => {
     try {
       if (wallet.on) {
         logClient(`[Provider] Subscribing Listeners`);
@@ -232,7 +232,7 @@ export default class ProviderStore {
     }
   };
 
-  async loadWeb3(wallet: WalletContextState, provider: SuiProvider) {
+  async loadWeb3(wallet: WalletContextState, provider: SuiClient) {
     const { connected, chain } = wallet;
 
     if (connected) {
@@ -250,16 +250,13 @@ export default class ProviderStore {
     } else {
       logClient(`[Provider] BackUp Provider Loaded & Active`);
       runInAction(() => {
+        const suiClient = new SuiClient({ url: getFullnodeUrl('testnet') });
         this.setAccount("");
-        this.setActiveChainId(wallet?.chain?.id);
         this.providerStatus.injectedActive = true;
-        //
-        this.providerStatus.activeProvider = null;
+        this.providerStatus.activeProvider = suiClient;
         this.providerStatus.activeWallet = null;
         this.providerStatus.injectedActive = false
         this.providerStatus.injectedLoaded = false
-        const suiClient = new SuiClient({ url: getFullnodeUrl('testnet') });
-        console.log({a: suiClient, b: getFullnodeUrl('testnet')})
       });
     }
     runInAction(() => {

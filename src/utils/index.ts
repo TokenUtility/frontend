@@ -14,7 +14,7 @@ export function shortenAddress(address: string, chars = 4): string {
     // throw Error(`Invalid 'address' parameter '${address}'.`);
     return "";
   }
-  return `${parsed.substring(0, chars + 2)}...${parsed.substring(42 - chars)}`;
+  return `${parsed.substring(0, chars + 2)}...${parsed.substring(66 - chars)}`;
 }
 
 export function getEtherscanLink(
@@ -22,23 +22,24 @@ export function getEtherscanLink(
   data: string | number,
   type: "transaction" | "token" | "address" | "block" = "address",
 ): string {
+  
   const cid = chainId ?? networkConnectors.getCurrentChainId();
   const network = getNetworkConfigs(cid);
   const prefix = network?.blockExplorer?.url;
-
+  console.log({prefix})
   switch (type) {
     case "transaction": {
-      return `${prefix}/tx/${data}`;
+      return `${prefix}/txblock/${data}`;
     }
     case "token": {
-      return `${prefix}/token/${data}`;
+      return `${prefix}/coin/${data}`;
     }
     case "block": {
       return `${prefix}/block/${data}`;
     }
     case "address":
     default: {
-      return `${prefix}/address/${data}`;
+      return `${prefix}/account/${data}`;
     }
   }
 }

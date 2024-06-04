@@ -9,6 +9,8 @@ import useArenaPool from "@/hooks/useArenaPool";
 import ChainIcon from "@/app/components/Common/ChainIcon";
 import Link from "next/link";
 import ArenaCard from "@/app/(main)/arena-pools/[slug]/components/ArenaCard";
+import ArenaCardEnded from "@/app/(main)/arena-pools/[slug]/components/ArenaCardEnd";
+import MinNft from "@/app/(main)/arena-pools/[slug]/components/MintNft";
 import BoxEditor from "@/app/(main)/arena-pools/[slug]/components/BoxEditor";
 import dynamic from "next/dynamic";
 import { mapSymbolImageToken } from "@/configs";
@@ -20,14 +22,12 @@ import { amountFormat } from "@/utils/helpers";
 import { observer } from "mobx-react";
 import { useStores } from "@/contexts/storesContext";
 
-
 const sampleDeposit = new Map([
   [
     "sui:testnet",
     "0x1fd3e7a7ac71377e6e6493be98e1579aa5228b5ad3bbe699230174a25964c1e3::arena::deposit",
   ],
 ]);
-
 
 const TAB_LIST = ["active", "ended"];
 
@@ -143,13 +143,16 @@ const AreaPools = observer(({ params }: { params: { slug: string } }) => {
   const [value, setValue] = React.useState(0);
   const {
     root: { providerStore },
-  } = useStores()
+  } = useStores();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
     // window.history.replaceState(null, "", `/arena-pools#${TAB_LIST[newValue]}`);
   };
-  const { arenaPool, isError, isLoading } = useArenaPool(params.slug, providerStore.providerStatus.activeChainId);
+  const { arenaPool, isError, isLoading } = useArenaPool(
+    params.slug,
+    providerStore.providerStatus.activeChainId
+  );
 
   // if(arenaPool.address) {
   //   console.log({activeProvider: providerStore.providerStatus.activeProvider})
@@ -254,46 +257,7 @@ const AreaPools = observer(({ params }: { params: { slug: string } }) => {
                       sx={{ height: "unset" }}
                     />
                     <Box sx={{ flexBasis: "40%" }}>
-                      <TypoC size="h3" font="bold">
-                        Giving Free NFT to Sacabam Holders
-                      </TypoC>
-                      <Box
-                        sx={{
-                          borderRadius: "10px",
-                          boxShadow: "0 2px 18px 0 rgba(0, 0, 0, 0.22)",
-                          py: 2,
-                          px: 4,
-                          mt: 4,
-                          background: "#fff",
-                          width: "max-content",
-                        }}
-                      >
-                        <Box
-                          sx={{
-                            border: "solid 1px #979797",
-                            backgroundColor: "#d8d8d8",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            fontWeight: "bold",
-                            fontSize: "22px",
-                            width: "250px",
-                            height: "250px",
-                          }}
-                        >
-                          NFT
-                        </Box>
-                        <TypoC size="small" sx={{ mt: 1 }}>
-                          Free Mint <br />/ 1 NFT per Wallet
-                        </TypoC>
-                        <Button
-                          variant="contained"
-                          color="secondary"
-                          sx={{ mt: 1, px: 5 }}
-                        >
-                          Mint NFT Now
-                        </Button>
-                      </Box>
+                      <MinNft></MinNft>
                     </Box>
                   </Box>
                 </CardContent>
@@ -370,7 +334,7 @@ const AreaPools = observer(({ params }: { params: { slug: string } }) => {
           <Box
             sx={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(450px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fill, minmax(450px, 1fr))",
               gap: { xs: "16px", xl: "24px" },
             }}
           >
@@ -391,11 +355,25 @@ const AreaPools = observer(({ params }: { params: { slug: string } }) => {
             />
           </Box>
         </CustomTabPanel>
-        <CustomTabPanel
-          value={value}
-          index={1}
-          id="arena-pools-page"
-        ></CustomTabPanel>
+        <CustomTabPanel value={value} index={1} id="arena-pools-page">
+        <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
+              gap: { xs: "16px", xl: "24px" },
+            }}
+          >
+            <ArenaCardEnded
+            type={PoolType.x2}
+            arenaPool={arenaPool}
+          ></ArenaCardEnded>
+          <ArenaCardEnded
+            type={PoolType.x10}
+            arenaPool={arenaPool}
+          ></ArenaCardEnded>
+          </Box>
+          
+        </CustomTabPanel>
       </Container>
     </main>
   );
