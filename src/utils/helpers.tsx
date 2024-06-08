@@ -318,7 +318,24 @@ export function numberFormat(
   return s[1] ? s.join(dec) : s[0];
 }
 
-export function amountFormat(num, decimals = 2) {
+
+export function amountFormatSmall(num, decimals = 5) {
+  const _num = bnum(num);
+  let d = decimals;
+  if (_num.gt(0)) {
+    if (_num.lt(1)) {
+      d = 6;
+    } else if (_num.gte(1e5)) {
+      d = 0;
+    }
+  }
+  if (_num.gt(0) && _num.lte(1e-4)) {
+    return formatSmallNumber(num);
+  }
+  return numberFormat(num, d);
+}
+
+export function amountFormat(num, decimals = 5) {
   const _num = bnum(num);
   let d = decimals;
   if (_num.gt(0)) {
@@ -331,7 +348,38 @@ export function amountFormat(num, decimals = 2) {
   if (_num.gt(0) && _num.lte(1e-7)) {
     return "<0.000001";
   }
+  console.log({num, d})
   return numberFormat(num, d);
+}
+
+function formatSmallNumber(number, sliceDecimal=  4) {
+  // Handle non-numeric input
+  if (isNaN(number)) {
+    return null;
+  }
+
+  // Convert to string and split at decimal point
+  const parts = bnum(number).toFixed().split(".");
+
+  // Handle numbers without a decimal point
+  if (parts.length === 1) {
+    return number;
+  }
+
+  // Extract decimal part and count leading zeros
+  const decimal = parts[1];
+  let numZeros = 0;
+  for (let i = 0; i < decimal.length; i++) {
+    if (decimal[i] === "0") {
+      numZeros++;
+    } else {
+      break;
+    }
+  }
+
+  // Extract significant digits and convert back to number
+  const formattedNumber = decimal.slice(numZeros);
+  return [bnum(parts[0]).toFormat(), numZeros -1, formattedNumber.slice(0, sliceDecimal)];
 }
 
 export function addressEquals(addr1: string, addr2: string): boolean {

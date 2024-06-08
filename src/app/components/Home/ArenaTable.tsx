@@ -21,7 +21,7 @@ import useArenaPools from "@/hooks/useArenaPools";
 import ArenaImageBox from "@/app/components/Common/ArenaImageBox";
 import { mapSymbolImageToken } from "@/configs";
 import { PoolType } from "@/utils/types";
-import { amountFormat, bnum } from "@/utils/helpers";
+import { amountFormat, bnum, amountFormatSmall } from "@/utils/helpers";
 
 const styleTableCellHead = {
   fontSize: { xs: "16px", lg: "16px", xl: "18px" },
@@ -35,6 +35,25 @@ const styleTableCell = {
   color: "unset",
   px: 1.5,
   py: 1.5,
+};
+
+const AmountFormat = ({ value }) => {
+  if (!value) {
+    return "__";
+  }
+  const amountFormatValue = amountFormatSmall(value);
+  if (amountFormatValue.length === 3) {
+    return (
+      <Box sx={{ display: "flex", gap: "2px" }}>
+        <Box>{amountFormatValue[0]}</Box>.0
+        <Box sx={{ fontSize: "14px", top: "0.5rem", position: "relative" }}>
+          {amountFormatValue[1]}
+        </Box>
+        <Box>{amountFormatValue[2]}</Box>
+      </Box>
+    );
+  }
+  return amountFormatValue;
 };
 
 const ArenaTable = () => {
@@ -146,7 +165,7 @@ const ArenaTable = () => {
                   }}
                 >
                   <TypoC size="h5" font="bold">
-                    {row.price ? `$${bnum(row.price).toFixed()}` : "__"}
+                    <AmountFormat value={row.price}></AmountFormat>
                   </TypoC>
                 </TableCell>
                 <TableCell
@@ -162,7 +181,7 @@ const ArenaTable = () => {
                 >
                   <TypoC size="h5" font="bold">
                     {row.price24hChange
-                      ? `${amountFormat(row.price24hChange, 2)}%`
+                      ? `${bnum(row.price24hChange).toFormat(2)}%`
                       : "__"}
                   </TypoC>
                 </TableCell>
