@@ -319,7 +319,7 @@ const ProfileButton = observer(() => {
   if(!providerStore.providerStatus.account) {
     return
   }
-  if (!isAuth) {
+  if (!isAuth && connected) {
     return <Button
     variant="contained"
     color="primary"

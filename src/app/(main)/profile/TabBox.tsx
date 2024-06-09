@@ -68,7 +68,6 @@ const TabBox = () => {
   };
 
   useEffect(() => {
-    // console.log("Hash:", window.location.hash);
     switch (window.location.hash) {
       case "#active-arena-pools":
         setValue(0);

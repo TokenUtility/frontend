@@ -22,11 +22,11 @@ export function getEtherscanLink(
   data: string | number,
   type: "transaction" | "token" | "address" | "block" = "address",
 ): string {
-  
+
   const cid = chainId ?? networkConnectors.getCurrentChainId();
   const network = getNetworkConfigs(cid);
   const prefix = network?.blockExplorer?.url;
-  console.log({prefix})
+
   switch (type) {
     case "transaction": {
       return `${prefix}/txblock/${data}`;

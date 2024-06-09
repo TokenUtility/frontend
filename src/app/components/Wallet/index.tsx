@@ -109,11 +109,11 @@ const Wallet = observer(() => {
   const {
     root: { dropdownStore, providerStore },
   } = useStores();
-  const { activeChainId, active, error, injectedActive, injectedLoaded } =
+  const { activeChainId, active, error, injectedActive, injectedLoaded, account } =
     providerStore.providerStatus;
 
   const { balance } = useAccountBalance();
-  const { connected, address } = useWallet();
+  const { connected } = useWallet();
 
   // if (!activeChainId && active) {
   //   // throw new Error(`No chain ID specified ${activeChainId}`);
@@ -141,7 +141,7 @@ const Wallet = observer(() => {
             </TestnetWrapper>
           )}
           <AccountElement
-            active={!!address}
+            active={!!account}
             style={{ pointerEvents: "auto" }}
             className="account-element"
           >
@@ -149,7 +149,7 @@ const Wallet = observer(() => {
               {amountFormat(fromMIST(balance as unknown as number))} SUI
             </StyledBalance>
             <WalletButton>
-              <span>{addressEllipsis(address)}</span>
+              <span>{addressEllipsis(account)}</span>
             </WalletButton>
           </AccountElement>
         </React.Fragment>

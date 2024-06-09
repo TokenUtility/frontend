@@ -5,7 +5,7 @@ import { useStores } from "@/contexts/storesContext";
 import { getNetworkConfigs } from "@/provider/networks";
 import useInterval from "@/hooks/useInterval";
 import { logClient } from "@/utils";
-import { useWallet, useSuiProvider } from "@suiet/wallet-kit";
+import { useWallet} from "@suiet/wallet-kit";
 import { getCookie, bnum } from "@/utils/helpers";
 
 const Web3Manager = observer(() => {
@@ -14,7 +14,6 @@ const Web3Manager = observer(() => {
   } = useStores();
   const wallet = useWallet();
   // @ts-ignore
-  const provider = useSuiProvider()
   const { account, status } = wallet;
   let logging = useRef(false);
 
@@ -23,8 +22,9 @@ const Web3Manager = observer(() => {
     : "";
   const { accessToken } = authData;
   useEffect(() => {
-    providerStore.loadWeb3(wallet, provider);
-    console.log({  wallet, provider });
+    if(wallet.status === 'connecting') return
+    providerStore.loadWeb3(wallet);
+    console.log({ wallet });
     if (
       wallet.connected &&
       !userStore.profile.address &&

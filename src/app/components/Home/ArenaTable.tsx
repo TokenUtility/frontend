@@ -44,13 +44,13 @@ const AmountFormat = ({ value }) => {
   const amountFormatValue = amountFormatSmall(value);
   if (amountFormatValue.length === 3) {
     return (
-      <Box sx={{ display: "flex", gap: "2px" }}>
-        <Box>{amountFormatValue[0]}</Box>.0
-        <Box sx={{ fontSize: "14px", top: "0.5rem", position: "relative" }}>
+      <span style={{ display: "flex", gap: "2px" }}>
+        <span>{amountFormatValue[0]}</span>.0
+        <span style={{ fontSize: "14px", top: "0.5rem", position: "relative" }}>
           {amountFormatValue[1]}
-        </Box>
-        <Box>{amountFormatValue[2]}</Box>
-      </Box>
+        </span>
+        <span>{amountFormatValue[2]}</span>
+      </span>
     );
   }
   return amountFormatValue;

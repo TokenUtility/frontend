@@ -1,6 +1,6 @@
 "use client";
 import { Container } from "@mui/material";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useCallback } from "react";
 import { Tabs, Tab, Box, Card, Divider, Button } from "@mui/material";
 import { a11yProps, CustomTabPanel } from "@/app/components/Common/Tabs";
 import TypoC from "@/app/components/Common/Typo";
@@ -21,6 +21,7 @@ import { PoolType } from "@/utils/types";
 import { amountFormat } from "@/utils/helpers";
 import { observer } from "mobx-react";
 import { useStores } from "@/contexts/storesContext";
+import { CoinMetadata, PaginatedCoins } from '@mysten/sui.js/client';
 
 const sampleDeposit = new Map([
   [
@@ -60,7 +61,7 @@ const BoxInfoMarket = ({ data }) => {
       <InfoMarketRow title={"Liquidity"} value={liquidity}>
         {liquidity}
       </InfoMarketRow>
-      <InfoMarketRow title={"Marketcap"} value={marketCap}>
+      <InfoMarketRow title={"Market Cap"} value={marketCap}>
         {amountFormat(marketCap, 3)}
       </InfoMarketRow>
       <InfoMarketRow title={"TotalSupply"} value={totalSupply}>
@@ -140,37 +141,39 @@ const BoxInfoLink = ({ data }) => {
 };
 
 const AreaPools = observer(({ params }: { params: { slug: string } }) => {
-  const [value, setValue] = React.useState(0);
   const {
     root: { providerStore },
   } = useStores();
+  const { account, activeProvider, activeChainId } = useMemo(() => providerStore.providerStatus, [providerStore.providerStatus]);
+  const { arenaPool, isError, isLoading } = useArenaPool(
+    params.slug,
+    activeChainId
+  );
+  const [value, setValue] = React.useState(0);
+  const [balance, setBalance] = React.useState("0");
+  const [coins, setCoins] = React.useState({
+      data: [],
+      hasNextPage: false
+    });
+  const [balanceMetadata, setBalanceMetadata] = React.useState<CoinMetadata>({
+    decimals: 0,
+    description: '',
+    iconUrl: null,
+    id: null,
+    name: '',
+    symbol: ''
+  });
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
-    // window.history.replaceState(null, "", `/arena-pools#${TAB_LIST[newValue]}`);
+    window.history.replaceState(
+      null,
+      "",
+      `/arena-pools/${params.slug}#${TAB_LIST[newValue]}`
+    );
   };
-  const { arenaPool, isError, isLoading } = useArenaPool(
-    params.slug,
-    providerStore.providerStatus.activeChainId
-  );
 
-  // if(arenaPool.address) {
-  //   console.log({activeProvider: providerStore.providerStatus.activeProvider})
-  //   providerStore.providerStatus.activeProvider.getCoin
-  // }
-  const {
-    symbol,
-    network,
-    price,
-    liquidity,
-    marketCap,
-    totalSupply,
-    officialLinks,
-    socials,
-    contract,
-  } = arenaPool;
   useEffect(() => {
-    // console.log("Hash:", window.location.hash);
     switch (window.location.hash) {
       case "#active":
         setValue(0);
@@ -182,6 +185,49 @@ const AreaPools = observer(({ params }: { params: { slug: string } }) => {
         break;
     }
   }, []);
+
+  React.useEffect(() => {
+    const fetchBalance = async () => {
+      if (!activeProvider || !arenaPool.address || !account) {
+        setBalance("0");
+        return;
+      }
+      try {
+        // const balance = await activeProvider.getBalance({
+        //   owner: account,
+        //   coinType: arenaPool.address,
+        // });
+        const coinPromise = activeProvider.getCoins({
+          owner: account,
+          coinType: arenaPool.address,
+        });
+        const balanceMetadataPromise = activeProvider.getCoinMetadata({
+          coinType: arenaPool.address,
+        });
+        const [coinsResult, balanceMetadataResult]= await Promise.all([coinPromise, balanceMetadataPromise]);
+        // setBalance(balance);
+        setCoins(coinsResult)
+        setBalanceMetadata(balanceMetadataResult);
+      } catch (error) {
+        setBalance("0");
+        console.debug(error)
+      }
+    };
+
+    fetchBalance();
+  }, [account, activeProvider, arenaPool.address]);
+
+  const {
+    symbol,
+    network,
+    price,
+    liquidity,
+    marketCap,
+    totalSupply,
+    officialLinks,
+    socials,
+    contract,
+  } = arenaPool;
 
   return (
     <main id="home">
@@ -341,22 +387,25 @@ const AreaPools = observer(({ params }: { params: { slug: string } }) => {
             <ArenaCard
               type={PoolType.x2}
               arenaPool={arenaPool}
-              isReady={true}
+              coins={coins.data}
+              balanceMetadata={balanceMetadata}
             />
             <ArenaCard
               type={PoolType.x10}
               arenaPool={arenaPool}
-              isReady={false}
+              coins={coins.data}
+              balanceMetadata={balanceMetadata}
             />
             <ArenaCard
               type={PoolType.x100}
               arenaPool={arenaPool}
-              isReady={false}
+              coins={coins.data}
+              balanceMetadata={balanceMetadata}
             />
           </Box>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1} id="arena-pools-page">
-        <Box
+          <Box
             sx={{
               display: "grid",
               gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
@@ -364,15 +413,14 @@ const AreaPools = observer(({ params }: { params: { slug: string } }) => {
             }}
           >
             <ArenaCardEnded
-            type={PoolType.x2}
-            arenaPool={arenaPool}
-          ></ArenaCardEnded>
-          <ArenaCardEnded
-            type={PoolType.x10}
-            arenaPool={arenaPool}
-          ></ArenaCardEnded>
+              type={PoolType.x2}
+              arenaPool={arenaPool}
+            ></ArenaCardEnded>
+            <ArenaCardEnded
+              type={PoolType.x10}
+              arenaPool={arenaPool}
+            ></ArenaCardEnded>
           </Box>
-          
         </CustomTabPanel>
       </Container>
     </main>

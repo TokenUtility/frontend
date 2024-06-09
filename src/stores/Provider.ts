@@ -182,9 +182,9 @@ export default class ProviderStore {
 
 
   handleAccountsChanged = (params: { account: { address: string } }): void => {
-    const account = params.account.address;
+    logClient(`[Provider] Accounts changed`, params);
+    const account = params.account?.address;
     const { userStore, notificationStore } = this.rootStore;
-    logClient(`[Provider] Accounts changed`);
     if (!account) {
       this.setAccount("");
     } else {
@@ -202,10 +202,19 @@ export default class ProviderStore {
   };
 
   loadProvider = async (wallet:WalletContextState, provider: SuiClient) => {
+    const { userStore } = this.rootStore;
     try {
       if (wallet.on) {
         logClient(`[Provider] Subscribing Listeners`);
-        wallet.on("chainChange", () => {console.log('chainChange')}); // For now assume network/chain ids are same thing as only rare case when they don't match
+        wallet.on("featureChange", (v) => {console.log('featureChange',v)}); 
+        wallet.on("change", (v) => {
+          console.log('change',v)
+          const {accounts} = v
+          if(!accounts || (accounts && accounts.length === 0)){
+            this.providerStatus.activeWallet.disconnect()
+            userStore.handleLogout()
+          }
+        });
         wallet.on("accountChange", this.handleAccountsChanged);
       }
 
@@ -232,11 +241,11 @@ export default class ProviderStore {
     }
   };
 
-  async loadWeb3(wallet: WalletContextState, provider: SuiClient) {
+  async loadWeb3(wallet: WalletContextState) {
     const { connected, chain } = wallet;
-
     if (connected) {
       logClient(`[Provider] Loading Injected Provider`);
+      const provider = new SuiClient({ url: wallet.chain.rpcUrl });
       await this.loadProvider(wallet, provider);
     }
 
@@ -267,12 +276,12 @@ export default class ProviderStore {
     logClient(`[Provider] Provider Active.`, this.providerStatus);
   }
 
-  getContractMetaData = () => {
+  getContractData = () => {
     const contracts = networkConnectors.getContracts(
       this.providerStatus.activeChainId
     );
     const contractMetadata = {
-      Deposit: contracts.DEPOSIT
+      Pool: contracts.POOL
     };
     return contractMetadata;
   };

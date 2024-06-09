@@ -348,7 +348,6 @@ export function amountFormat(num, decimals = 5) {
   if (_num.gt(0) && _num.lte(1e-7)) {
     return "<0.000001";
   }
-  console.log({num, d})
   return numberFormat(num, d);
 }
 
@@ -507,8 +506,8 @@ export function deleteCookie(cname) {
 
 export function isDevEnv() {
   return (
-    process.env.NEXT_PUBLIC_ENV === "local" ||
-    process.env.NEXT_PUBLIC_ENV === "development"
+    process.env.NEXT_PUBLIC_VERCEL_ENV === "local" ||
+    process.env.NEXT_PUBLIC_VERCEL_ENV === "development"
   );
 }
 

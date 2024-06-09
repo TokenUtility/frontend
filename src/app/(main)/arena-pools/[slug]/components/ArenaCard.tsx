@@ -13,7 +13,6 @@ import TextValidator from "@/app/components/InputValidator/TextField";
 import { ValidatorForm } from "react-form-validator-core";
 import { useState, ChangeEvent } from "react";
 import { fromMIST, amountFormat } from "@/utils/helpers";
-import { useAccountBalance } from "@suiet/wallet-kit";
 import ProgressRaised from "@/app/components/Common/ProgressRaised";
 import InfoIcon from "@mui/icons-material/InfoOutlined";
 import Link from "next/link";
@@ -224,8 +223,7 @@ const Pooling = ({
   );
 };
 
-const ArenaCard = observer(({ type, arenaPool }: ArenaCardProps) => {
-  const { balance } = useAccountBalance();
+const ArenaCard = observer(({ type, arenaPool, coins, balanceMetadata }: ArenaCardProps) => {
   const [amount, setAmount] = useState("0");
   const [poolValue, setPoolValue] = useState("0");
   const [isDisabled, setIsDisabled] = useState(true);
@@ -233,7 +231,7 @@ const ArenaCard = observer(({ type, arenaPool }: ArenaCardProps) => {
   const {
     root: { providerStore, arenaPoolStore },
   } = useStores()
-
+  const [primaryCoin]= coins
   function acceptChanged(_, value) {
     setIsDisabled(!value);
   }
@@ -259,14 +257,12 @@ const ArenaCard = observer(({ type, arenaPool }: ArenaCardProps) => {
     return "0";
   }
 
-  
   // console.log({contractMetadata})
   // const depositContractAddr = useMemo(() => {
   //   if (!wallet.chain) return "";
   //   return sampleDeposit.get(wallet.chain.id) ?? "";
   // }, [wallet]);
 
-  
 
   return (
     <Box
@@ -337,7 +333,7 @@ const ArenaCard = observer(({ type, arenaPool }: ArenaCardProps) => {
         price={priceOfToken}
       />
       <TypoC size="h5" sx={{ textAlign: "right", mt: 1 }}>
-        Your balance: {amountFormat(fromMIST(balance as unknown as number))}{" "}
+        Your balance: {amountFormat(primaryCoin?.balance, balanceMetadata.decimals)}{" "}
         {arenaPool?.symbol}
       </TypoC>
       <ProgressRaised
@@ -403,7 +399,7 @@ const ArenaCard = observer(({ type, arenaPool }: ArenaCardProps) => {
         disabled={isDisabled}
         fullWidth={true}
         sx={{ mt: 2 }}
-        onClick={() => arenaPoolStore.deposit()}
+        onClick={() => arenaPoolStore.joinPool(coins)}
       >
         Deposit to Join
       </Button>

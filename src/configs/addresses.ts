@@ -2,11 +2,11 @@ import { ChainId } from "@/constants";
 import { logClient } from "@/utils";
 
 export const MAINNET_CONTRACTS = {
-  DEPOSIT: '0x1fd3e7a7ac71377e6e6493be98e1579aa5228b5ad3bbe699230174a25964c1e3'
+  POOL: '0x34f19d4c7ca0b898204bb6ae9de8433c9f8e587432931b3bbc6bcd78f2bf07a2'
 };
 
 export const TESTNET_CONTRACTS = {
-  DEPOSIT: '0x1fd3e7a7ac71377e6e6493be98e1579aa5228b5ad3bbe699230174a25964c1e3'
+  POOL: '0x34f19d4c7ca0b898204bb6ae9de8433c9f8e587432931b3bbc6bcd78f2bf07a2'
 };
 
 export const CONTRACTS: { [chainId in ChainId]?: any } = {
@@ -15,5 +15,5 @@ export const CONTRACTS: { [chainId in ChainId]?: any } = {
   [ChainId.DEVNET]: {},
 };
 
-logClient("process.env.NEXT_PUBLIC_ENV", process.env.NEXT_PUBLIC_ENV);
+logClient("process.env.NEXT_PUBLIC_VERCEL_ENV", process.env.NEXT_PUBLIC_VERCEL_ENV);
 

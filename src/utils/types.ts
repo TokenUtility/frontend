@@ -1,3 +1,4 @@
+import { CoinMetadata,CoinStruct } from '@mysten/sui.js/client';
 export interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -37,5 +38,6 @@ export enum PoolType {
 export interface ArenaCardProps {
   type: PoolType;
   arenaPool: ArenaPoolDataBackend;
-  isReady: boolean;
+  coins?: CoinStruct[];
+  balanceMetadata?: CoinMetadata
 }

@@ -8,6 +8,7 @@ interface TransferLinkAddressProps {
   address: string;
   type?: "transaction" | "token" | "address" | "block";
 }
+
 export const TransferLinkAddress = (props: TransferLinkAddressProps) => {
   const getEtherscanLink = useGetEtherscanLink();
   const type = props.type || "address";
@@ -18,10 +19,8 @@ export const TransferLinkAddress = (props: TransferLinkAddressProps) => {
   }, [props, type, getEtherscanLink]);
 
 
-  if (!props.address) {
-    return null;
-  }
-  console.log({shortenTransactionHash: shortenTransactionHash(props.address)})
+  if (!props.address)  return null;
+
   return (
     <a
       href={href}
