@@ -22,6 +22,8 @@ import ShareLinkRef from "./components/ShareLinkRef";
 import MyRevenueSharing from "./components/MyRevenueSharing";
 import { listToken } from "@/configs";
 import ChainIcon from "@/app/components/Common/ChainIcon";
+import { observer } from "mobx-react";
+import { useStores } from "@/contexts/storesContext";
 
 const LeftSideBar = () => {
   return (
@@ -179,15 +181,19 @@ export const RevenueSharingInfo = () => {
   );
 };
 
-const FormLinkRef = () => {
+const FormLinkRef = observer(() => {
   const [isCopied, setCopied] = useCopyClipboard();
   const [revenueSharingLink, setRevenueSharingLink] = useState("");
+  const { root: { userStore }} = useStores()
 
   function handleShareLinkChange(event: ChangeEvent<HTMLInputElement>) {
     setRevenueSharingLink(event.target.value);
   }
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    userStore.updateAccountReferralCode(revenueSharingLink).catch(() => {})
+  };
+
   return (
     <ValidatorForm
       onSubmit={handleSubmit}
@@ -205,15 +211,15 @@ const FormLinkRef = () => {
             id="shareLink"
             name="shareLink"
             type="text"
-            value={revenueSharingLink || ""}
+            value={userStore.profile?.referralCode || ""}
             placeholder="revenuesharingcode"
-            startAdornment={process.env.NEXT_PUBLIC_SITE_URL + "/"}
+            startAdornment={process.env.NEXT_PUBLIC_SITE_URL + "\/"}
             endAdornment={
               <Tooltip title={isCopied ? "Copied" : "Copy"}>
                 <IconButton
                   onClick={() =>
                     setCopied(
-                      `${process.env.NEXT_PUBLIC_SITE_URL}\\${revenueSharingLink}`,
+                      `${process.env.NEXT_PUBLIC_SITE_URL}\/${userStore.profile?.referralCode }`,
                     )
                   }
                 >
@@ -226,7 +232,7 @@ const FormLinkRef = () => {
             disabled
           />
         </Box>
-        <Box sx={{ flex: 1 }}>
+        <Box sx={{ flex: 1, display: userStore.profile?.referralCode ? 'none' : "block" }}>
           <TypoC font="bold">Enter Revenue Sharing Code</TypoC>
           <Box
             sx={{
@@ -267,7 +273,7 @@ const FormLinkRef = () => {
       </Box>
     </ValidatorForm>
   );
-};
+});
 
 const RevenueSharing = () => {
   return (

@@ -9,7 +9,7 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: { xs: "100%", sm: 600, xl: 650 },
-  bgcolor: "#171717",
+  bgcolor: "#fff",
   border: "1px solid transparent",
   outline: "none",
   borderRadius: "20px",

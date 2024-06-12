@@ -52,6 +52,9 @@ const components: Components<Omit<Theme, "components">> = {
         textTransform: "unset",
         lineHeight: 1.3,
         fontWeight: "bold",
+        "&:hover": {
+          boxShadow: "unset",
+        }
       },
       sizeSmall: {
         borderRadius: "7px",
@@ -106,7 +109,7 @@ const components: Components<Omit<Theme, "components">> = {
         },
       },
 
-      containedInherit: {
+      containedInfo: {
         backgroundColor: "#f6f6f6",
         borderRadius: "10px",
         color: "#7645d9",
@@ -116,6 +119,16 @@ const components: Components<Omit<Theme, "components">> = {
           backgroundColor: "rgba(0,0,0,0.08)",
         },
       },
+      containedInherit: {
+        backgroundColor: "rgba(0, 0, 0, 0.87)",
+        borderRadius: "10px",
+        color: "#fff",
+        fontWeight: "bold",
+        "&:hover": {
+          boxShadow: "none",
+          backgroundColor: "rgba(0, 0, 0, 0.80)",
+        },
+      }
     },
   },
   MuiLinearProgress: {

@@ -272,7 +272,7 @@ export default class ProviderStore {
       this.providerStatus.active = true;
       this.initializedProvider = true;
     });
-
+    console.log({wallet, provider: this.providerStatus.activeProvider})
     logClient(`[Provider] Provider Active.`, this.providerStatus);
   }
 

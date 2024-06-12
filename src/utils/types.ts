@@ -41,3 +41,12 @@ export interface ArenaCardProps {
   coins?: CoinStruct[];
   balanceMetadata?: CoinMetadata
 }
+
+export interface ArenaModalProps {
+  type: PoolType;
+  arenaPool: ArenaPoolDataBackend;
+  coins?: CoinStruct[];
+  balanceMetadata?: CoinMetadata,
+  amount: string;
+  poolAmountLevel: number;
+}

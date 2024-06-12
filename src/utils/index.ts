@@ -29,7 +29,7 @@ export function getEtherscanLink(
 
   switch (type) {
     case "transaction": {
-      return `${prefix}/txblock/${data}`;
+      return `${prefix}/tx/${data}`;
     }
     case "token": {
       return `${prefix}/coin/${data}`;

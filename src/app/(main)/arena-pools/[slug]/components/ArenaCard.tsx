@@ -16,13 +16,14 @@ import { fromMIST, amountFormat } from "@/utils/helpers";
 import ProgressRaised from "@/app/components/Common/ProgressRaised";
 import InfoIcon from "@mui/icons-material/InfoOutlined";
 import Link from "next/link";
-import { PERCENT_DISTRIBUTION } from "@/constants";
+import { PERCENT_DISTRIBUTION, POOL_AMOUNT_LEVEL } from "@/constants";
 import { ArenaCardProps } from "@/utils/types";
 import { bnum } from "@/utils/helpers";
 import { observer } from "mobx-react";
 import { useStores } from "@/contexts/storesContext";
+import { PoolType } from '@/utils/types'
 
-const ButtonSelectPool = ({ type, joined, total, active, ...props }) => {
+const ButtonSelectPool = ({ amountLevel, current, total, active, onClick }) => {
   return (
     <Button
       variant="contained"
@@ -44,9 +45,9 @@ const ButtonSelectPool = ({ type, joined, total, active, ...props }) => {
         py: 0.7,
         px: 1,
       }}
-      {...props}
+      onClick={onClick}
     >
-      <TypoC font="bold">${type}</TypoC>
+      <TypoC font="bold">${POOL_AMOUNT_LEVEL[amountLevel]}</TypoC>
       <Box
         sx={{
           display: "flex",
@@ -58,7 +59,7 @@ const ButtonSelectPool = ({ type, joined, total, active, ...props }) => {
           color={active ? "#fff" : "rgba(118, 69, 217, 1)"}
         />
         <TypoC size="small" font="bold">
-          &nbsp;{joined}/{total}
+          &nbsp;{active ? current + 1 : current}/{total}
         </TypoC>
       </Box>
     </Button>
@@ -93,21 +94,23 @@ const EndTextProcess = ({ raised, goal, ticker, ...props }) => {
   );
 };
 
-const Pooling = ({
+const Pooling = observer(({
   poolType,
-  amount,
-  setAmount,
-  setPoolValue,
-  poolData,
-  setPoolData,
   ticker,
-  price = 0,
+  price,
+  setPoolAmountLevel,
+  poolAmountLevel,
+  amount, setAmount
 }) => {
-  const [poolSelected, setPoolSelected] = useState(0);
+
+  const {
+    root: { arenaPoolStore },
+  } = useStores()
+
 
   function handleAmountChange(event: ChangeEvent<HTMLInputElement>) {
     setAmount(event.target.value);
-    setPoolSelected(0);
+    setPoolAmountLevel(null);
   }
 
   function handleSubmit(e) {
@@ -117,36 +120,10 @@ const Pooling = ({
     } catch {}
   }
 
-  function handleSelectPool(index: number) {
-    let poolValue = 0;
-    switch (index) {
-      case 1:
-        poolValue = 10;
-        break;
-      case 2:
-        poolValue = 100;
-        break;
-      case 3:
-        poolValue = 500;
-        break;
-      default:
-        break;
-    }
-    setPoolSelected(index);
-    setPoolValue(poolValue);
-    setAmount(bnum(poolValue).dividedBy(price).toFixed(2, 2));
-
-    let dataOfType = poolData[poolType] ?? {};
-    let updatePool = { poolValue };
-    updatePool["key_" + poolValue] = {};
-
-    let dataUpdate = {};
-    dataUpdate[poolType] = { ...dataOfType, ...updatePool };
-
-    setPoolData((x) => ({
-      ...x,
-      ...dataUpdate,
-    }));
+  function handleSelectPool(poolLevel: number) {
+    setPoolAmountLevel(poolLevel);
+    setAmount(bnum(POOL_AMOUNT_LEVEL[poolLevel]).dividedBy(price).toFixed());
+    console.log({amount: POOL_AMOUNT_LEVEL[poolLevel], price, poolLevel, POOL_AMOUNT_LEVEL})
   }
 
   return (
@@ -157,24 +134,24 @@ const Pooling = ({
       <Box sx={{ mt: 2 }}>
         <Box sx={{ display: "flex", gap: { sm: 1, xl: 2 } }}>
           <ButtonSelectPool
-            type="10"
-            joined={poolData["10"]?.joined ?? 0}
-            total={poolType}
-            active={poolSelected === 1}
+            amountLevel={1}
+            current={0}
+            total={PoolType.x2}
+            active={poolAmountLevel === 1}
             onClick={() => handleSelectPool(1)}
           />
           <ButtonSelectPool
-            type="100"
-            joined={poolData["100"]?.joined ?? 0}
-            total={poolType}
-            active={poolSelected === 2}
+            amountLevel={2}
+            current={0}
+            total={PoolType.x10}
+            active={poolAmountLevel === 2}
             onClick={() => handleSelectPool(2)}
           />
           <ButtonSelectPool
-            type="500"
-            joined={poolData["500"]?.joined ?? 0}
-            total={poolType}
-            active={poolSelected === 3}
+            amountLevel={3}
+            current={0}
+            total={PoolType.x100}
+            active={poolAmountLevel === 3}
             onClick={() => handleSelectPool(3)}
           />
         </Box>
@@ -221,48 +198,25 @@ const Pooling = ({
       </ValidatorForm>
     </Box>
   );
-};
+});
 
 const ArenaCard = observer(({ type, arenaPool, coins, balanceMetadata }: ArenaCardProps) => {
-  const [amount, setAmount] = useState("0");
-  const [poolValue, setPoolValue] = useState("0");
   const [isDisabled, setIsDisabled] = useState(true);
-  const [poolData, setPoolData] = useState({});
+  const [amount, setAmount] = useState(null);
+  const [poolAmountLevel, setPoolAmountLevel] = useState(null);
+
   const {
     root: { providerStore, arenaPoolStore },
   } = useStores()
-  const [primaryCoin]= coins
+
+  const coinXsBalance = coins.reduce((total, coin) => bnum(total).plus(coin.balance).toFixed(), "0");
+
   function acceptChanged(_, value) {
     setIsDisabled(!value);
   }
 
-  const FIXED_PRICE = 1.03;
+  const FIXED_PRICE = 1;
   const priceOfToken = arenaPool?.price || FIXED_PRICE;
-
-  function getStartValue() {
-    const dataOfType = poolData[type];
-    if (!dataOfType) {
-      return "0";
-    }
-    const key = "key_" + dataOfType?.poolValue;
-    const poolValue = dataOfType[key];
-    return "0";
-  }
-
-  function getEndValue() {
-    const dataOfType = poolData[type];
-    if (!dataOfType) {
-      return "0";
-    }
-    return "0";
-  }
-
-  // console.log({contractMetadata})
-  // const depositContractAddr = useMemo(() => {
-  //   if (!wallet.chain) return "";
-  //   return sampleDeposit.get(wallet.chain.id) ?? "";
-  // }, [wallet]);
-
 
   return (
     <Box
@@ -324,26 +278,25 @@ const ArenaCard = observer(({ type, arenaPool, coins, balanceMetadata }: ArenaCa
       </Box>
       <Pooling
         poolType={type}
+        ticker={arenaPool?.symbol}
+        poolAmountLevel={poolAmountLevel}
+        setPoolAmountLevel={setPoolAmountLevel}
         amount={amount}
         setAmount={setAmount}
-        setPoolValue={setPoolValue}
-        poolData={poolData}
-        setPoolData={setPoolData}
-        ticker={arenaPool?.symbol}
         price={priceOfToken}
       />
       <TypoC size="h5" sx={{ textAlign: "right", mt: 1 }}>
-        Your balance: {amountFormat(primaryCoin?.balance, balanceMetadata.decimals)}{" "}
+        Your balance: { coinXsBalance ? amountFormat(coinXsBalance, balanceMetadata?.decimals) : '__'}&nbsp;
         {arenaPool?.symbol}
       </TypoC>
       <ProgressRaised
         sx={{ mt: 2 }}
-        startValue={getStartValue()}
-        endValue={getEndValue()}
+        startValue={"0"}
+        endValue={"0"}
         endText={
           <EndTextProcess
-            raised={getStartValue()}
-            goal={getEndValue()}
+            raised={"0"}
+            goal={"0"}
             ticker={arenaPool?.symbol}
           />
         }
@@ -365,12 +318,12 @@ const ArenaCard = observer(({ type, arenaPool, coins, balanceMetadata }: ArenaCa
             <li>
               You deposit{" "}
               <span>
-                {amount}&nbsp; {arenaPool?.symbol || "__"}
+                {amountFormat(amount)}&nbsp; {arenaPool?.symbol || "__"}
               </span>{" "}
               to join{" "}
               <span>
                 {arenaPool?.name || "__"} - X{type} Arena Pool #1 - ticket: $
-                {poolValue}
+                {POOL_AMOUNT_LEVEL[poolAmountLevel]}
               </span>
             </li>
 
@@ -387,7 +340,7 @@ const ArenaCard = observer(({ type, arenaPool, coins, balanceMetadata }: ArenaCa
       </Box>
       <Box sx={{ mt: 2, color: "#6f6f70", fontWeight: "bold" }}>
         <Checkbox
-          disabled={bnum(amount).isGreaterThan(0)}
+          disabled={bnum(amount).isLessThanOrEqualTo(0)}
           onChange={acceptChanged}
         />{" "}
         I have read and accept the <Link href="#">Term of Service</Link>
@@ -399,7 +352,7 @@ const ArenaCard = observer(({ type, arenaPool, coins, balanceMetadata }: ArenaCa
         disabled={isDisabled}
         fullWidth={true}
         sx={{ mt: 2 }}
-        onClick={() => arenaPoolStore.joinPool(coins)}
+        onClick={() => arenaPoolStore.onOpenConfirmModal({ coins, amount, type, arenaPool, poolAmountLevel})}
       >
         Deposit to Join
       </Button>

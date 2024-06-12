@@ -24,7 +24,6 @@ const Web3Manager = observer(() => {
   useEffect(() => {
     if(wallet.status === 'connecting') return
     providerStore.loadWeb3(wallet);
-    console.log({ wallet });
     if (
       wallet.connected &&
       !userStore.profile.address &&

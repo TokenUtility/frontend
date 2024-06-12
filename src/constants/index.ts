@@ -1,3 +1,5 @@
+import { PoolType } from "@/utils/types";
+
 export enum ChainId {
   MAINNET = "sui:mainnet",
   TESTNET = "sui:testnet",
@@ -29,4 +31,10 @@ export const HISTORY_STATUS_COLOR = {
   FAILED: "#e10000",
   PENDING: "#feb42d",
   PROCESSING: "#feb42d",
+};
+
+export const POOL_AMOUNT_LEVEL: Record<number, number> = {
+  1: 10,
+  2: 100,
+  3: 500,
 };

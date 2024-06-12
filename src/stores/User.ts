@@ -166,6 +166,32 @@ export default class UserStore {
         throw e;
       });
   };
+  updateAccountReferralCode = async (referralCode) => {
+    const { notificationStore } = this.rootStore;
+    const baseUrl = networkConnectors.getAPIUrl();
+
+    return authRequest
+      .put(baseUrl + `/v1/accounts/${this.profile.address}`, {
+        referralCode,
+      })
+      .then((res) => {
+        console.log("res", res);
+        notificationStore.showSuccessNotification(
+          res.message && "Update Successfully!",
+        );
+        runInAction(() => {
+          this.profile = res?.data;
+        });
+        return res.data;
+      })
+      .catch((e) => {
+        const message = getStatsErrorMessage(e);
+        notificationStore.showErrorNotification(
+          message || "Something went wrong",
+        );
+        throw e;
+      });
+  };
 
   handleLogout = () => {
     deleteCookie("auth_data");

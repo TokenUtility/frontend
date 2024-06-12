@@ -75,9 +75,9 @@ const navItems = [
     target: "",
   },
   {
-    link: "/#how-it-works",
+    link: "https://bit.ly/token-utility-doc",
     text: "How it works",
-    target: "",
+    target: "_blank",
   },
 ];
 

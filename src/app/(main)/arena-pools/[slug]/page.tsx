@@ -22,6 +22,8 @@ import { amountFormat } from "@/utils/helpers";
 import { observer } from "mobx-react";
 import { useStores } from "@/contexts/storesContext";
 import { CoinMetadata, PaginatedCoins } from '@mysten/sui.js/client';
+import ConfirmTransactionModal from '@/app/components/Modal/ConfirmTransaction'
+import TransactionModal from '@/app/components/Modal/Transaction'
 
 const sampleDeposit = new Map([
   [
@@ -423,6 +425,8 @@ const AreaPools = observer(({ params }: { params: { slug: string } }) => {
           </Box>
         </CustomTabPanel>
       </Container>
+      <ConfirmTransactionModal />
+      <TransactionModal />
     </main>
   );
 });

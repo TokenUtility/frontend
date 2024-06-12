@@ -199,7 +199,7 @@ const ArenaTable = () => {
                   <Link href={`/arena-pools/${row.cgkId}`}>
                     <Button
                       variant="contained"
-                      color="inherit"
+                      color="info"
                       size="small"
                       sx={{ py: 0.5, borderRadius: "11px" }}
                     >
@@ -213,7 +213,7 @@ const ArenaTable = () => {
                   <Link href={`/arena-pools/${row.cgkId}`}>
                     <Button
                       variant="contained"
-                      color="inherit"
+                      color="info"
                       size="small"
                       sx={{ py: 0.5, borderRadius: "11px" }}
                     >
@@ -227,7 +227,7 @@ const ArenaTable = () => {
                   <Link href={`/arena-pools/${row.cgkId}`}>
                     <Button
                       variant="contained"
-                      color="inherit"
+                      color="info"
                       size="small"
                       sx={{ py: 0.5, borderRadius: "11px" }}
                     >
@@ -245,7 +245,7 @@ const ArenaTable = () => {
       <Link href="/arena-pools">
         <Button
           variant="contained"
-          color="inherit"
+          color="info"
           size="large"
           sx={{ display: "flex", alignItems: "center", color: "#000", mt: 2 }}
           fullWidth={true}

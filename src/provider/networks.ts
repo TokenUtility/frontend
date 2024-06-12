@@ -62,7 +62,7 @@ export const NETWORKS_CONFIG: { [chainId in ChainId]?: NetworkInterface } = {
     rpcUrls: ["https://rpc-testnet.suiscan.xyz:443"],
     blockExplorer: {
       name: "SuiScan",
-      url: "https://suiscan.xyz/testnet/home",
+      url: "https://suiscan.xyz/testnet",
     },
     baseTokens: ["SUI"],
     secondBlock: 10,

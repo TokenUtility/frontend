@@ -93,6 +93,12 @@ const styleByColor = (color: string) => {
     case "green": {
       return { color: "#55c200" };
     }
+    case "success": {
+      return { color: "#28a745" };
+    }
+    case "error": {
+      return { color: "#dc3545" };
+    }
     case "black":
       return { color: "#000" };
     case "white":

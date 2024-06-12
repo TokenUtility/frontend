@@ -1,14 +1,21 @@
 import Typography from "@mui/material/Typography";
 import Image from "next/image";
 import { Box, SxProps } from "@mui/material";
+import { observer } from "mobx-react";
+import { useStores } from "@/contexts/storesContext";
 
-export default function ShareLinkRef(props: {
+const ShareLinkRef = observer((props: {
   titleSxProps?: SxProps;
   wrapImageSxProps?: SxProps;
   imageSize?: number;
-}) {
-  const imageSize = props.imageSize || 38;
+})  => {
 
+  const { root: {userStore} } = useStores();
+  const imageSize = props.imageSize || 38;
+  const linkShare = `${process.env.NEXT_PUBLIC_SITE_URL}/?ref=${userStore.profile.referralCode}`;
+  const shareFacebook = `https://www.facebook.com/dialog/share?app_id=${process.env.NEXT_PUBLIC_FB_APP_ID}&display=page&href=${linkShare}`;
+  const shareTwitter = `http://www.twitter.com/share?url=${linkShare}`;
+  const shareTelegram = `https://t.me/share/url?url=${linkShare}&text=textshare`;
   return (
     <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
       <Typography
@@ -27,7 +34,7 @@ export default function ShareLinkRef(props: {
         }}
       >
         <a
-          href="https://www.facebook.com/groups/nftcommunityofficial"
+          href={shareFacebook}
           target="_blank"
           rel="noreferrer"
         >
@@ -39,7 +46,7 @@ export default function ShareLinkRef(props: {
           ></Image>
         </a>
         <a
-          href="https://x.com/tokenutility_io"
+          href={shareTwitter}
           target="_blank"
           rel="noreferrer"
         >
@@ -51,7 +58,7 @@ export default function ShareLinkRef(props: {
           ></Image>
         </a>
         <a
-          href="https://t.me/tokenutility_channel"
+          href={shareTelegram}
           target="_blank"
           rel="noreferrer"
         >
@@ -89,4 +96,7 @@ export default function ShareLinkRef(props: {
       </Box>
     </Box>
   );
-}
+})
+
+
+export default  ShareLinkRef
