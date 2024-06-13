@@ -1,5 +1,5 @@
 {
-  "name": "TokenUtility",
+  "name": "token_utility",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -35,7 +35,6 @@
     "escape-html": "^1.0.3",
     "eslint": "8.49.0",
     "eslint-config-next": "13.5.1",
-    "ethers": "5.7.2",
     "graphql": "^16.8.1",
     "lodash": "^4.17.21",
     "mobx": "^6.10.2",

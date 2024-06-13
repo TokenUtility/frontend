@@ -1,6 +1,6 @@
 import LinearProgress from "@mui/material/LinearProgress";
 import { SxProps, Box } from "@mui/material";
-import { amountFormat, fromWei } from "@/utils/helpers";
+import { amountFormat } from "@/utils/helpers";
 import react from "react";
 
 interface ProgressProps {

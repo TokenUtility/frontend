@@ -78,10 +78,10 @@ export default class ArenaPoolStore {
       console.debug("executeMoveCall failed", { error });
     }
   };
-  claimWinner = async (primaryCoins) => {
-    const { providerStore } = this.rootStore;
+  claimWinner = async ({coins}) => {
+    const { providerStore, appStore } = this.rootStore;
     const contractMetadata = providerStore.getContractData();
-    const [primaryCoin, ...restCoinXs] = primaryCoins;
+    const [primaryCoin] = coins;
     try {
       const tx = new TransactionBlock();
       tx.moveCall({
@@ -96,13 +96,14 @@ export default class ArenaPoolStore {
         ],
         typeArguments: [primaryCoin.coinType],
       });
-      const resData =
+      const result =
         await providerStore.providerStatus.activeWallet.signAndExecuteTransactionBlock(
           {
             transactionBlock: tx,
           }
         );
-      console.log("executeMoveCall success", resData);
+      appStore.onOpenTransactionModal(result.digest);
+      console.log("executeMoveCall success", result);
     } catch (e) {
       console.debug("executeMoveCall failed", e);
     }

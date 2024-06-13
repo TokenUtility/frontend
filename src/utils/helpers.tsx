@@ -1,12 +1,7 @@
 // Libraries
-import { ethers } from "ethers";
 import { BigNumber } from "../utils/bignumber";
 import { MIST_PER_SUI } from "@mysten/sui.js/utils";
 // Utils
-export const MAX_GAS = ethers.BigNumber.from("0xffffffff");
-export const MAX_UINT = ethers.BigNumber.from(ethers.constants.MaxUint256);
-export const MAX_UINT_STRING =
-  "115792089237316195423570985008687907853269984665640564039457584007913129639935";
 
 
 export const addZero = (value) => {
@@ -14,7 +9,7 @@ export const addZero = (value) => {
 };
 
 export function bnum(
-  val: string | number | ethers.BigNumber | BigNumber,
+  val: string | number  | BigNumber,
 ): BigNumber {
   return !val ? new BigNumber(0) : new BigNumber(val.toString());
 }
@@ -25,21 +20,6 @@ export function scale(input: BigNumber, decimalPlaces: number): BigNumber {
   return input.times(scaleMul);
 }
 
-export function fromWei(
-  val: string | ethers.BigNumber | BigNumber ,
-): string {
-  if (!val) {
-    return "0";
-  }
-  return ethers.utils.formatEther(val.toString());
-}
-
-export function toWei(
-  val: string | ethers.BigNumber | BigNumber | number ,
-  decimal = 18,
-): BigNumber {
-  return scale(bnum(val.toString()), decimal).integerValue();
-}
 
 export function fromMIST(val: number): number {
   if (!val) {

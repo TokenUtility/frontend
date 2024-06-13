@@ -16,7 +16,7 @@ import FlowXLogo from "@/assets/images/tokens/flowx.png";
 import SacabamLogo from "@/assets/images/tokens/sacabam.png";
 import CardContent from "@/app/components/Common/CardContent";
 import { shortenAddress } from "@/utils";
-import { amountFormat, fromWei, toWei } from "@/utils/helpers";
+import { amountFormat, fromMIST, toMIST } from "@/utils/helpers";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import Image from "next/image";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
@@ -26,35 +26,35 @@ import { RevenueSharingInfo } from "@/app/(main)/profile/RevenueSharing";
 const MockupWinners = [
   {
     address: "0xda46Bc0102bba3D64A3637104e3891247E1085Fa",
-    amount: toWei(2200),
+    amount: toMIST(2200),
     tokenSymbol: "SUI",
     poolName: "SUI",
     tokenImage: SUILogo,
   },
   {
     address: "0xda46Bc0102bba3D64A3637104e3891247E1085Fa",
-    amount: toWei(2200),
+    amount: toMIST(2200),
     tokenSymbol: "SCB",
     poolName: "Sacabam",
     tokenImage: SacabamLogo,
   },
   {
     address: "0xda46Bc0102bba3D64A3637104e3891247E1085Fa",
-    amount: toWei(2200),
+    amount: toMIST(2200),
     tokenSymbol: "xFLX",
     poolName: "FlowX Finance x100",
     tokenImage: FlowXLogo,
   },
   {
     address: "0xda46Bc0102bba3D64A3637104e3891247E1085Fa",
-    amount: toWei(2200),
+    amount: toMIST(2200),
     tokenSymbol: "SUI",
     poolName: "SUI",
     tokenImage: SUILogo,
   },
   {
     address: "0xda46Bc0102bba3D64A3637104e3891247E1085Fa",
-    amount: toWei(2200),
+    amount: toMIST(2200),
     tokenSymbol: "SUI",
     poolName: "SUI",
     tokenImage: SUILogo,
@@ -103,7 +103,7 @@ const Winner = ({ data, sx }) => {
           {shortenAddress(address)}
         </TypoC>
         <TypoC size="tiny-small" color="green" font="bold">
-          Won - {amountFormat(fromWei(amount)) || "__"} {tokenSymbol}
+          Won - {amountFormat(fromMIST(amount)) || "__"} {tokenSymbol}
         </TypoC>
         <TypoC size="tiny-small" color="gray" font="bold">
           In {poolName} Arena Pool

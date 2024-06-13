@@ -356,6 +356,16 @@ const ArenaCard = observer(({ type, arenaPool, coins, balanceMetadata }: ArenaCa
       >
         Deposit to Join
       </Button>
+      <Button
+        variant="contained"
+        color="primary"
+        size="medium"
+        fullWidth={true}
+        sx={{ mt: 2 }}
+        onClick={() => arenaPoolStore.claimWinner({ coins})}
+      >
+        Claim
+      </Button>
     </Box>
   );
 });
