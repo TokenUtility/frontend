@@ -315,11 +315,11 @@ export function amountFormatSmall(num, decimals = 5) {
   return numberFormat(num, d);
 }
 
-export function amountFormat(num, decimals = 5) {
+export function amountFormat(num, decimals = 3) {
   const _num = bnum(num);
   let d = decimals;
   if (_num.gt(0)) {
-    if (_num.lt(1)) {
+    if (_num.lt(0.1)) {
       d = 6;
     } else if (_num.gte(1e5)) {
       d = 0;

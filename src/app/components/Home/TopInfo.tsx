@@ -213,12 +213,21 @@ const TopInfo = () => {
           </CardContent>
         </Card> */}
 
-      <Box sx={{ display: "flex", gap: { xs: 2, xl: 3 } }}>
+      <Box
+        sx={{
+          display: "flex",
+          gap: { xs: 2, xl: 3 },
+          flexDirection: { xs: "column", lg: "row" },
+        }}
+      >
         {/* widget - PoolTogether - gapX2 - mainPaddingX2  */}
         <Box
           sx={{
             flex: 1,
-            maxWidth: "calc(100vw - 320px - 350px - 16px - 16px - 24px - 24px)",
+            maxWidth: {
+              xs: "calc(100vw - 16px - 16px)",
+              lg: "calc(100vw - 320px - 350px - 16px - 16px - 24px - 24px)",
+            },
           }}
         >
           <Card sx={{ backgroundColor: "#fef6ee" }}>
@@ -250,7 +259,7 @@ const TopInfo = () => {
             </CardContent>
           </Card>
         </Box>
-        <Box sx={{ width: "350px", flexShrink: 0 }}>
+        <Box sx={{ width: { lg: "350px" }, flexShrink: 0 }}>
           <Card sx={{ backgroundColor: "#fef6ee", height: "100%" }}>
             <CardContent
               sx={{

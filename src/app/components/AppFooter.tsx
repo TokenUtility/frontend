@@ -3,6 +3,16 @@ import Box from "@mui/material/Box";
 import Link from "next/link";
 import Container from "@mui/material/Container";
 import JoinOurCommunity from "@/app/components/JoinOurCommunity";
+import { title } from "process";
+import { url } from "inspector";
+
+const MENU_LINK = [
+  {
+    title: "How it works",
+    url: "https://bit.ly/token-utility-doc",
+  },
+  { title: "Docs", url: "#" },
+];
 
 export default function ColorInversionFooter() {
   return (
@@ -19,12 +29,21 @@ export default function ColorInversionFooter() {
           className="footer-app"
           sx={{
             display: "flex",
-            justifyContent: "flex-end",
+            justifyContent: "space-between",
             gap: 2,
-            maxWidth: "768px",
-            ml: "auto",
+            alignItems: "center",
+            flexDirection: { xs: "column", md: "row" },
           }}
         >
+          <ul style={{ display: "flex", fontSize: "16px", gap: "24px" }}>
+            {MENU_LINK.map((menu, index) => (
+              <li key={index}>
+                <Link href={menu.url} target="_blank">
+                  {menu.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
           <JoinOurCommunity />
         </Box>
       </Container>

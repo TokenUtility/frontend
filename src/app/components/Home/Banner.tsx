@@ -20,29 +20,33 @@ const Banner = () => {
     >
       <Box
         sx={{
-          padding: { xs: "36px 0 20px 36px", xl: "50px 0 24px 40px" },
+          padding: {
+            xs: "16px 16px 20px 16px",
+            lg: "36px 0 20px 36px",
+            xl: "50px 0 24px 40px",
+          },
           width: { xs: "100%", sm: "65%" },
         }}
       >
-        <TypoC font="bold" size="h1" color="white" lineHeight={1.4}>
-        Token Utility is an innovative protocol that enables utilities for all tokens in the SUI network.
+        <TypoC font="bold" size="h2" color="white" lineHeight={1.4}>
+          Token Utility is an innovative protocol that enables utilities for all
+          tokens in the SUI network.
         </TypoC>
         <Box
           sx={{
-            width: { xs: "60%", sm: "100%" },
             display: "flex",
             flexDirection: "column",
           }}
         >
-          <TypoC font="bold" size="h4" sx={{ mt: 1 }}>
-          Revolutionizing Token Engagement and Utility
+          <TypoC font="bold" size="banner-h4" sx={{ mt: 1 }}>
+            Revolutionizing Token Engagement and Utility
           </TypoC>
           <Button
             variant="outlined"
             color="primary"
             size="large"
             sx={{
-              maxWidth: "275px",
+              maxWidth: { xs: "170px", sm: "275px" },
               width: "100%",
               mt: 2,
               fontSize: "18px",
@@ -52,8 +56,8 @@ const Banner = () => {
             Get Started
           </Button>
           <Box sx={{ display: "flex", alignItems: "center", mt: 3 }}>
-            <TypoC font="bold" size="h4" sx={{ mr: 2 }}>
-            Build on Sui network 
+            <TypoC font="bold" size="banner-h4" sx={{ mr: 2 }}>
+              Build on Sui network
             </TypoC>
             <ChainIcon src={SUILogo} alt="sui-logo" />
           </Box>

@@ -100,7 +100,7 @@ const ANCHOR_MENU: Anchor = "right";
 
 const HeaderSidebar = () => {
   return (
-    <Box sx={{ px: 2, pt: 1.5, pb: 0.5, background: "#0f0f0f" }}>
+    <Box sx={{ px: 2, pt: 1.5, pb: 0.5 }}>
       <Image
         src="/images/logo.svg"
         priority={true}
@@ -139,7 +139,6 @@ const SearchMobile = () => {
           PaperProps={{
             sx: {
               width: "100%",
-              background: "#141515",
             },
             onClick: toggleDrawer(ANCHOR_SEARCH, false),
           }}
@@ -207,7 +206,6 @@ const MenuMobile = observer(() => {
         PaperProps={{
           sx: {
             width: "100%",
-            background: "#141515",
           },
           onClick: toggleDrawer(ANCHOR_MENU, false),
         }}
@@ -231,7 +229,6 @@ const MenuMobile = observer(() => {
                     <Link
                       href={item.link}
                       style={{
-                        color: "#fff",
                         textDecoration: "none",
                         marginBottom: "10px",
                       }}

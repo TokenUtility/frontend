@@ -18,7 +18,7 @@ export default function Home() {
       <Container
         maxWidth="xxl"
         sx={{
-          pt: { xs: 12, md: 18, lg: 17, xl: 17 },
+          pt: { xs: 14, md: 18, lg: 17, xl: 17 },
           pb: 6,
         }}
       >
@@ -36,6 +36,7 @@ export default function Home() {
               boxShadow: "0 2px 18px 0 rgba(0, 0, 0, 0.22)",
               borderRadius: "22px",
               overflow: "hidden",
+              display: { xs: "none", lg: "block" },
             }}
           >
             <FlowXWidget id="home" />

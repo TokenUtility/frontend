@@ -1,6 +1,6 @@
 "use client";
 import { observer } from "mobx-react";
-import React, { useState} from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { ChainId } from "@/constants";
 import { useStores } from "@/contexts/storesContext";
@@ -36,7 +36,6 @@ const WalletButton = styled.button`
   align-items: center;
   text-align: center;
   height: 40px;
-  width: 100%;
   :focus {
     outline: none;
   }
@@ -109,8 +108,14 @@ const Wallet = observer(() => {
   const {
     root: { dropdownStore, providerStore },
   } = useStores();
-  const { activeChainId, active, error, injectedActive, injectedLoaded, account } =
-    providerStore.providerStatus;
+  const {
+    activeChainId,
+    active,
+    error,
+    injectedActive,
+    injectedLoaded,
+    account,
+  } = providerStore.providerStatus;
 
   const { balance } = useAccountBalance();
   const { connected } = useWallet();

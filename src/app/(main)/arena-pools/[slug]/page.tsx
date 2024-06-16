@@ -21,9 +21,9 @@ import { PoolType } from "@/utils/types";
 import { amountFormat } from "@/utils/helpers";
 import { observer } from "mobx-react";
 import { useStores } from "@/contexts/storesContext";
-import { CoinMetadata, PaginatedCoins } from '@mysten/sui.js/client';
-import ConfirmTransactionModal from '@/app/components/Modal/ConfirmTransaction'
-import TransactionModal from '@/app/components/Modal/Transaction'
+import { CoinMetadata, PaginatedCoins } from "@mysten/sui.js/client";
+import ConfirmTransactionModal from "@/app/components/Modal/ConfirmTransaction";
+import TransactionModal from "@/app/components/Modal/Transaction";
 
 const sampleDeposit = new Map([
   [
@@ -146,7 +146,10 @@ const AreaPools = observer(({ params }: { params: { slug: string } }) => {
   const {
     root: { providerStore },
   } = useStores();
-  const { account, activeProvider, activeChainId } = useMemo(() => providerStore.providerStatus, [providerStore.providerStatus]);
+  const { account, activeProvider, activeChainId } = useMemo(
+    () => providerStore.providerStatus,
+    [providerStore.providerStatus]
+  );
   const { arenaPool, isError, isLoading } = useArenaPool(
     params.slug,
     activeChainId
@@ -154,16 +157,16 @@ const AreaPools = observer(({ params }: { params: { slug: string } }) => {
   const [value, setValue] = React.useState(0);
   const [balance, setBalance] = React.useState("0");
   const [coins, setCoins] = React.useState({
-      data: [],
-      hasNextPage: false
-    });
+    data: [],
+    hasNextPage: false,
+  });
   const [balanceMetadata, setBalanceMetadata] = React.useState<CoinMetadata>({
     decimals: 0,
-    description: '',
+    description: "",
     iconUrl: null,
     id: null,
-    name: '',
-    symbol: ''
+    name: "",
+    symbol: "",
   });
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -206,13 +209,16 @@ const AreaPools = observer(({ params }: { params: { slug: string } }) => {
         const balanceMetadataPromise = activeProvider.getCoinMetadata({
           coinType: arenaPool.address,
         });
-        const [coinsResult, balanceMetadataResult]= await Promise.all([coinPromise, balanceMetadataPromise]);
+        const [coinsResult, balanceMetadataResult] = await Promise.all([
+          coinPromise,
+          balanceMetadataPromise,
+        ]);
         // setBalance(balance);
-        setCoins(coinsResult)
+        setCoins(coinsResult);
         setBalanceMetadata(balanceMetadataResult);
       } catch (error) {
         setBalance("0");
-        console.debug(error)
+        console.debug(error);
       }
     };
 

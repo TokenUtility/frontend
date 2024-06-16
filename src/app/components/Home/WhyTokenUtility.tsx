@@ -1,7 +1,7 @@
 import { Box, Card } from "@mui/material";
 import TypoC from "@/app/components/Common/Typo";
 import CardContent from "@/app/components/Common/CardContent";
-import { title } from "process";
+import Image from "next/image";
 
 const DataInfos = [
   {
@@ -41,28 +41,57 @@ const DataInfos = [
 
 const WhyTokenUtility = () => {
   return (
-    <Card sx={{ textAlign: "center" }}>
-      <CardContent sx={{ backgroundColor: "#6f3ecf", color: "#fff" }}>
-        <TypoC font="bold" size="h2">
-        Our Services
+    <Card>
+      <CardContent sx={{ backgroundColor: "#eeeeff", color: "#fff" }}>
+        <TypoC font="bold" size="h2" color="#6f3ecf">
+          Our Services
         </TypoC>
         <Box
           sx={{
             display: "flex",
             justifyContent: "space-between",
             pt: 4,
-            gap: { xs: 2, lg: 4, xl: 4 },
+            gap: { xs: 2, lg: 2, xl: 3 },
             pb: 2,
+            flexDirection: { xs: "column", lg: "row" },
           }}
         >
           {DataInfos.map(({ title, desc }, index) => (
-            <Box key={index}>
-              <TypoC size="h5" font="bold">
-                {title}
-              </TypoC>
-              <Box sx={{ mt: 2 }}>
+            <Box
+              key={index}
+              sx={{
+                backgroundColor: "#6f3ecf",
+                padding: "14px 20px",
+                borderRadius: "20px",
+                flex: 1,
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 1,
+                  justifyContent: "space-between",
+                }}
+              >
+                <TypoC size="h5" font="bold" sx={{ mt: 1.5 }}>
+                  <span>{title}</span>
+                </TypoC>
+                <Image
+                  src={`/images/home/service-${index + 1}.webp`}
+                  width={93}
+                  height={93}
+                  alt="our-service"
+                ></Image>
+              </Box>
+              <Box>
                 {desc.map((text, index) => (
-                  <TypoC key={index}>
+                  <TypoC
+                    sx={{ mt: 2 }}
+                    size="small"
+                    font="bold"
+                    lineHeight={1.5}
+                    key={index}
+                  >
                     {text}
                   </TypoC>
                 ))}

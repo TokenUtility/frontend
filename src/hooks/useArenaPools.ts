@@ -1,7 +1,7 @@
 import useSWRInfinite from "swr/infinite";
 import { networkConnectors } from "@/provider/networkConnectors";
 import { PAGE_SIZE } from "@/constants";
-// import qs, { StringifiableRecord } from "query-string";
+// import qs, { Stringifiable } from "query-string";
 import { ArenaPoolDataBackend } from "@/utils/types";
 
 interface FilterOptionProps {
@@ -34,7 +34,7 @@ const getKey = ({ chain, pageIndex, previousPageData }: KeyProps) => {
 
   return (
     baseUrl + `/tokens`
-    // qs.stringify(filterParams as unknown as StringifiableRecord)
+    // qs.stringify(filterParams as unknown as Stringifiable)
   );
 };
 

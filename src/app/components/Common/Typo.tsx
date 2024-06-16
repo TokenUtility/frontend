@@ -31,17 +31,17 @@ const styleBySize: any = (size: string) => {
     }
     case "h2": {
       return {
-        fontSize: { xs: "22px", sm: "24px", lg: "30px", xl: "30px" }, //30
+        fontSize: { xs: "18px", sm: "22px", lg: "30px", xl: "30px" }, //30
       };
     }
     case "h3": {
       return {
-        fontSize: { xs: "20px", sm: "24px", lg: "22px", xl: "22px" }, // 28
+        fontSize: { xs: "16px", sm: "20px", lg: "22px", xl: "22px" }, // 28
       };
     }
-    case "h4": {
+    case "banner-h4": {
       return {
-        fontSize: { xs: "16px", sm: "16px", lg: "18px", xl: "20px" }, // 20
+        fontSize: { xs: "14px", sm: "16px", lg: "18px", xl: "20px" }, // 20
       };
     }
     case "h5": //18
@@ -56,7 +56,7 @@ const styleBySize: any = (size: string) => {
     }
     case "medium": //16px
       return {
-        fontSize: { xs: "12px", sm: "14px", xl: "1rem" },
+        fontSize: { xs: "16px", sm: "16px", xl: "1rem" },
       };
     case "small": // 14px
       return {
@@ -104,7 +104,7 @@ const styleByColor = (color: string) => {
     case "white":
       return { color: "#fff" };
     default:
-      return {};
+      return { color };
   }
 };
 

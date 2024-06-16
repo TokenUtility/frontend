@@ -24,6 +24,7 @@ import { listToken } from "@/configs";
 import ChainIcon from "@/app/components/Common/ChainIcon";
 import { observer } from "mobx-react";
 import { useStores } from "@/contexts/storesContext";
+import ScreenMedia from "@/app/components/Common/ScreenMedia";
 
 const LeftSideBar = () => {
   return (
@@ -111,6 +112,7 @@ export const RevenueSharingInfo = () => {
         mt: 3,
         display: "flex",
         gap: 3,
+        flexDirection: { xs: "column", lg: "row" },
       }}
     >
       <Box>
@@ -128,11 +130,18 @@ export const RevenueSharingInfo = () => {
           </Box>
         </Box>
       </Box>
-      <Divider
-        color="#d8d8d8"
-        orientation="vertical"
-        sx={{ height: "unset" }}
-      />
+
+      <ScreenMedia>
+        {({ lgAndUp }) => {
+          return (
+            <Divider
+              color="#d8d8d8"
+              orientation={lgAndUp ? "vertical" : "horizontal"}
+              sx={{ height: "unset" }}
+            />
+          );
+        }}
+      </ScreenMedia>
       <Box sx={{ flex: 1 }}>
         <TypoC size="h5" font="bold">
           Whitelist your Address to Upgrade from normal user to:
@@ -143,9 +152,16 @@ export const RevenueSharingInfo = () => {
             display: "flex",
             gap: 1,
             justifyContent: "space-between",
+            flexDirection: { xs: "column", lg: "row" },
           }}
         >
-          <Box sx={{ display: "flex", gap: 4 }}>
+          <Box
+            sx={{
+              display: "flex",
+              gap: 4,
+              flexDirection: { xs: "column", lg: "row" },
+            }}
+          >
             <Box sx={{ display: "flex", gap: 2 }}>
               <UserIcon size="22px" color="#7645d9" />
               <Box>
@@ -171,6 +187,8 @@ export const RevenueSharingInfo = () => {
             sx={{
               display: "flex",
               alignItems: "flex-end",
+              fontWeight: "bold",
+              marginLeft: "auto",
             }}
           >
             <Link href="/profile#revenue-sharing">Check it out</Link>
@@ -184,14 +202,16 @@ export const RevenueSharingInfo = () => {
 const FormLinkRef = observer(() => {
   const [isCopied, setCopied] = useCopyClipboard();
   const [revenueSharingLink, setRevenueSharingLink] = useState("");
-  const { root: { userStore }} = useStores()
+  const {
+    root: { userStore },
+  } = useStores();
 
   function handleShareLinkChange(event: ChangeEvent<HTMLInputElement>) {
     setRevenueSharingLink(event.target.value);
   }
 
   const handleSubmit = () => {
-    userStore.updateAccountReferralCode(revenueSharingLink).catch(() => {})
+    userStore.updateAccountReferralCode(revenueSharingLink).catch(() => {});
   };
 
   return (
@@ -213,13 +233,13 @@ const FormLinkRef = observer(() => {
             type="text"
             value={userStore.profile?.referralCode || ""}
             placeholder="revenuesharingcode"
-            startAdornment={process.env.NEXT_PUBLIC_SITE_URL + "\/"}
+            startAdornment={process.env.NEXT_PUBLIC_SITE_URL + "/"}
             endAdornment={
               <Tooltip title={isCopied ? "Copied" : "Copy"}>
                 <IconButton
                   onClick={() =>
                     setCopied(
-                      `${process.env.NEXT_PUBLIC_SITE_URL}\/${userStore.profile?.referralCode }`,
+                      `${process.env.NEXT_PUBLIC_SITE_URL}\/${userStore.profile?.referralCode}`
                     )
                   }
                 >
@@ -232,7 +252,12 @@ const FormLinkRef = observer(() => {
             disabled
           />
         </Box>
-        <Box sx={{ flex: 1, display: userStore.profile?.referralCode ? 'none' : "block" }}>
+        <Box
+          sx={{
+            flex: 1,
+            display: userStore.profile?.referralCode ? "none" : "block",
+          }}
+        >
           <TypoC font="bold">Enter Revenue Sharing Code</TypoC>
           <Box
             sx={{

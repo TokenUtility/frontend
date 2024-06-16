@@ -176,6 +176,10 @@ a {
 
     .MuiIconButton-root[aria-label="Search"] svg {
       fill: #000;
+      font-size: 1.5rem;
+      @media screen and (min-width: 600px) {
+        font-size: 2.1875rem;
+      }
     }
   }
   .logo-mobile {
@@ -266,12 +270,23 @@ li {
 }
 
 .banner-img {
-  height: 120px;
   width: auto;
   position: absolute;
   right: 10px;
   bottom: 10px;
+  display: none;
   @media screen and (min-width: 600px) {
+    display: block;
+    height: 150px;
+  }
+  @media screen and (min-width: 1000px) {
+    display: block;
+    height: 70%;
+    top: 10%;
+    bottom: "unset";
+  }
+  @media screen and (min-width: 1400px) {
+    display: block;
     height: 95%;
     top: 0;
     bottom: "unset";

@@ -1,19 +1,23 @@
 // @ts-nocheck
 import Script from "next/script";
 import React, { useEffect, useRef, useState } from "react";
+import { isDevEnv } from "@/utils/helpers";
 
 const FlowXWidget = ({ id }: { id: string }) => {
   const ref = useRef();
 
   useEffect(() => {
+    if (isDevEnv()) {
+      return;
+    }
     if (!window.FlowXInitial) {
       console.error("FlowXInitial");
       return;
     }
-    // const root = window.FlowXInitial(ref.current);
-    // return () => {
-    //   root.unmount();
-    // };
+    const root = window.FlowXInitial(ref.current);
+    return () => {
+      root.unmount();
+    };
   }, [id]);
 
   return (
