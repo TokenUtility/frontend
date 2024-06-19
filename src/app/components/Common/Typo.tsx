@@ -46,7 +46,7 @@ const styleBySize: any = (size: string) => {
     }
     case "h5": //18
       return {
-        fontSize: { xs: "15px", sm: "16px", lg: "18px" },
+        fontSize: { xs: "15px", sm: "16px", lg: "17px", xl: "18px" },
         lineHeight: 1.2,
       };
     case "xl": {

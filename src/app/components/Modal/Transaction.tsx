@@ -42,6 +42,7 @@ const TransactionResult = observer(({isSuccess}) => {
             type="transaction"
           />
         </TypoC>
+        { isSuccess && <Box>Check your <Link href="/profile#active-arena-pools">Profile</Link> to see the result.</Box>}
         {appStore.transactionModalOption.bottom ? (
           appStore.transactionModalOption.bottom
         ) : (

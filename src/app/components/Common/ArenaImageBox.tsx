@@ -10,7 +10,7 @@ const ArenaImageBox = ({
 }: {
   type: PoolType;
   sizeImage: number;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }) => {
   return (
     <Box sx={{ display: "flex", alignItems: "center" }}>

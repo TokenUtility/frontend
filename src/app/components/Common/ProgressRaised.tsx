@@ -6,8 +6,8 @@ import react from "react";
 interface ProgressProps {
   startText?: string | react.ReactNode;
   endText?: string | react.ReactNode;
-  startValue: string;
-  endValue: string;
+  startValue: number | string;
+  endValue: number | string;
   sx?: SxProps;
   size?: string;
   prefix?: string;
@@ -18,14 +18,14 @@ function getStyleBySize(size) {
   const mediumSize = {
     title: { fontSize: { xs: "16px", md: "16px" } },
     value: { fontSize: { xs: "16px", md: "16px" } },
-    process: { height: "19px" },
+    process: { height: "12px" },
   };
   switch (size) {
     case "small":
       return {
         title: { fontSize: "14px" },
         value: { fontSize: "18px" },
-        process: { height: "4px" },
+        process: { height: "12px" },
       };
     case "medium":
       return mediumSize;
@@ -43,42 +43,17 @@ const ProgressRaised = (props: ProgressProps) => {
   const styleBySize = getStyleBySize(props.size);
 
   return (
-    <Box sx={sx}>
-      <LinearProgress
-        variant="determinate"
-        value={progress}
-        aria-label="progress raised"
-        sx={{ mt: 1.5, mb: 0, ...styleBySize.process }}
-      />
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          ...styleBySize.title,
-        }}
-      >
-        {startText || "Raised"}
-        {endText || ""}
+    <Box sx={{ display: "flex", alignItems: 'center', ...sx}}>
+      <Box sx={{ ...styleBySize.title }}>{startText || "Raised"}</Box>
+      <Box sx={{flex: 1}}>
+        <LinearProgress
+          variant="determinate"
+          value={progress}
+          aria-label="progress raised"
+          sx={{ mr: 1, mb: 0, ...styleBySize.process }}
+        />
       </Box>
-      {/* <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          fontWeight: "bold",
-          ...styleBySize.value,
-        }}
-      >
-        <span>
-          {prefix ? prefix + " " : ""}
-          {amountFormat(fromWei(startValue), 0)}
-          {postfix ? " " + postfix : ""}
-        </span>
-        <span style={{textAlign: "right"}}>
-          {prefix ? prefix + " " : ""}
-          {amountFormat(fromWei(endValue), 0)}
-          {postfix ? " " + postfix : ""}
-        </span>
-      </Box> */}
+      <Box sx={{ ...styleBySize.title }}>{endText || ""}</Box>
     </Box>
   );
 };

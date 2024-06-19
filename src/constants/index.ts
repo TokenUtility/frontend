@@ -11,7 +11,7 @@ export const PAGE_SIZE = {
 };
 
 export const PERCENT_DISTRIBUTION = {
-  DIRECT_POOL: 90,
+  RECEIPT: 90,
   PLATFORM_FEE: 10,
 };
 
@@ -34,7 +34,7 @@ export const HISTORY_STATUS_COLOR = {
 };
 
 export const POOL_AMOUNT_LEVEL: Record<number, number> = {
-  1: 10,
-  2: 100,
-  3: 500,
+  1: 1,
+  2: 10,
+  3: 100,
 };

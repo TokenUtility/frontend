@@ -57,7 +57,7 @@ const components: Components<Omit<Theme, "components">> = {
         }
       },
       sizeSmall: {
-        borderRadius: "7px",
+        borderRadius: "6px",
         padding: "6px 14px",
       },
       sizeMedium: {
@@ -134,12 +134,12 @@ const components: Components<Omit<Theme, "components">> = {
   MuiLinearProgress: {
     styleOverrides: {
       determinate: {
-        backgroundColor: "rgba(254,180,45,.16 )",
-        borderRadius: "9px",
+        backgroundColor: "rgba(#e8e0f8, 0.5)",
+        borderRadius: "8px",
       },
       bar1Determinate: {
-        backgroundColor: "#feb42d",
-        borderRadius: "9px",
+        backgroundColor: "#fff",
+        borderRadius: "8px",
       },
     },
   },
