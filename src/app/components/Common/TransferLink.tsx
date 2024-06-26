@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { shortenAddress } from "@/utils";
-import { useGetEtherscanLink } from "@/hooks/useEtherscanLink";
+import { useGetSuiScanLink } from "@/hooks/useEtherscanLink";
 import { shortenTransactionHash } from "@/utils/helpers";
 interface TransferLinkAddressProps {
   address: string;
@@ -10,13 +10,13 @@ interface TransferLinkAddressProps {
 }
 
 export const TransferLinkAddress = (props: TransferLinkAddressProps) => {
-  const getEtherscanLink = useGetEtherscanLink();
+  const getSuiScanLink = useGetSuiScanLink();
   const type = props.type || "address";
   const shorten = type === "address" ? shortenAddress : shortenTransactionHash;
   const [href, setHref] = useState("");
   useEffect(() => {
-    setHref(getEtherscanLink(props.address || "", type));
-  }, [props, type, getEtherscanLink]);
+    setHref(getSuiScanLink(props.address || "", type));
+  }, [props, type, getSuiScanLink]);
 
 
   if (!props.address)  return null;

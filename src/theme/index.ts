@@ -147,7 +147,6 @@ const components: Components<Omit<Theme, "components">> = {
     styleOverrides: {
       root: {
         backgroundImage: "unset",
-        backgroundColor: "#faf9fa",
         boxShadow: "unset",
         borderRadius: "27px",
       },

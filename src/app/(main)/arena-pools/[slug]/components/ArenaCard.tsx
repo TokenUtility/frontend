@@ -147,7 +147,6 @@ const Pooling = observer(
 
     function handleAmountChange(event: ChangeEvent<HTMLInputElement>) {
       setAmount(event.target.value);
-      setPoolAmountLevel(null);
     }
 
     function handleSubmit(e) {
@@ -397,7 +396,7 @@ const ArenaCard = observer(
       setAmount(
         bnum(POOL_AMOUNT_LEVEL[poolAmountLevel])
           .dividedBy(priceOfToken)
-          .toFixed()
+          .toFixed(0)
       );
       console.log({
         amount: POOL_AMOUNT_LEVEL[poolAmountLevel],

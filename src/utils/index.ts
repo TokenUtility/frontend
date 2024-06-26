@@ -17,7 +17,7 @@ export function shortenAddress(address: string, chars = 4): string {
   return `${parsed.substring(0, chars + 2)}...${parsed.substring(66 - chars)}`;
 }
 
-export function getEtherscanLink(
+export function getSuiScanLink(
   chainId: ChainId | undefined | number,
   data: string | number,
   type: "transaction" | "token" | "address" | "block" = "address",

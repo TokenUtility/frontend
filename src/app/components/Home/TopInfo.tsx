@@ -183,7 +183,7 @@ const TopInfo = () => {
     <Box
       sx={{ display: "flex", gap: { xs: 2, lg: 3 }, flexDirection: "column" }}
     >
-      <Card>
+      <Card sx={{background: '#faf9fa'}}>
         <CardContent>
           <Box sx={{ display: "flex", alignItems: "center", py: 1 }}>
             <TypoC font="bold" size="h3" sx={{ mr: 3 }}>

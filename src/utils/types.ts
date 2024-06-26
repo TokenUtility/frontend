@@ -50,3 +50,8 @@ export interface ArenaModalProps {
   amount: string;
   poolAmountLevel: number;
 }
+
+export interface InfoProps {
+  title: string;
+  desc?: string[];
+}

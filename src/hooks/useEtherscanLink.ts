@@ -1,8 +1,8 @@
 import { useCallback } from "react";
 import { useStores } from "../contexts/storesContext";
-import { getEtherscanLink } from "../utils";
+import { getSuiScanLink } from "../utils";
 
-export const useGetEtherscanLink = () => {
+export const useGetSuiScanLink = () => {
   const {
     root: { providerStore },
   } = useStores();
@@ -12,7 +12,7 @@ export const useGetEtherscanLink = () => {
       data: string,
       type: "transaction" | "token" | "address" | "block" = "address",
     ) => {
-      return getEtherscanLink(activeChainId, data, type);
+      return getSuiScanLink(activeChainId, data, type);
     },
     [activeChainId],
   );

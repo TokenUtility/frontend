@@ -27,7 +27,7 @@ import {
   HISTORY_STATUS,
 } from "@/constants";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import { useGetEtherscanLink } from "@/hooks/useEtherscanLink";
+import { useGetSuiScanLink } from "@/hooks/useEtherscanLink";
 
 const styleTableCellHead = {
   fontSize: { xs: "16px", lg: "16px", xl: "18px" },
@@ -78,7 +78,7 @@ const history = [
 
 const ArenaTable = () => {
   const isEmpty = history.length === 0;
-  const getEtherscanLink = useGetEtherscanLink();
+  const getSuiScanLink = useGetSuiScanLink();
 
   return (
     <TableContainer component={Paper} sx={{ px: 2, py: 4, mt: 2 }}>
@@ -223,7 +223,7 @@ const ArenaTable = () => {
                   }}
                 >
                   <a
-                    href={getEtherscanLink(row.transactionHash, "transaction")}
+                    href={getSuiScanLink(row.transactionHash, "transaction")}
                     target="_blank"
                   >
                     <IconButton>

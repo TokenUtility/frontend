@@ -13,6 +13,9 @@ import { ConnectButton, useWallet, addressEllipsis } from "@suiet/wallet-kit";
 import { useAccountBalance } from "@suiet/wallet-kit";
 import { isMobile } from "react-device-detect";
 import Button from "@/app/components/Common/Button";
+import { IconButton, Tooltip } from "@mui/material";
+import ContentCopyOutlinedIcon from "@mui/icons-material/ContentCopyOutlined";
+import useCopyClipboard from "@/hooks/useCopyClipboard";
 
 export const YellowCard = styled.div`
   background-color: rgba(243, 132, 30, 0.05);
@@ -29,7 +32,7 @@ const WalletButton = styled.button`
   background: transparent;
   padding: 0.5rem;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 16px;
   cursor: pointer;
   justify-content: space-between;
@@ -38,6 +41,9 @@ const WalletButton = styled.button`
   height: 40px;
   :focus {
     outline: none;
+  }
+  @media screen and (min-width: 600px) {
+    font-size: 14px;
   }
 `;
 
@@ -68,14 +74,19 @@ const ErrorMessage = styled.span`
 
 const AccountElement = styled.div<{ active: boolean }>`
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  border: 1px solid #ededed;
+  flex-direction: column-reverse;
   border-radius: 10px;
   white-space: nowrap;
   min-width: 140px;
   :focus {
     border: 1px solid blue;
+  }
+  padding: 10px 20px;
+  @media screen and (min-width: 600px) {
+    padding: 0;
+    align-items: center;
+    flex-direction: row;
+    border: 1px solid #ededed;
   }
 `;
 
@@ -96,6 +107,10 @@ const StyledBalance = styled.div`
   padding: 0 8px;
   font-weight: bold;
   color: rgba(0, 0, 0, 0.87);
+  font-size: 18px;
+  @media screen and (min-width: 600px) {
+    font-size: 16px;
+  }
 `;
 
 const NETWORK_LABELS: { [chainId in ChainId]: string | null } = {
@@ -106,7 +121,7 @@ const NETWORK_LABELS: { [chainId in ChainId]: string | null } = {
 
 const Wallet = observer(() => {
   const {
-    root: { dropdownStore, providerStore },
+    root: { dropdownStore, providerStore, userStore },
   } = useStores();
   const {
     activeChainId,
@@ -119,6 +134,7 @@ const Wallet = observer(() => {
 
   const { balance } = useAccountBalance();
   const { connected } = useWallet();
+  const [isCopied, setCopied] = useCopyClipboard();
 
   // if (!activeChainId && active) {
   //   // throw new Error(`No chain ID specified ${activeChainId}`);
@@ -155,6 +171,17 @@ const Wallet = observer(() => {
             </StyledBalance>
             <WalletButton>
               <span>{addressEllipsis(account)}</span>
+              <Tooltip title={isCopied ? "Copied" : "Copy"}>
+                <IconButton
+                  onClick={() =>
+                    setCopied(
+                      `${process.env.NEXT_PUBLIC_SITE_URL}\/${userStore.profile?.referralCode}`
+                    )
+                  }
+                >
+                  <ContentCopyOutlinedIcon style={{ color: "#000" }} />
+                </IconButton>
+              </Tooltip>
             </WalletButton>
           </AccountElement>
         </React.Fragment>

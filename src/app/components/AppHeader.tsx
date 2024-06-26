@@ -65,6 +65,11 @@ const navItems = [
     target: "",
   },
   {
+    link: "/proof-of-holding",
+    text: "Proof of Holding",
+    target: "",
+  },
+  {
     link: "/profile#revenue-sharing",
     text: "Revenue Sharing",
     target: "",
@@ -74,11 +79,11 @@ const navItems = [
     text: "Swap",
     target: "",
   },
-  {
-    link: "https://bit.ly/token-utility-doc",
-    text: "How it works",
-    target: "_blank",
-  },
+  // {
+  //   link: "https://bit.ly/token-utility-doc",
+  //   text: "How it works",
+  //   target: "_blank",
+  // },
 ];
 
 const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
@@ -246,19 +251,6 @@ const MenuMobile = observer(() => {
                   </ListItem>
                 ))}
               </List>
-              <Device>
-                {({ isMobile }) => {
-                  if (isMobile)
-                    return (
-                      <>
-                        <TypoC sx={{ mb: 1 }} font="bold">
-                          Connected wallet
-                        </TypoC>
-                        <Wallet />
-                      </>
-                    );
-                }}
-              </Device>
             </Box>
           </Box>
         </Box>
@@ -390,6 +382,15 @@ const ProfileButton = observer(() => {
             padding: "8px 0",
           }}
         >
+          <Device>
+            {({ isMobile }) => {
+              if (isMobile)
+                return (
+                  <Wallet />
+                );
+            }}
+          </Device>
+          <hr color="#d8d8d8" style={{ height: "1px", border: "none" }} />
           <Link
             href="/profile"
             style={{ color: "inherit", textDecoration: "none" }}
