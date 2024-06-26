@@ -157,7 +157,7 @@ const components: Components<Omit<Theme, "components">> = {
       root: {
         backgroundColor: "#f6f6f6",
         borderRadius: "10px",
-        minHeight: "62px",
+        minHeight: "52px",
         border: "1px solid transparent",
         "&::before, &::after": {
           display: "none",
@@ -194,15 +194,14 @@ const components: Components<Omit<Theme, "components">> = {
         fontSize: "16px",
         color: "#000",
         fontWeight: "bold",
-        minHeight: "40px !important",
         display: "flex",
         alignItems: "center",
         "@media screen and (min-width: 900px)": {
           fontSize: "16px",
-          padding: "10px 2rem 10px 1.5rem !important",
+          padding: "4px 1rem 4px 1rem !important",
         },
         "@media screen and (min-width: 1536px)": {
-          padding: "10px 2rem 10px 1.5rem !important",
+          padding: "4x 1rem 4px 1rem !important",
         },
       },
       inputMultiline: {

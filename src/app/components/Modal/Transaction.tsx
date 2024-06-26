@@ -130,7 +130,7 @@ const TransactionModal = observer(() => {
     setLoading(true);
     if (appStore.transactionBlock) {
       providerStore.providerStatus.activeProvider
-        .waitForTransactionBlock({
+        .waitForTransaction({
           digest: appStore.transactionBlock,
           options: {
             showEffects: true,

@@ -24,7 +24,7 @@ export default function ColorInversionFooter() {
         flexShrink: 0,
       }}
     >
-      <Container maxWidth="xl">
+      <Container maxWidth="xxl">
         <Box
           className="footer-app"
           sx={{

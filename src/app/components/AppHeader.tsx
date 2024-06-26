@@ -312,6 +312,7 @@ const ProfileButton = observer(() => {
     return <Button
     variant="contained"
     color="primary"
+    size="small"
     sx={{ fontWeight: "bold" }}
     onClick={loginWithWallet}
     loading={loading}

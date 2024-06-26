@@ -1,7 +1,7 @@
 import { networkConnectors } from "../provider/networkConnectors";
 import { apiRequest, getStatsErrorMessage } from "@/utils/apiRequest";
 import { authRequest } from "@/utils/authRequest";
-import { deleteCookie, setCookie, getCookie, parseJwt } from "@/utils/helpers";
+import { deleteCookie, setCookie, getCookie } from "@/utils/helpers";
 import RootStore from "./Root";
 import { makeAutoObservable, runInAction } from "mobx";
 
@@ -175,7 +175,6 @@ export default class UserStore {
         referralCode,
       })
       .then((res) => {
-        console.log("res", res);
         notificationStore.showSuccessNotification(
           res.message && "Update Successfully!",
         );

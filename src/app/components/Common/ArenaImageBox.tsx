@@ -15,7 +15,7 @@ const ArenaImageBox = ({
   return (
     <Box sx={{ display: "flex", alignItems: "center" }}>
       <Image
-        src={`/images/pool/arena-x${type}.png`}
+        src={`/images/pool/arena-${type}.png`}
         height={sizeImage}
         width={sizeImage}
         alt="img"

@@ -5,7 +5,8 @@ import { observer } from "mobx-react";
 import { useStores } from "@/contexts/storesContext";
 import { formatBalanceWithCommas } from "@/utils/helpers";
 import TypoC from "@/app/components/Common/Typo";
-import { POOL_AMOUNT_LEVEL } from "@/constants";
+import Image from "next/image";
+import { ARENA_CONFIG } from "@/constants";
 
 const ConfirmModal = observer(() => {
   const {
@@ -16,7 +17,7 @@ const ConfirmModal = observer(() => {
 
   function onConfirm() {
     arenaPoolStore.onCloseConfirmModal();
-    joinPool(dataModal.coins, dataModal.amount);
+    joinPool(dataModal.coins, dataModal.amount, dataModal.arenaData.id);
   }
 
   return (
@@ -27,7 +28,8 @@ const ConfirmModal = observer(() => {
       sx={{ width: 450 }}
     >
       <div style={{ textAlign: "center" }}>
-        <TypoC size="h2" font="medium">Deposit</TypoC>
+        <Box><Image src="/images/icons/deposit.svg" width="82" height="82" alt=""></Image></Box>
+        <TypoC sx={{mt: 1}} size="h2" font="medium">Deposit</TypoC>
         <TypoC
           size="medium"
           color="label"
@@ -36,8 +38,7 @@ const ConfirmModal = observer(() => {
             mt: 2,
           }}
         >
-          {dataModal.arenaPool?.name || "__"} - X{dataModal.type} Arena Pool #1 - ticket: $
-          {POOL_AMOUNT_LEVEL[dataModal.poolAmountLevel]}
+          to {dataModal.arenaPool?.name || "__"} - {ARENA_CONFIG[dataModal.arenaData?.poolType]?.arenaName} Arena Pool #1
         </TypoC>
         <Box
           sx={{
@@ -46,7 +47,26 @@ const ConfirmModal = observer(() => {
             mt: 0.3,
           }}
         >
-          {formatBalanceWithCommas(dataModal.amount)} SUI
+          {formatBalanceWithCommas(dataModal.amount)} {dataModal.arenaPool?.symbol}
+        </Box>
+        <TypoC
+          size="medium"
+          color="label"
+          font="medium"
+          sx={{
+            mt: 2,
+          }}
+        >
+          You Will Have
+        </TypoC>
+        <Box
+          sx={{
+            fontSize: { xs: "19px", sm: "21px", xl: "24px" },
+            fontWeight: 700,
+            mt: 0.3,
+          }}
+        >
+          1·ticket ${dataModal.costInUsd}
         </Box>
         <TypoC sx={{mt: 2}} font="medium">Would you like to confirm this transaction?</TypoC>
         <Box
@@ -67,7 +87,6 @@ const ConfirmModal = observer(() => {
               fontWeight: "bold",
             }}
             color="inherit"
-            size="large"
             onClick={arenaPoolStore.onCloseConfirmModal}
           >
             Reject
@@ -82,7 +101,6 @@ const ConfirmModal = observer(() => {
               fontWeight: "bold",
             }}
             color="inherit"
-            size="large"
             onClick={onConfirm}
           >
             Confirm

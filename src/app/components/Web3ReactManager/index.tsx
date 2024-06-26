@@ -31,7 +31,6 @@ const Web3Manager = observer(() => {
       !accessToken
     ) {
       logging.current = true;
-      console.log({accessToken})
       // userStore.handleLoginWallet().finally(() => {
       //   logging.current = false;
       // });

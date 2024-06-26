@@ -1,4 +1,4 @@
-import { PoolType } from "@/utils/types";
+import { PoolType, ArenaConfig } from "@/utils/types";
 
 export enum ChainId {
   MAINNET = "sui:mainnet",
@@ -33,8 +33,30 @@ export const HISTORY_STATUS_COLOR = {
   PROCESSING: "#feb42d",
 };
 
-export const POOL_AMOUNT_LEVEL: Record<number, number> = {
-  1: 1,
-  2: 10,
-  3: 100,
+
+export const ARENA_CONFIG: Record<PoolType, ArenaConfig> = {
+  [PoolType.x2]: {
+    arenaName: 'X2',
+    pools: [
+      {poolIndex: 0, maxUsers: 2, costInUsd: 1,},
+      {poolIndex: 1, maxUsers: 2, costInUsd: 10},
+      {poolIndex: 2, maxUsers: 2, costInUsd: 100}
+    ]
+  },
+  [PoolType.x10]: {
+    arenaName: 'X10',
+    pools: [
+      {poolIndex: 0,maxUsers: 10, costInUsd: 1,},
+      {poolIndex: 1,maxUsers: 10, costInUsd: 10},
+      {poolIndex: 2,maxUsers: 10, costInUsd: 100}
+    ]
+  },
+  [PoolType.x100]: {
+    arenaName: 'X100',
+    pools: [
+      {poolIndex: 0,maxUsers: 100, costInUsd: 1,},
+      {poolIndex: 1,maxUsers: 100, costInUsd: 10},
+      {poolIndex: 2,maxUsers: 100, costInUsd: 100}
+    ]
+  }
 };

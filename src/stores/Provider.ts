@@ -12,7 +12,7 @@ import { BigNumber } from "@/utils/bignumber";
 import { logClient } from "@/utils";
 import { ChainId } from "@/constants";
 import { isAddressEqual } from "@/utils/helpers";
-import { getFullnodeUrl, SuiClient } from '@mysten/sui.js/client';
+import { getFullnodeUrl, SuiClient } from "@mysten/sui/client";
 import { WalletContextState } from "@suiet/wallet-kit";
 
 // import snackbarHelper from "@/utils/snackbarHelper";
@@ -281,7 +281,8 @@ export default class ProviderStore {
       this.providerStatus.activeChainId
     );
     const contractMetadata = {
-      Pool: contracts.POOL
+      Pool: contracts.POOL,
+      PoolCfgId: contracts.POOL
     };
     return contractMetadata;
   };

@@ -1,6 +1,6 @@
 "use client";
 import { Container } from "@mui/material";
-import React, { useEffect, useMemo, } from "react";
+import React, { useEffect, useMemo } from "react";
 import { Tabs, Tab, Box } from "@mui/material";
 import { a11yProps, CustomTabPanel } from "@/app/components/Common/Tabs";
 import TypoC from "@/app/components/Common/Typo";
@@ -13,26 +13,21 @@ const FlowXWidget = dynamic(() => import("@/app/components/FlowxWidget"), {
 import { PoolType } from "@/utils/types";
 import { observer } from "mobx-react";
 import { useStores } from "@/contexts/storesContext";
-import { CoinMetadata } from "@mysten/sui.js/client";
+import { CoinMetadata } from "@mysten/sui/client";
 import ConfirmTransactionModal from "@/app/components/Modal/ConfirmTransaction";
 import TransactionModal from "@/app/components/Modal/Transaction";
 import OverviewToken from "@/app/components/OverviewToken";
 import useArenaPool from "@/hooks/useArenaPool";
+import { fetcher } from "@/configs/fetcher";
 
 const TAB_LIST = ["active", "ended"];
 
 const AreaPools = observer(({ params }: { params: { slug: string } }) => {
   const {
-    root: { providerStore },
+    root: { providerStore, arenaPoolStore },
   } = useStores();
-  const { account, activeProvider, activeChainId } = useMemo(
-    () => providerStore.providerStatus,
-    [providerStore.providerStatus]
-  );
-  const { arenaPool, isError, isLoading } = useArenaPool(
-    params.slug,
-    activeChainId
-  );
+  const { listArenas } = arenaPoolStore;
+
   const [value, setValue] = React.useState(0);
   const [balance, setBalance] = React.useState("0");
   const [coins, setCoins] = React.useState({
@@ -48,14 +43,15 @@ const AreaPools = observer(({ params }: { params: { slug: string } }) => {
     symbol: "",
   });
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-    window.history.replaceState(
-      null,
-      "",
-      `/arena-pools/${params.slug}#${TAB_LIST[newValue]}`
-    );
-  };
+  const { account, activeProvider, activeChainId } = useMemo(
+    () => providerStore.providerStatus,
+    [providerStore.providerStatus]
+  );
+
+  const { arenaPool, isError, isLoading } = useArenaPool(
+    params.slug,
+    activeChainId
+  );
 
   useEffect(() => {
     switch (window.location.hash) {
@@ -104,6 +100,32 @@ const AreaPools = observer(({ params }: { params: { slug: string } }) => {
     fetchBalance();
   }, [account, activeProvider, arenaPool.address]);
 
+  useEffect(() => {
+    if (arenaPool.symbol) {
+      arenaPoolStore.getListArenas(arenaPool.symbol);
+    }
+  }, [arenaPool, arenaPoolStore]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      arenaPoolStore.setCountDownRefreshPrice(
+        arenaPoolStore.timeLeftRefreshPrice - 1
+      );
+    }, 1000);
+    return () => {
+      clearInterval(timer);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function handleChange(event: React.SyntheticEvent, newValue: number) {
+    setValue(newValue);
+    window.history.replaceState(
+      null,
+      "",
+      `/arena-pools/${params.slug}#${TAB_LIST[newValue]}`
+    );
+  }
 
   return (
     <main id="home">
@@ -114,7 +136,7 @@ const AreaPools = observer(({ params }: { params: { slug: string } }) => {
           pb: 10,
         }}
       >
-       <OverviewToken arenaPool={arenaPool} isLoading={isLoading} />
+        <OverviewToken arenaPool={arenaPool} isLoading={isLoading} />
 
         <Box
           sx={{
@@ -177,24 +199,15 @@ const AreaPools = observer(({ params }: { params: { slug: string } }) => {
               gap: { xs: "16px", xl: "24px" },
             }}
           >
-            <ArenaCard
-              type={PoolType.x2}
-              arenaPool={arenaPool}
-              coins={coins.data}
-              balanceMetadata={balanceMetadata}
-            />
-            <ArenaCard
-              type={PoolType.x10}
-              arenaPool={arenaPool}
-              coins={coins.data}
-              balanceMetadata={balanceMetadata}
-            />
-            <ArenaCard
-              type={PoolType.x100}
-              arenaPool={arenaPool}
-              coins={coins.data}
-              balanceMetadata={balanceMetadata}
-            />
+            {listArenas.map((arena, index) => (
+              <ArenaCard
+                key={index}
+                arenaPool={arenaPool}
+                coins={coins.data}
+                arenaData={arena}
+                balanceMetadata={balanceMetadata}
+              />
+            ))}
           </Box>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1} id="arena-pools-page">

@@ -12,22 +12,23 @@ import UserIcon from "@/app/components/Common/Icons/Profile";
 import TypoC from "@/app/components/Common/Typo";
 import TextValidator from "@/app/components/InputValidator/TextField";
 import { ValidatorForm } from "react-form-validator-core";
-import { useState, ChangeEvent, useEffect } from "react";
-import { fromMIST, amountFormat } from "@/utils/helpers";
+import { useState, ChangeEvent, useEffect, useMemo } from "react";
+import { fromMIST, toMIST, amountFormat } from "@/utils/helpers";
 import ProgressRaised from "@/app/components/Common/ProgressRaised";
 import InfoIcon from "@mui/icons-material/InfoOutlined";
 import Link from "next/link";
-import { PERCENT_DISTRIBUTION, POOL_AMOUNT_LEVEL } from "@/constants";
+import { PERCENT_DISTRIBUTION, ARENA_CONFIG } from "@/constants";
 import { ArenaCardProps } from "@/utils/types";
 import { bnum } from "@/utils/helpers";
 import { observer } from "mobx-react";
 import { useStores } from "@/contexts/storesContext";
 import { PoolType } from "@/utils/types";
 import { styled } from "@mui/material/styles";
+import CountdownRefreshPrice from "@/app/components/CountdownRefreshPrice";
 
 const StyledTextValidator = styled((props: any) => (
   //@ts-ignore
-  <TextValidator {...props}></TextValidator>
+  <TextValidator {...props} />
 ))(({ theme }) => ({
   "&.MuiInputBase-root": {
     backgroundColor: "rgba(246,246,246, 1)",
@@ -41,13 +42,17 @@ const StyledTextValidator = styled((props: any) => (
   "#deposit-pool": {
     color: "#7645d9",
     fontSize: "18px",
+    WebkitTextFillColor: "unset",
+  },
+  "&.MuiInputBase-root.coming-soon": {
+    backgroundColor: "#a791d6",
   },
 }));
 
 const ButtonSelectPool = ({
-  amountLevel,
-  currentPlayer,
-  totalPlayer,
+  costInUsd,
+  numUsers,
+  maxUsers,
   active,
   onClick,
 }) => {
@@ -76,7 +81,7 @@ const ButtonSelectPool = ({
       }}
       onClick={onClick}
     >
-      <TypoC font="bold">${POOL_AMOUNT_LEVEL[amountLevel]}</TypoC>
+      <TypoC font="bold">${costInUsd}</TypoC>
       <Box
         sx={{
           display: "flex",
@@ -88,7 +93,7 @@ const ButtonSelectPool = ({
           color={active ? "#fff" : "rgba(118, 69, 217, 1)"}
         />
         <TypoC size="small" font="bold">
-          &nbsp;{currentPlayer}/{totalPlayer}
+          &nbsp;{numUsers}/{maxUsers}
         </TypoC>
       </Box>
     </Button>
@@ -112,7 +117,7 @@ const StartTextProcess = () => {
   );
 };
 
-const EndTextProcess = ({ joined, type, ...props }) => {
+const EndTextProcess = ({ numUsers, maxUsers, ...props }) => {
   return (
     <Box
       sx={{
@@ -121,7 +126,7 @@ const EndTextProcess = ({ joined, type, ...props }) => {
         fontWeight: "bold",
       }}
     >
-      {joined}/{type} &nbsp;
+      {numUsers}/{maxUsers} &nbsp;
       <UserIcon size="18px" />
     </Box>
   );
@@ -129,21 +134,28 @@ const EndTextProcess = ({ joined, type, ...props }) => {
 
 const Pooling = observer(
   ({
-    poolType,
     ticker,
     price,
-    setPoolAmountLevel,
-    poolAmountLevel,
+    setPoolIndex,
+    selectedPoolIndex,
     amount,
     setAmount,
-    coinXsBalance,
+    coinXsAmount,
     balanceMetadata,
     arenaPool,
+    arenaData,
   }) => {
     const {
       root: { arenaPoolStore },
     } = useStores();
-    const joined = 1;
+    const poolSelected = ARENA_CONFIG[arenaData.poolType].pools[selectedPoolIndex];
+    const joined = useMemo(
+      () =>
+        arenaData.activePools?.find(
+          (activePool) => activePool.costInUsd === poolSelected.costInUsd
+        )?.numUsers || 0,
+      [arenaData.activePools, poolSelected.costInUsd]
+    );
 
     function handleAmountChange(event: ChangeEvent<HTMLInputElement>) {
       setAmount(event.target.value);
@@ -157,7 +169,7 @@ const Pooling = observer(
     }
 
     function handleSelectPool(poolLevel: number) {
-      setPoolAmountLevel(poolLevel);
+      setPoolIndex(poolLevel);
     }
 
     return (
@@ -171,27 +183,16 @@ const Pooling = observer(
               px: 2,
             }}
           >
-            <ButtonSelectPool
-              amountLevel={1}
-              currentPlayer={joined}
-              totalPlayer={poolType}
-              active={poolAmountLevel === 1}
-              onClick={() => handleSelectPool(1)}
-            />
-            <ButtonSelectPool
-              amountLevel={2}
-              currentPlayer={joined}
-              totalPlayer={poolType}
-              active={poolAmountLevel === 2}
-              onClick={() => handleSelectPool(2)}
-            />
-            <ButtonSelectPool
-              amountLevel={3}
-              currentPlayer={joined}
-              totalPlayer={poolType}
-              active={poolAmountLevel === 3}
-              onClick={() => handleSelectPool(3)}
-            />
+            {ARENA_CONFIG[arenaData.poolType].pools.map((pool, index) => (
+              <ButtonSelectPool
+                key={index}
+                costInUsd={pool.costInUsd}
+                numUsers={joined}
+                maxUsers={pool.maxUsers}
+                active={selectedPoolIndex === pool.poolIndex}
+                onClick={() => handleSelectPool(pool.poolIndex)}
+              />
+            ))}
           </Box>
         </Box>
         <Box
@@ -219,7 +220,7 @@ const Pooling = observer(
                 Win Rate
               </TypoC>
               <TypoC size="h5" font="bold" sx={{ mt: 0.3 }}>
-                {(1 / poolType) * 100}%
+                {(1 / poolSelected.maxUsers) * 100}%
               </TypoC>
             </Box>
 
@@ -229,9 +230,9 @@ const Pooling = observer(
               </TypoC>
               <TypoC size="h5" font="bold" sx={{ mt: 0.3 }}>
                 You get $
-                {bnum(POOL_AMOUNT_LEVEL[poolAmountLevel])
+                {bnum(poolSelected.costInUsd)
                   .multipliedBy(PERCENT_DISTRIBUTION.RECEIPT)
-                  .multipliedBy(poolType)
+                  .multipliedBy(poolSelected.maxUsers)
                   .dividedBy(100)
                   .toFixed()}
               </TypoC>
@@ -261,14 +262,20 @@ const Pooling = observer(
               {joined ? (
                 <>
                   {joined} participants have chosen the $
-                  {POOL_AMOUNT_LEVEL[poolAmountLevel]} ticket for the pool. Just{" "}
-                  {bnum(poolType).minus(joined).toFixed()} more are needed to
-                  draw the prize.
+                  {poolSelected.costInUsd} ticket for the pool. Just{" "}
+                  {bnum(poolSelected.maxUsers).minus(joined).toFixed()} more are
+                  needed to draw the prize.
                 </>
               ) : (
-                <>{poolType} participants are needed to draw the prize.</>
+                <>
+                  {poolSelected.maxUsers} participants are needed to draw the
+                  prize.
+                </>
               )}
             </TypoC>
+          </Box>
+          <Box sx={{ display: "flex", justifyContent: "end" }}>
+            <CountdownRefreshPrice />
           </Box>
           <ValidatorForm
             onSubmit={handleSubmit}
@@ -281,12 +288,14 @@ const Pooling = observer(
             {/* @ts-ignore */}
             <StyledTextValidator
               id="deposit-pool"
+              className={arenaData.id ? "" : "coming-soon"}
               onChange={handleAmountChange}
               name="amount"
               type="number"
               autoFocus={true}
               value={amount || ""}
               placeholder="Enter amount"
+              disabled={true}
               endAdornment={
                 <Box
                   sx={{
@@ -296,14 +305,6 @@ const Pooling = observer(
                     flexDirection: "column",
                   }}
                 >
-                  <TypoC size="small" font="bold" sx={{ whiteSpace: "nowrap" }}>
-                    Balance:{" "}
-                    {coinXsBalance
-                      ? amountFormat(coinXsBalance, balanceMetadata?.decimals)
-                      : "__"}
-                    &nbsp;
-                    {arenaPool?.symbol}
-                  </TypoC>
                   <Typography sx={{ fontWeight: "bold", fontSize: "18px" }}>
                     {arenaPool?.symbol}
                   </Typography>
@@ -318,13 +319,35 @@ const Pooling = observer(
                 "“Target amount”  must be a number",
               ]}
             />
+            <Box>
+              <Box
+                sx={{ mt: 1, display: "flex", justifyContent: "space-between" }}
+              >
+                <TypoC size="small" font="bold" sx={{ whiteSpace: "nowrap" }}>
+                  ≈ ${poolSelected.costInUsd}
+                </TypoC>
+                <TypoC size="small" font="bold" sx={{ whiteSpace: "nowrap" }}>
+                  Balance:{" "}
+                  {coinXsAmount
+                    ? amountFormat(coinXsAmount)
+                    : "__"}
+                  &nbsp;
+                  {arenaPool?.symbol}
+                </TypoC>
+              </Box>
+            </Box>
           </ValidatorForm>
 
           <ProgressRaised
             sx={{ mt: 2, display: "flex", width: "100%" }}
             startValue={joined}
-            endValue={poolType}
-            endText={<EndTextProcess joined={joined} type={poolType} />}
+            endValue={poolSelected.maxUsers}
+            endText={
+              <EndTextProcess
+                numUsers={joined}
+                maxUsers={poolSelected.maxUsers}
+              />
+            }
             startText={<StartTextProcess />}
             prefix=""
           />
@@ -348,8 +371,9 @@ const Pooling = observer(
                   </span>{" "}
                   to join{" "}
                   <span>
-                    {arenaPool?.name || "__"} - X{poolType} Arena Pool #1 -
-                    ticket: ${POOL_AMOUNT_LEVEL[poolAmountLevel]}
+                    {arenaPool?.name || "__"} -{" "}
+                    {ARENA_CONFIG[arenaData.poolType].arenaName} Arena Pool #1 - ticket: $
+                    {poolSelected.costInUsd}
                   </span>
                 </li>
 
@@ -371,19 +395,24 @@ const Pooling = observer(
 );
 
 const ArenaCard = observer(
-  ({ type, arenaPool, coins, balanceMetadata }: ArenaCardProps) => {
+  ({ arenaPool, coins, balanceMetadata, arenaData }: ArenaCardProps) => {
     const [isDisabled, setIsDisabled] = useState(true);
     const [amount, setAmount] = useState(null);
-    const [poolAmountLevel, setPoolAmountLevel] = useState(2);
-
+    const [selectedPoolIndex, setPoolIndex] = useState(1);
     const {
-      root: { providerStore, arenaPoolStore },
+      root: { providerStore, arenaPoolStore, notificationStore },
     } = useStores();
+
+    const { arenaName } = ARENA_CONFIG[arenaData.poolType];
+    const poolSelected =
+      ARENA_CONFIG[arenaData.poolType].pools[selectedPoolIndex];
 
     const coinXsBalance = coins.reduce(
       (total, coin) => bnum(total).plus(coin.balance).toFixed(),
       "0"
     );
+
+    const coinXsAmount = fromMIST(coinXsBalance, balanceMetadata?.decimals)
 
     function acceptChanged(_, value) {
       setIsDisabled(!value);
@@ -394,17 +423,28 @@ const ArenaCard = observer(
 
     useEffect(() => {
       setAmount(
-        bnum(POOL_AMOUNT_LEVEL[poolAmountLevel])
-          .dividedBy(priceOfToken)
-          .toFixed(0)
+        bnum(poolSelected.costInUsd).dividedBy(priceOfToken).toFixed(3)
       );
-      console.log({
-        amount: POOL_AMOUNT_LEVEL[poolAmountLevel],
-        priceOfToken,
-        poolAmountLevel,
-        POOL_AMOUNT_LEVEL,
-      });
-    }, [poolAmountLevel, priceOfToken]);
+    }, [poolSelected, priceOfToken]);
+
+    function handleJoinPool() {
+      if(!providerStore.providerStatus.account) {
+        notificationStore.showErrorNotification("Please connect wallet first")
+        return
+      }
+      if(bnum(coinXsAmount).isLessThan(amount)) {
+        notificationStore.showErrorNotification("Wallet does not have enough balance")
+        return
+      }
+      arenaPoolStore.onOpenConfirmModal({
+        coins,
+        amount,
+        arenaData: arenaData,
+        arenaPool,
+        costInUsd: poolSelected.costInUsd
+      })
+    }
+
     return (
       <Box
         sx={{
@@ -428,21 +468,22 @@ const ArenaCard = observer(
               alignItems: "center",
             }}
           >
-            <ArenaImageBox type={type} sizeImage={90} />
+            <ArenaImageBox type={arenaData.poolType} sizeImage={90} />
             <Box>
               <TypoC size="h3" color="primary" font="bold">
                 Arena Pool
               </TypoC>
               <TypoC size="h5" font="bold" sx={{ mb: 0.5 }}>
-                {arenaPool?.name || "__"} - X{type} #1
+                {arenaPool?.name || "__"} - {arenaName} #1
               </TypoC>
               <TypoC font="bold" size="tiny-small">
                 <span style={{ color: "#7645d9" }}>Deposit</span>{" "}
                 {arenaPool?.symbol || "__"} to join{" "}
-                <span style={{ color: "#7645d9" }}>X{type}</span> Arena Pool.{" "}
-                <br />
+                <span style={{ color: "#7645d9" }}> {arenaName}</span> Arena
+                Pool. <br />
                 You will have a chance to{" "}
-                <span style={{ color: "#7645d9" }}>X{type}</span> your token.
+                <span style={{ color: "#7645d9" }}>{arenaName}</span> your
+                token.
               </TypoC>
             </Box>
           </Box>
@@ -462,46 +503,50 @@ const ArenaCard = observer(
         </TypoC>
 
         <Pooling
-          poolType={type}
           ticker={arenaPool?.symbol}
-          poolAmountLevel={poolAmountLevel}
-          setPoolAmountLevel={setPoolAmountLevel}
+          selectedPoolIndex={selectedPoolIndex}
+          setPoolIndex={setPoolIndex}
           amount={amount}
           setAmount={setAmount}
           price={priceOfToken}
-          coinXsBalance={coinXsBalance}
+          coinXsAmount={coinXsAmount}
           balanceMetadata={balanceMetadata}
           arenaPool={arenaPool}
+          arenaData={arenaData}
         />
 
         <Box
           sx={{ mt: 2, color: "#6f6f70", fontWeight: "bold", fontSize: "14px" }}
         >
           <Checkbox
-            disabled={bnum(amount).isLessThanOrEqualTo(0)}
+            disabled={bnum(amount).isLessThanOrEqualTo(0) || !arenaData.id}
             onChange={acceptChanged}
           />{" "}
           I have read and accept the <Link href="#">Term of Service</Link>
         </Box>
-        <Button
-          variant="contained"
-          color="primary"
-          size="medium"
-          disabled={isDisabled}
-          fullWidth={true}
-          sx={{ mt: 2 }}
-          onClick={() =>
-            arenaPoolStore.onOpenConfirmModal({
-              coins,
-              amount,
-              type,
-              arenaPool,
-              poolAmountLevel,
-            })
-          }
-        >
-          Deposit to Join
-        </Button>
+        {arenaData.id ? (
+          <Button
+            variant="contained"
+            color="primary"
+            size="medium"
+            disabled={isDisabled}
+            fullWidth={true}
+            sx={{ mt: 2 }}
+            onClick={handleJoinPool}
+          >
+            Deposit to Join
+          </Button>
+        ) : (
+          <Button
+            variant="contained"
+            color="secondary"
+            size="medium"
+            fullWidth={true}
+            sx={{ mt: 2 }}
+          >
+            Coming Soon
+          </Button>
+        )}
         {/* <Button
           variant="contained"
           color="primary"

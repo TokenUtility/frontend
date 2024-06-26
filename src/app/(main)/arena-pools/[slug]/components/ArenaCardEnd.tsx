@@ -7,7 +7,6 @@ import {
   Checkbox,
 } from "@mui/material";
 import ArenaImageBox from "@/app/components/Common/ArenaImageBox";
-import { ArenaCardProps } from "@/utils/types";
 import TypoC from "@/app/components/Common/Typo";
 import { TransferLinkAddress } from "@/app/components/Common/TransferLink";
 import { shortenAddress } from "@/utils";
@@ -16,7 +15,7 @@ const mockupAddress =
   "0xab73ad38c63f83eda02182422b545395be1d3caeb54b5869159a9f70b678cd56";
 const mockupTxBlock = "eAnsxtfz2yZ1QdeEQbisERDXMPEUNdMRu4J4gr3Bnzx";
 
-const ArenaCardEnded = ({ type, arenaPool }: ArenaCardProps) => {
+const ArenaCardEnded = ({ type, arenaPool }) => {
   return (
     <Box
       sx={{

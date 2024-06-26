@@ -2,11 +2,13 @@ import { ChainId } from "@/constants";
 import { logClient } from "@/utils";
 
 export const MAINNET_CONTRACTS = {
-  POOL: '0x7c14efeca862108334cdb1b20c6ba1f620693c9919032e914daed8ba9a1f80d7'
+  POOL: '0x06a82fc6942f222c6f1e77f4c1381d5a077d36baa016fb26bc8c3c4b05167713',
+  POOL_CFG_ID: '0x6a2f17b615804b129fc814a774f3e97126853c03748871f76adf9a04ced512cb'
 };
 
 export const TESTNET_CONTRACTS = {
-  POOL: '0xaf42cdbb371e4c7a833a9b4fd53e27e5fae6d21377da80e064d1f92efed708f7'
+  POOL: '0x06a82fc6942f222c6f1e77f4c1381d5a077d36baa016fb26bc8c3c4b05167713',
+  POOL_CFG_ID: '0x6a2f17b615804b129fc814a774f3e97126853c03748871f76adf9a04ced512cb'
 };
 
 export const CONTRACTS: { [chainId in ChainId]?: any } = {

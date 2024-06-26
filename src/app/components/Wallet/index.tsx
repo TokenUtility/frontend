@@ -23,7 +23,7 @@ export const YellowCard = styled.div`
   font-weight: 500;
 `;
 
-const WalletButton = styled.button`
+const WalletButton = styled.div`
   color: #000;
   display: flex;
   flex-flow: row nowrap;

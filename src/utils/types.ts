@@ -1,4 +1,4 @@
-import { CoinMetadata,CoinStruct } from '@mysten/sui.js/client';
+import { CoinMetadata, CoinStruct } from "@mysten/sui/client";
 export interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -31,27 +31,70 @@ export interface ArenaPoolDataBackend {
 }
 
 export enum PoolType {
-  x2 = 2,
-  x10 = 10,
-  x100 = 100,
+  x2 = 0,
+  x10 = 1,
+  x100 = 2,
 }
+
 export interface ArenaCardProps {
-  type: PoolType;
   arenaPool: ArenaPoolDataBackend;
   coins?: CoinStruct[];
-  balanceMetadata?: CoinMetadata
+  balanceMetadata?: CoinMetadata;
+  arenaData: Arena;
 }
 
 export interface ArenaModalProps {
-  type: PoolType;
+  arenaData: Arena;
   arenaPool: ArenaPoolDataBackend;
   coins?: CoinStruct[];
-  balanceMetadata?: CoinMetadata,
+  balanceMetadata?: CoinMetadata;
   amount: string;
-  poolAmountLevel: number;
+  costInUsd: number;
 }
 
 export interface InfoProps {
   title: string;
   desc?: string[];
+}
+
+export interface Arena {
+  id: string;
+  arenaId: string;
+  token: string;
+  poolType: 1;
+  activePools?: ActivePool[];
+  createdBy: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ArenaConfig {
+  arenaName?: string;
+  pools: {
+    maxUsers: number;
+    costInUsd: number;
+    poolIndex: number;
+  }[];
+}
+
+export interface ActivePool {
+  id: string;
+  poolId: string;
+  poolIndex: number;
+  poolType: number;
+  arenaId: string;
+  maxUsers: number;
+  numUsers: number;
+  users: string[];
+  costInUsd: number;
+  raisedAmount: number;
+  expiredAt: number;
+  createdBy: string;
+  isActive: true;
+  winner: string;
+  winnerAmount: number;
+  isClaimed: false;
+  claimedAmount: number;
+  createdAt: string;
+  updatedAt: string;
 }

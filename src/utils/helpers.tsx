@@ -1,16 +1,13 @@
 // Libraries
 import { BigNumber } from "../utils/bignumber";
-import { MIST_PER_SUI } from "@mysten/sui.js/utils";
+import { SUI_DECIMALS } from "@mysten/sui/utils";
 // Utils
-
 
 export const addZero = (value) => {
   return value > 9 ? value : `0${value}`;
 };
 
-export function bnum(
-  val: string | number  | BigNumber,
-): BigNumber {
+export function bnum(val: string | number | BigNumber): BigNumber {
   return !val ? new BigNumber(0) : new BigNumber(val.toString());
 }
 
@@ -20,21 +17,20 @@ export function scale(input: BigNumber, decimalPlaces: number): BigNumber {
   return input.times(scaleMul);
 }
 
-
-export function fromMIST(val: number): number {
+export function fromMIST(val: number, decimals: number = SUI_DECIMALS): number {
   if (!val) {
     return 0;
   }
-  return Number.parseInt(val as unknown as string) / Number(MIST_PER_SUI);
+
+  return bnum(val).dividedBy(10 ** decimals).toNumber();
 }
 
-export function toMIST(val: number | bigint): number {
+export function toMIST(val: number | bigint,decimals: number = SUI_DECIMALS): number {
   if (!val) {
     return 0;
   }
-  return Number.parseInt(val as unknown as string) * Number(MIST_PER_SUI);
+  return bnum(val).multipliedBy(10 ** decimals).toNumber();
 }
-
 
 export function toPercent(value: number | string | BigNumber): number {
   return bnum(value || 0)
@@ -70,15 +66,13 @@ export function shortenTransactionHash(hash, digits = 4) {
     return null;
   }
   return `${hash.substring(0, digits + 2)}...${hash.substring(
-    hash.length - digits,
+    hash.length - digits
   )}`;
 }
 
-
-
 export function getQueryParam(windowLocation, name) {
   const q = windowLocation.search.match(
-    new RegExp("[?&]" + name + "=([^&#?]*)"),
+    new RegExp("[?&]" + name + "=([^&#?]*)")
   );
   return q && q[1];
 }
@@ -151,7 +145,7 @@ interface NumberFormatOptions {
 
 export const formatBalanceTruncated = (
   balance?: number | string | BigNumber,
-  options: NumberFormatOptions = {},
+  options: NumberFormatOptions = {}
 ): string => {
   if (!balance) {
     return "0.00";
@@ -174,14 +168,14 @@ export const formatBalanceTruncated = (
 
 export const formatBalanceWithCommas = (
   balance?: number | string | BigNumber,
-  options: NumberFormatOptions = {},
+  options: NumberFormatOptions = {}
 ) => {
   return formatBalanceTruncated(balance, { ...options, thousandsSep: "," });
 };
 
 export const toBalanceFormatted = (
   weiBalance: number | string | BigNumber,
-  decimals: number,
+  decimals: number
 ): string => {
   let balance: BigNumber;
   try {
@@ -200,7 +194,7 @@ export function abbreviateNumber(
   number,
   min = 1e3,
   digits = 2,
-  options: NumberFormatOptions = { thousandsSep: "," },
+  options: NumberFormatOptions = { thousandsSep: "," }
 ): string {
   if (!number || isNaN(number)) {
     return number;
@@ -226,7 +220,7 @@ export function abbreviateNumber(
 
 export const padToDecimalPlaces = (
   value: string,
-  minDecimals: number,
+  minDecimals: number
 ): string => {
   const split = value.split(".");
 
@@ -255,7 +249,7 @@ export const getGasPriceFromETHGasStation = () => {
       (e) => {
         clearTimeout(timeout);
         reject(e);
-      },
+      }
     );
   });
 };
@@ -265,7 +259,7 @@ export function numberFormat(
   decimals = null,
   thousandsSep = ",",
   decPoint = ".",
-  trailingZeros = false,
+  trailingZeros = false
 ) {
   if (typeof number === "undefined") {
     return;
@@ -297,7 +291,6 @@ export function numberFormat(
   }
   return s[1] ? s.join(dec) : s[0];
 }
-
 
 export function amountFormatSmall(num, decimals = 5) {
   const _num = bnum(num);
@@ -331,7 +324,7 @@ export function amountFormat(num, decimals = 3) {
   return numberFormat(num, d);
 }
 
-function formatSmallNumber(number, sliceDecimal=  4) {
+function formatSmallNumber(number, sliceDecimal = 4) {
   // Handle non-numeric input
   if (isNaN(number)) {
     return null;
@@ -358,7 +351,11 @@ function formatSmallNumber(number, sliceDecimal=  4) {
 
   // Extract significant digits and convert back to number
   const formattedNumber = decimal.slice(numZeros);
-  return [bnum(parts[0]).toFormat(), numZeros -1, formattedNumber.slice(0, sliceDecimal)];
+  return [
+    bnum(parts[0]).toFormat(),
+    numZeros - 1,
+    formattedNumber.slice(0, sliceDecimal),
+  ];
 }
 
 export function addressEquals(addr1: string, addr2: string): boolean {
@@ -457,8 +454,8 @@ export function setCookie(cname, cvalue, extimes, timeType = "days") {
 }
 
 export function getCookie(cname) {
-  if(!process.browser) {
-    return ''
+  if (!process.browser) {
+    return "";
   }
   const name = cname + "=";
   const decodedCookie = decodeURIComponent(document.cookie);
@@ -585,7 +582,7 @@ export const parseJwt = (token) => {
       .map(function (c) {
         return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
       })
-      .join(""),
+      .join("")
   );
 
   return JSON.parse(jsonPayload);
